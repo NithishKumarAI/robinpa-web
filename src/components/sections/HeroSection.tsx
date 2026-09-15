@@ -10,6 +10,7 @@ import {
 } from "framer-motion";
 import { Container } from "../ui/Container";
 import { RobinOrb } from "../visual/RobinOrb";
+import { DownloadButton } from "../ui/DownloadButton";
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -164,13 +165,7 @@ export function HeroSection() {
               className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none"
             >
               {/* Primary CTA */}
-              <a
-                href="#download-placeholder"
-                // TODO: Replace with official Windows installer link when released
-                className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 text-xs sm:text-sm font-medium text-black bg-white hover:bg-neutral-200 transition-colors duration-150 rounded"
-              >
-                Download for Windows
-              </a>
+              <DownloadButton size="default" className="w-full sm:w-auto" />
 
               {/* Secondary CTA */}
               <a

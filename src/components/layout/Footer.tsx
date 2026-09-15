@@ -3,16 +3,45 @@ import { Container } from "../ui/Container";
 
 export function Footer() {
   return (
-    <footer className="border-t border-background-border/50 bg-background-surface/40 py-12 text-xs text-foreground-subtle">
-      <Container size="wide" className="flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-brand-violet/70" />
-          <span className="text-foreground-muted font-medium">Robin</span>
-          <span className="font-mono text-foreground-subtle">— Everyone&apos;s PA for Windows</span>
+    <footer className="border-t border-background-border/50 bg-background-surface/50 py-12 text-xs text-foreground-subtle">
+      <Container size="wide" className="flex flex-col sm:flex-row items-center justify-between gap-6">
+        {/* Brand & Tagline */}
+        <div className="flex flex-col sm:flex-row items-center sm:items-baseline gap-2 text-center sm:text-left">
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-violet/80 shadow-[0_0_8px_rgba(139,92,246,0.6)]" />
+            <span className="text-foreground-muted font-medium tracking-tight">Robin</span>
+          </div>
+          <span className="font-mono text-foreground-subtle text-[11px]">
+            &mdash; Everyone&apos;s PA. Windows personal AI assistant.
+          </span>
         </div>
-        <p className="text-center sm:text-right font-mono text-[11px] text-foreground-subtle">
-          Windows Personal AI Assistant
-        </p>
+
+        {/* Placeholder Navigation Destinations for Phase 10 */}
+        <div className="flex items-center gap-6 text-[11px] font-mono text-foreground-subtle">
+          <a
+            href="#privacy-placeholder"
+            title="Privacy policy in preparation for Phase 10"
+            className="hover:text-foreground-muted transition-colors"
+          >
+            Privacy
+          </a>
+          <span className="text-foreground-subtle/30">&bull;</span>
+          <a
+            href="#terms-placeholder"
+            title="Terms of service in preparation for Phase 10"
+            className="hover:text-foreground-muted transition-colors"
+          >
+            Terms
+          </a>
+          <span className="text-foreground-subtle/30">&bull;</span>
+          <a
+            href="#support-placeholder"
+            title="Support documentation in preparation for Phase 10"
+            className="hover:text-foreground-muted transition-colors"
+          >
+            Support
+          </a>
+        </div>
       </Container>
     </footer>
   );

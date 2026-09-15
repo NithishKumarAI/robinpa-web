@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Container } from "../ui/Container";
 import { Menu, X } from "lucide-react";
+import { DownloadButton } from "../ui/DownloadButton";
 
 const NAV_LINKS = [
   { label: "Meet Robin", href: "#meet-robin" },
@@ -44,15 +45,9 @@ export function Navbar() {
           ))}
         </nav>
 
-        {/* Action button - Visually quiet */}
+        {/* Action button - Centralized Download */}
         <div className="hidden sm:flex items-center gap-4">
-          <a
-            href="#download-placeholder"
-            // TODO: Replace with official Windows installer link when released
-            className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium text-white/90 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] hover:border-white/[0.2] rounded transition-all duration-150"
-          >
-            Download for Windows
-          </a>
+          <DownloadButton variant="header" />
         </div>
 
         {/* Mobile menu toggle */}
@@ -80,14 +75,7 @@ export function Navbar() {
             </a>
           ))}
           <div className="pt-3 border-t border-white/[0.06]">
-            <a
-              href="#download-placeholder"
-              // TODO: Replace with official Windows installer link when released
-              onClick={() => setMobileMenuOpen(false)}
-              className="inline-flex w-full items-center justify-center px-4 py-2 text-xs font-medium text-white bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.1] rounded"
-            >
-              Download for Windows
-            </a>
+            <DownloadButton variant="header" className="w-full justify-center" />
           </div>
         </div>
       )}
