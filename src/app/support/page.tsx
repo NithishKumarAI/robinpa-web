@@ -102,9 +102,9 @@ export default function SupportPage() {
         <div className="space-y-2 text-xs text-foreground-muted">
           <h3 className="text-sm font-semibold text-white">Platform &amp; Prerequisites</h3>
           <ul className="list-disc pl-5 space-y-1">
-            <li><strong className="text-white/90">Operating System:</strong> Windows (64-bit).</li>
+            <li><strong className="text-white/90">Operating System:</strong> Windows.</li>
             <li><strong className="text-white/90">Audio Input:</strong> A working microphone and speaker output if you wish to use voice interaction.</li>
-            <li><strong className="text-white/90">Internet Access:</strong> Required for cloud models (Gemini) or connected Google services. Not required for offline local Ollama operation.</li>
+            <li><strong className="text-white/90">Internet Access:</strong> Local Ollama model inference itself can run without internet access. Features that use Google services, cloud models, or other online services still require a network connection.</li>
           </ul>
         </div>
       </section>
@@ -159,13 +159,10 @@ export default function SupportPage() {
             </a>.
           </li>
           <li>
-            <strong className="text-white/90">Download a Model:</strong> Open Windows Terminal or Command Prompt and run:
-            <pre className="mt-1.5 p-2 rounded bg-black/50 border border-white/[0.08] font-mono text-[11px] text-white/90">
-              ollama pull llama3:latest
-            </pre>
+            <strong className="text-white/90">Install a Supported Model:</strong> Download a supported model via Windows Terminal (for example: <code className="font-mono text-white/90">ollama pull llama3:latest</code>).
           </li>
           <li>
-            <strong className="text-white/90">Verify Endpoint:</strong> Ensure Ollama is running at <code className="font-mono text-white/90">http://localhost:11434</code>. In Robin Settings, choose &quot;Local (Ollama)&quot;.
+            <strong className="text-white/90">Configure in Robin:</strong> Ensure Ollama is running at <code className="font-mono text-white/90">http://localhost:11434</code>. In Robin Settings under &quot;AI Engine&quot;, select &quot;Ollama&quot;, discover available models, and choose your downloaded model from the list.
           </li>
         </ol>
       </section>

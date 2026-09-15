@@ -14,7 +14,7 @@ export const SITE_DESCRIPTION =
 export const SITE_URL = "https://robinpa.in";
 
 // Shared legal documentation date
-export const LAST_UPDATED = "March 2026";
+export const LAST_UPDATED = "September 16, 2026";
 
 // Leave empty until official production mailboxes are provisioned
 export const SUPPORT_EMAIL: string = "";

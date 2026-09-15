@@ -53,7 +53,7 @@ export default function TermsPage() {
         </p>
         <ul className="list-disc pl-5 space-y-1.5 text-xs text-foreground-muted">
           <li>Your use of third-party services is governed by those third parties&apos; respective terms and policies.</li>
-          <li>You are responsible for obtaining any necessary API keys, account credentials, or local software prerequisites (such as running Ollama).</li>
+          <li>You are responsible for any credentials or local software you supply, such as a Gemini API key (where cloud AI is chosen) or an active Ollama installation and downloaded models (where local AI is chosen).</li>
           <li>Robin is not responsible for outages, rate limits, or service disruptions caused by third-party platforms.</li>
         </ul>
       </section>

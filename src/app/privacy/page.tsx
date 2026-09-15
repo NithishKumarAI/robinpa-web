@@ -240,7 +240,13 @@ export default function PrivacyPage() {
           built-in credential locker.
         </p>
         <p className="text-xs text-foreground-muted">
-          Tokens are not stored in reviewable action plans, unencrypted application logs, or transmitted to Robin servers.
+          When you provide a Gemini API key in Robin Settings, Robin stores the key using Windows Credential Manager
+          rather than in Robin&apos;s plaintext configuration files. Non-sensitive AI configuration, including the
+          selected provider and model, is stored locally in{" "}
+          <code className="px-1 py-0.5 rounded bg-white/[0.06] font-mono text-xs">~/.robin/ai-settings.json</code>.
+        </p>
+        <p className="text-xs text-foreground-muted">
+          Tokens and credentials are not stored in reviewable action plans, unencrypted application logs, or transmitted to Robin servers.
         </p>
       </section>
 
@@ -287,11 +293,26 @@ export default function PrivacyPage() {
       <section className="space-y-3">
         <h2 className="text-xl font-semibold text-white tracking-tight">13. Data Retention and Removal</h2>
         <p>
-          Because Robin stores data locally on your computer, you can manage and remove your data directly:
+          Because Robin stores its application data locally on your computer, you can manage and remove your data directly:
         </p>
-        <ul className="list-disc pl-5 space-y-1 text-xs text-foreground-muted">
-          <li>Disconnecting connected accounts in Settings removes saved OAuth tokens from your Windows Credential Manager.</li>
-          <li>Deleting the local <code className="font-mono text-xs">~/.robin</code> directory permanently removes all local databases, session logs, vector indices, and cached models from your computer.</li>
+        <ul className="list-disc pl-5 space-y-2 text-xs text-foreground-muted">
+          <li>
+            <strong className="text-white/90">Robin Application Data:</strong> Deleting the local directory{" "}
+            <code className="px-1 py-0.5 rounded bg-white/[0.06] font-mono text-xs">~/.robin</code> removes Robin-managed files,
+            including your local SQLite databases (<code className="font-mono text-xs">robin.db</code> and{" "}
+            <code className="font-mono text-xs">adk-sessions.db</code>), the local Qdrant vector index, local AI settings, and
+            Robin-cached voice models (such as Moonshine and wake-word models).
+          </li>
+          <li>
+            <strong className="text-white/90">Credentials and API Keys:</strong> Stored credentials—including Google OAuth tokens and
+            your Gemini API key—are managed in the Windows Credential Manager. Disconnecting your account or clearing keys in Robin Settings
+            removes those credentials from Windows Credential Manager.
+          </li>
+          <li>
+            <strong className="text-white/90">Ollama Models:</strong> If you use Ollama for local AI, models you download are managed
+            and stored independently by Ollama on your system. Deleting the <code className="font-mono text-xs">~/.robin</code> directory
+            does not delete your Ollama installation or downloaded Ollama models; these can be managed or deleted directly through Ollama.
+          </li>
         </ul>
       </section>
 
