@@ -290,7 +290,7 @@ export function VoiceSection() {
     <section
       id="voice"
       ref={sectionRef}
-      className="relative isolate w-full h-[310vh] bg-background border-b border-white/[0.06]"
+      className="relative isolate w-full h-[230vh] bg-background border-b border-white/[0.06]"
       aria-label="Robin Natural Voice Interaction System"
     >
       {/* Pinned Viewport Scene (No sticky top-0, managed cleanly by ScrollTrigger) */}

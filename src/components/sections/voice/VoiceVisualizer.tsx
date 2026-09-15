@@ -9,7 +9,7 @@ interface VoiceVisualizerProps {
 
 /**
  * Lightweight SVG circular acoustic visualization around RobinOrb.
- * Uses SVG circles with CSS animations tailored to each state:
+ * Accents Robin's real particle orb without obscuring or intersecting its outer shell.
  * - Listening: Inward converging pulses with indigo/violet accents.
  * - Thinking: Concentrated high-frequency harmonic orbit.
  * - Speaking: Outward expanding soundwave ripples.
@@ -28,34 +28,34 @@ export const VoiceVisualizer = React.forwardRef<HTMLDivElement, VoiceVisualizerP
         >
           <defs>
             <linearGradient id="voiceGradientViolet" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.8" />
-              <stop offset="100%" stopColor="#6366F1" stopOpacity="0.2" />
+              <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.45" />
+              <stop offset="100%" stopColor="#6366F1" stopOpacity="0.12" />
             </linearGradient>
             <linearGradient id="voiceGradientSpeaking" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#D946EF" stopOpacity="0.7" />
-              <stop offset="50%" stopColor="#8B5CF6" stopOpacity="0.5" />
-              <stop offset="100%" stopColor="#6366F1" stopOpacity="0.1" />
+              <stop offset="0%" stopColor="#D946EF" stopOpacity="0.4" />
+              <stop offset="50%" stopColor="#8B5CF6" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#6366F1" stopOpacity="0.08" />
             </linearGradient>
           </defs>
 
-          {/* Base Ambient Circular Guide */}
+          {/* Base Ambient Circular Guide (framed cleanly outside orb) */}
           <circle
             cx="200"
             cy="200"
-            r="120"
+            r="142"
             fill="none"
-            stroke="rgba(255, 255, 255, 0.05)"
+            stroke="rgba(255, 255, 255, 0.04)"
             strokeWidth="1"
           />
 
-          {/* Wave 1: Inner ring */}
+          {/* Wave 1: Primary acoustic ring */}
           <circle
             cx="200"
             cy="200"
-            r={state === "thinking" ? 110 : state === "listening" ? 125 : state === "speaking" ? 140 : 115}
+            r={state === "thinking" ? 138 : state === "listening" ? 146 : state === "speaking" ? 154 : 142}
             fill="none"
             stroke="url(#voiceGradientViolet)"
-            strokeWidth={state === "speaking" ? 2 : 1.5}
+            strokeWidth={state === "speaking" ? 1.5 : 1}
             strokeDasharray={state === "thinking" ? "4 8" : state === "listening" ? "6 6" : "none"}
             className={`transition-all duration-700 ease-out origin-center ${
               state === "thinking"
@@ -66,14 +66,14 @@ export const VoiceVisualizer = React.forwardRef<HTMLDivElement, VoiceVisualizerP
             }`}
           />
 
-          {/* Wave 2: Middle ring */}
+          {/* Wave 2: Outer harmonic ring */}
           <circle
             cx="200"
             cy="200"
-            r={state === "thinking" ? 125 : state === "listening" ? 145 : state === "speaking" ? 165 : 135}
+            r={state === "thinking" ? 156 : state === "listening" ? 166 : state === "speaking" ? 176 : 158}
             fill="none"
-            stroke={state === "speaking" ? "url(#voiceGradientSpeaking)" : "rgba(139, 92, 246, 0.35)"}
-            strokeWidth={state === "speaking" ? 1.75 : 1}
+            stroke={state === "speaking" ? "url(#voiceGradientSpeaking)" : "rgba(139, 92, 246, 0.22)"}
+            strokeWidth={state === "speaking" ? 1.5 : 1}
             strokeDasharray={state === "thinking" ? "8 12" : "none"}
             className={`transition-all duration-700 ease-out origin-center ${
               state === "thinking"
@@ -82,14 +82,14 @@ export const VoiceVisualizer = React.forwardRef<HTMLDivElement, VoiceVisualizerP
             }`}
           />
 
-          {/* Wave 3: Outer expanding / receptive boundary */}
+          {/* Wave 3: Subtle receptive boundary */}
           {(state === "listening" || state === "speaking" || state === "conversation") && (
             <circle
               cx="200"
               cy="200"
-              r={state === "speaking" ? 190 : 165}
+              r={state === "speaking" ? 192 : 180}
               fill="none"
-              stroke={state === "speaking" ? "rgba(217, 70, 239, 0.3)" : "rgba(99, 102, 241, 0.25)"}
+              stroke={state === "speaking" ? "rgba(217, 70, 239, 0.2)" : "rgba(99, 102, 241, 0.15)"}
               strokeWidth="1"
               strokeDasharray={state === "listening" ? "2 6" : "none"}
               className="transition-all duration-700 ease-out"

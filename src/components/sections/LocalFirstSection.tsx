@@ -318,7 +318,7 @@ export function LocalFirstSection() {
     <section
       id="local-first"
       ref={sectionRef}
-      className="relative isolate w-full h-[300vh] bg-background border-b border-white/[0.06]"
+      className="relative isolate w-full h-[220vh] bg-background border-b border-white/[0.06]"
       aria-label="Robin Local First Architecture and Model Choice"
     >
       {/* Pinned Viewport Scene (No sticky top-0, managed cleanly by ScrollTrigger) */}
@@ -359,20 +359,20 @@ export function LocalFirstSection() {
                 Run with Local AI.
               </h3>
               <p className="mt-1 text-xs sm:text-sm text-foreground-muted">
-                Use a supported model running directly on your own machine.
+                Run on your hardware through Ollama without sending your requests to third-party model providers.
               </p>
             </div>
 
             {/* Moment 3: Cloud AI */}
             <div ref={m3HeaderRef} className="absolute inset-0 flex flex-col items-center justify-center opacity-0">
-              <span className="font-mono text-xs uppercase tracking-widest text-brand-indigo">
-                Connected Intelligence &bull; Gemini
+              <span className="font-mono text-xs uppercase tracking-widest text-brand-indigo font-semibold">
+                High Capability &bull; Cloud Models
               </span>
               <h3 className="mt-1 text-2xl sm:text-4xl font-semibold tracking-tight text-white">
-                Or connect a Cloud Model.
+                Or connect a cloud model.
               </h3>
               <p className="mt-1 text-xs sm:text-sm text-foreground-muted">
-                Connect a cloud model when you prefer its capabilities.
+                Choose cloud intelligence like Gemini when you want broader reasoning power.
               </p>
             </div>
 
@@ -425,11 +425,13 @@ export function LocalFirstSection() {
         {/* BOTTOM: Model Route Card / Connected Services Display */}
         {/* ============================================================= */}
         <div className="relative w-full max-w-lg h-36 sm:h-40 flex items-center justify-center px-4 z-20 pointer-events-none">
-          <div className="absolute inset-0 flex items-center justify-center">
-            {/* Moments 2, 3, 4 */}
+          {/* Moments 2, 3, 4 */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <ModelRouteCard ref={modelCardRef} activeRoute={activeRoute} />
+          </div>
 
-            {/* Moment 5 */}
+          {/* Moment 5 */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <ConnectedServicesPills ref={servicesCardRef} />
           </div>
         </div>

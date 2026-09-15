@@ -469,7 +469,7 @@ export function CapabilitiesSection() {
     <section
       id="capabilities"
       ref={sectionRef}
-      className="relative isolate w-full h-[350vh] bg-background border-b border-white/[0.06]"
+      className="relative isolate w-full h-[260vh] bg-background border-b border-white/[0.06]"
       aria-label="Robin Capabilities Interactive System"
     >
       {/* Pinned Viewport Scene (No sticky top-0, managed cleanly by ScrollTrigger) */}
@@ -519,33 +519,33 @@ export function CapabilitiesSection() {
               Time &bull; Schedule &bull; Routines
             </span>
             <h3 className="mt-1 text-2xl sm:text-4xl font-semibold tracking-tight text-white">
-              Synchronized to your schedule.
+              Time, planned naturally.
             </h3>
             <p className="mt-1 text-xs sm:text-sm text-foreground-muted">
-              Calendar, daily tasks, and timed reminders unified.
+              Calendar events, tasks, and timed reminders move in one rhythm.
             </p>
           </div>
 
           {/* Moment 4 */}
           <div ref={headline4Ref} className="absolute inset-0 flex flex-col items-center justify-center opacity-0">
             <span className="font-mono text-xs uppercase tracking-widest text-brand-violet">
-              Scoped Workspace &bull; Memory
+              Scoped Files &bull; Context
             </span>
             <h3 className="mt-1 text-2xl sm:text-4xl font-semibold tracking-tight text-white">
-              Files and continuity within your sandbox.
+              Ground answers in your own workspace.
             </h3>
             <p className="mt-1 text-xs sm:text-sm text-foreground-muted">
-              Robin recalls relevant context inside your configured workspace.
+              Robin reads scoped folders and remembers key facts locally.
             </p>
           </div>
 
           {/* Moment 5 */}
           <div ref={headline5Ref} className="absolute inset-0 flex flex-col items-center justify-center opacity-0">
             <span className="font-mono text-xs uppercase tracking-widest text-brand-magenta">
-              Natural Voice &bull; Unified Assistant
+              Unified System &bull; Voice
             </span>
             <h3 className="mt-1 text-2xl sm:text-4xl font-semibold tracking-tight text-white">
-              Type it or say it.
+              Type or speak. It&apos;s the same Robin.
             </h3>
             <p className="mt-1 text-xs sm:text-sm text-foreground-muted">
               Robin uses the same unified assistant underneath.
@@ -674,10 +674,16 @@ export function CapabilitiesSection() {
         {/* BOTTOM: Active Moment Interactive Card */}
         {/* ============================================================= */}
         <div className="relative w-full max-w-lg h-36 flex items-center justify-center px-4 z-20 pointer-events-none">
-          <div className="absolute inset-0 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <CommunicationDemo ref={demoCommRef} />
+          </div>
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <TimeDemo ref={demoTimeRef} />
+          </div>
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <WorkspaceDemo ref={demoWorkspaceRef} />
+          </div>
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <VoiceDemo ref={demoVoiceRef} />
           </div>
         </div>

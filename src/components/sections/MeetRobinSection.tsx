@@ -331,7 +331,7 @@ export function MeetRobinSection() {
     <section
       id="meet-robin"
       ref={sectionRef}
-      className="relative isolate w-full h-[320vh] bg-background border-b border-white/[0.06]"
+      className="relative isolate w-full h-[250vh] bg-background border-b border-white/[0.06]"
       aria-label="Meet Robin Interactive Showcase"
     >
       {/* Pinned Viewport Scene (No sticky top-0, managed cleanly by ScrollTrigger) */}
@@ -352,7 +352,7 @@ export function MeetRobinSection() {
           {/* ============================================================= */}
           <div
             ref={m1Ref}
-            className="absolute top-[18%] sm:top-[20%] text-center max-w-xl px-4 z-20 pointer-events-none"
+            className="absolute top-[12%] sm:top-[15%] text-center max-w-xl px-4 z-20 pointer-events-none"
           >
             <span className="font-mono text-xs uppercase tracking-widest text-brand-violet">
               01 / Introduction
@@ -370,7 +370,7 @@ export function MeetRobinSection() {
           {/* ============================================================= */}
           <div
             ref={m2Ref}
-            className="absolute top-[14%] sm:top-[16%] text-center max-w-md px-4 z-20 pointer-events-none opacity-0"
+            className="absolute top-[10%] sm:top-[12%] text-center max-w-md px-4 z-20 pointer-events-none opacity-0"
           >
             <span className="font-mono text-[11px] uppercase tracking-widest text-brand-indigo">
               02 / Direct Input
@@ -381,7 +381,7 @@ export function MeetRobinSection() {
           </div>
           <div
             ref={m2BubbleRef}
-            className="absolute bottom-[16%] sm:bottom-[18%] w-full flex justify-center px-4 z-20 opacity-0"
+            className="absolute bottom-[8%] sm:bottom-[10%] md:bottom-[12%] w-full flex justify-center px-4 z-20 opacity-0"
           >
             <DemoMessage />
           </div>
@@ -391,7 +391,7 @@ export function MeetRobinSection() {
           {/* ============================================================= */}
           <div
             ref={m3Ref}
-            className="absolute top-[14%] sm:top-[16%] text-center max-w-md px-4 z-20 pointer-events-none opacity-0"
+            className="absolute top-[10%] sm:top-[12%] text-center max-w-md px-4 z-20 pointer-events-none opacity-0"
           >
             <span className="font-mono text-[11px] uppercase tracking-widest text-brand-violet">
               03 / People Context
@@ -402,7 +402,7 @@ export function MeetRobinSection() {
           </div>
           <div
             ref={m3CardRef}
-            className="absolute bottom-[16%] sm:bottom-[18%] w-full flex justify-center px-4 z-20 opacity-0"
+            className="absolute bottom-[8%] sm:bottom-[10%] md:bottom-[12%] w-full flex justify-center px-4 z-20 opacity-0"
           >
             <PersonCard />
           </div>
@@ -412,7 +412,7 @@ export function MeetRobinSection() {
           {/* ============================================================= */}
           <div
             ref={m4Ref}
-            className="absolute top-[12%] sm:top-[14%] text-center max-w-lg px-4 z-20 pointer-events-none opacity-0"
+            className="absolute top-[9%] sm:top-[11%] text-center max-w-lg px-4 z-20 pointer-events-none opacity-0"
           >
             <span className="font-mono text-[11px] uppercase tracking-widest text-brand-magenta">
               04 / Human In The Loop
@@ -426,7 +426,7 @@ export function MeetRobinSection() {
           </div>
           <div
             ref={m4CardRef}
-            className="absolute bottom-[12%] sm:bottom-[14%] w-full flex justify-center px-4 z-20 opacity-0"
+            className="absolute bottom-[7%] sm:bottom-[8%] md:bottom-[10%] w-full flex justify-center px-4 z-20 opacity-0"
           >
             <ApprovalCard />
           </div>
@@ -436,7 +436,7 @@ export function MeetRobinSection() {
           {/* ============================================================= */}
           <div
             ref={orbContainerRef}
-            className="relative w-full max-w-[260px] sm:max-w-[320px] md:max-w-[360px] aspect-square flex items-center justify-center my-auto z-10 pointer-events-none select-none"
+            className="relative w-full max-w-[210px] sm:max-w-[250px] md:max-w-[280px] aspect-square flex items-center justify-center my-auto z-10 pointer-events-none select-none"
           >
             <RobinOrb className="w-full h-full" />
           </div>

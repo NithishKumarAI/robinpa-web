@@ -348,7 +348,7 @@ export function SafetySection() {
     <section
       id="safety"
       ref={sectionRef}
-      className="relative isolate w-full h-[310vh] bg-background border-b border-white/[0.06]"
+      className="relative isolate w-full h-[240vh] bg-background border-b border-white/[0.06]"
       aria-label="Robin Safety and User Control System"
     >
       {/* Pinned Viewport Scene (No sticky top-0, managed cleanly by ScrollTrigger) */}
@@ -476,14 +476,18 @@ export function SafetySection() {
         {/* BOTTOM: Dynamic Interaction Cards / Safeguards */}
         {/* ============================================================= */}
         <div className="relative w-full max-w-2xl h-36 sm:h-40 flex items-center justify-center px-4 z-20 pointer-events-none">
-          <div className="absolute inset-0 flex items-center justify-center">
-            {/* Moment 2 */}
+          {/* Moment 2 */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <ReadActionDemo ref={readDemoRef} />
+          </div>
 
-            {/* Moments 3 & 4 */}
+          {/* Moments 3 & 4 */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <SafetyReviewCard ref={reviewCardRef} isApproved={isApproved} />
+          </div>
 
-            {/* Moment 5 */}
+          {/* Moment 5 */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <SafeguardsPills ref={safeguardsRef} />
           </div>
         </div>
