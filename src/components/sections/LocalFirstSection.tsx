@@ -13,7 +13,7 @@ export function LocalFirstSection() {
           Local First.
         </h2>
         <p className="mt-4 text-foreground-muted max-w-2xl text-base leading-relaxed">
-          Your personal data never leaves your machine. Local embedding indices, encrypted SQLite storage, and direct hardware acceleration on modern Windows silicon.
+          Built for Windows. Deep system-level integration designed with user privacy and security at its core.
         </p>
       </Container>
     </Section>

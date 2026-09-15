@@ -12,7 +12,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Robin — Everyone's PA for Windows",
   description:
-    "Context-aware, completely local-first personal AI assistant for Windows. Built for privacy, speed, and deep system workflows.",
+    "Robin — Everyone's PA. The Windows personal AI assistant. Your email. Your calendar. Your tasks. Your people. Your files. One conversation.",
 };
 
 export default function RootLayout({
