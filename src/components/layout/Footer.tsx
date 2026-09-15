@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { Container } from "../ui/Container";
 
 export function Footer() {
@@ -16,31 +17,28 @@ export function Footer() {
           </span>
         </div>
 
-        {/* Placeholder Navigation Destinations for Phase 10 */}
+        {/* Real Navigation Destinations */}
         <div className="flex items-center gap-6 text-[11px] font-mono text-foreground-subtle">
-          <a
-            href="#privacy-placeholder"
-            title="Privacy policy in preparation for Phase 10"
+          <Link
+            href="/privacy"
             className="hover:text-foreground-muted transition-colors"
           >
             Privacy
-          </a>
+          </Link>
           <span className="text-foreground-subtle/30">&bull;</span>
-          <a
-            href="#terms-placeholder"
-            title="Terms of service in preparation for Phase 10"
+          <Link
+            href="/terms"
             className="hover:text-foreground-muted transition-colors"
           >
             Terms
-          </a>
+          </Link>
           <span className="text-foreground-subtle/30">&bull;</span>
-          <a
-            href="#support-placeholder"
-            title="Support documentation in preparation for Phase 10"
+          <Link
+            href="/support"
             className="hover:text-foreground-muted transition-colors"
           >
             Support
-          </a>
+          </Link>
         </div>
       </Container>
     </footer>
