@@ -1,14 +1,18 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
 import { Container } from "../ui/Container";
-import { RobinOrb } from "../visual/RobinOrb";
+import { RobinOrb, RobinOrbState } from "../visual/RobinOrb";
 import { VoiceVisualizer, VoiceState } from "./voice/VoiceVisualizer";
 import { VoiceStateBadge } from "./voice/VoiceStateBadge";
 import { TranscriptCard } from "./voice/TranscriptCard";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
 
 export function VoiceSection() {
+  const prefersReducedMotion = useReducedMotion();
+
   const sectionRef = useRef<HTMLDivElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const orbContainerRef = useRef<HTMLDivElement>(null);
@@ -24,7 +28,17 @@ export function VoiceSection() {
   // Dynamic voice state for visualizer & transcript
   const [voiceState, setVoiceState] = useState<VoiceState>("idle");
 
-  useEffect(() => {
+  const orbVoiceStateMap: Record<VoiceState, RobinOrbState> = {
+    idle: "idle",
+    listening: "listening",
+    thinking: "thinking",
+    speaking: "speaking",
+    conversation: "idle",
+  };
+
+  useIsomorphicLayoutEffect(() => {
+    if (prefersReducedMotion) return;
+
     const section = sectionRef.current;
     const pin = pinRef.current;
     if (!section || !pin) return;
@@ -89,36 +103,36 @@ export function VoiceSection() {
             )
             .to(
               orbGlowRef.current,
-              { opacity: 0.65, scale: 1.1, duration: 0.14 },
-              0.16
+              { opacity: 0.7, scale: 1.15, duration: 0.14 },
+              0.18
             );
 
           // -------------------------------------------------------------
-          // MOMENT 2 -> MOMENT 3: Thinking (0.24 -> 0.5)
+          // MOMENT 2 -> MOMENT 3: Thinking (0.24 -> 0.52)
           // -------------------------------------------------------------
           tl.to(
             m2HeaderRef.current,
             { opacity: 0, y: -15, duration: 0.08, ease: "power2.in" },
-            0.34
+            0.36
           )
             .to(
               m3HeaderRef.current,
               { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-              0.4
+              0.42
             )
             .to(
               orbGlowRef.current,
-              { opacity: 0.8, scale: 1.2, duration: 0.14 },
-              0.4
+              { opacity: 0.5, scale: 1.05, duration: 0.14 },
+              0.42
             );
 
           // -------------------------------------------------------------
-          // MOMENT 3 -> MOMENT 4: Speaking (0.5 -> 0.74)
+          // MOMENT 3 -> MOMENT 4: Speaking (0.52 -> 0.76)
           // -------------------------------------------------------------
           tl.to(
             m3HeaderRef.current,
             { opacity: 0, y: -15, duration: 0.08, ease: "power2.in" },
-            0.58
+            0.6
           )
             .to(
               m4HeaderRef.current,
@@ -127,12 +141,12 @@ export function VoiceSection() {
             )
             .to(
               orbGlowRef.current,
-              { opacity: 0.9, scale: 1.25, duration: 0.14 },
+              { opacity: 0.85, scale: 1.25, duration: 0.14 },
               0.64
             );
 
           // -------------------------------------------------------------
-          // MOMENT 4 -> MOMENT 5: Conversation Summary (0.74 -> 0.92)
+          // MOMENT 4 -> MOMENT 5: Natural Conversation (0.76 -> 0.92)
           // -------------------------------------------------------------
           tl.to(
             m4HeaderRef.current,
@@ -142,12 +156,12 @@ export function VoiceSection() {
             .to(
               m5HeaderRef.current,
               { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-              0.84
+              0.82
             )
             .to(
               orbGlowRef.current,
-              { opacity: 0.45, scale: 1.05, duration: 0.14 },
-              0.84
+              { opacity: 0.6, scale: 1.1, duration: 0.14 },
+              0.82
             );
 
           // -------------------------------------------------------------
@@ -156,12 +170,13 @@ export function VoiceSection() {
           tl.to(
             m5HeaderRef.current,
             { opacity: 0, y: -15, duration: 0.06, ease: "power2.in" },
-            0.94
-          ).to(
-            orbGlowRef.current,
-            { opacity: 0.35, scale: 1, duration: 0.06, ease: "power1.out" },
-            0.94
-          );
+            0.93
+          )
+            .to(
+              orbGlowRef.current,
+              { opacity: 0.35, scale: 1, duration: 0.07, ease: "power1.out" },
+              0.94
+            );
         }
       );
 
@@ -179,7 +194,7 @@ export function VoiceSection() {
               m4HeaderRef.current,
               m5HeaderRef.current,
             ],
-            { opacity: 0, y: 10 }
+            { opacity: 0, y: 12 }
           );
 
           const tlMobile = gsap.timeline({
@@ -219,32 +234,69 @@ export function VoiceSection() {
             .to(m5HeaderRef.current, { opacity: 0, y: -10, duration: 0.08 }, 0.94);
         }
       );
-
-      // =======================================================================
-      // PREFERS-REDUCED-MOTION FALLBACK
-      // =======================================================================
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        setVoiceState("conversation");
-        gsap.set(m5HeaderRef.current, { opacity: 1, y: 0 });
-      });
     }, section);
 
     return () => {
       ctx.revert();
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
+  // =========================================================================
+  // ACCESSIBLE STATIC VIEW FOR REDUCED MOTION
+  // =========================================================================
+  if (prefersReducedMotion) {
+    return (
+      <section
+        id="voice"
+        className="relative isolate w-full py-20 sm:py-24 bg-background border-b border-white/[0.06]"
+        aria-label="Robin Natural Voice Interaction System"
+      >
+        <Container size="narrow" className="flex flex-col items-center text-center">
+          <span className="font-mono text-xs uppercase tracking-widest text-brand-magenta">
+            04 / Voice
+          </span>
+          <h2 className="mt-2 text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white">
+            Or just talk.
+          </h2>
+          <p className="mt-2 text-sm sm:text-base text-foreground-muted max-w-lg">
+            Speak naturally. Robin listens, understands, and responds.
+          </p>
+
+          <div className="mt-6 mb-4">
+            <VoiceStateBadge state="conversation" />
+          </div>
+
+          {/* Central Robin Orb with visualizer */}
+          <div className="relative w-44 sm:w-56 md:w-64 aspect-square flex items-center justify-center my-8">
+            <VoiceVisualizer state="conversation" />
+            <div className="relative w-36 sm:w-44 aspect-square flex items-center justify-center z-10">
+              <RobinOrb className="w-full h-full" state={orbVoiceStateMap[voiceState]} />
+            </div>
+          </div>
+
+          {/* Conversation Transcript Card */}
+          <div className="w-full max-w-lg mt-2">
+            <TranscriptCard state="conversation" />
+          </div>
+        </Container>
+      </section>
+    );
+  }
+
+  // =========================================================================
+  // STANDARD CINEMATIC PINNED VIEW
+  // =========================================================================
   return (
     <section
       id="voice"
       ref={sectionRef}
-      className="relative w-full h-[310vh] bg-background border-b border-white/[0.06]"
+      className="relative isolate w-full h-[310vh] bg-background border-b border-white/[0.06]"
       aria-label="Robin Natural Voice Interaction System"
     >
-      {/* Pinned Viewport Scene */}
+      {/* Pinned Viewport Scene (No sticky top-0, managed cleanly by ScrollTrigger) */}
       <div
         ref={pinRef}
-        className="w-full h-screen sticky top-0 flex flex-col items-center justify-between py-10 sm:py-14 overflow-hidden"
+        className="w-full h-screen flex flex-col items-center justify-between py-10 sm:py-14 overflow-hidden"
       >
         {/* Ambient illumination behind the central orb and acoustic waves */}
         <div
@@ -344,7 +396,7 @@ export function VoiceSection() {
             ref={orbContainerRef}
             className="relative w-44 sm:w-56 md:w-64 aspect-square flex items-center justify-center z-10 pointer-events-none select-none"
           >
-            <RobinOrb className="w-full h-full" />
+            <RobinOrb className="w-full h-full" state={orbVoiceStateMap[voiceState]} />
           </div>
         </div>
 

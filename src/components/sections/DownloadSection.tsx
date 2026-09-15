@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { Container } from "../ui/Container";
 import { RobinOrb } from "../visual/RobinOrb";
 import { DownloadButton } from "../ui/DownloadButton";
@@ -21,7 +21,7 @@ export function DownloadSection() {
     <section
       id="download"
       ref={sectionRef}
-      className="relative min-h-[100svh] py-24 sm:py-32 flex flex-col items-center justify-center overflow-hidden border-b-0 bg-background"
+      className="relative isolate min-h-[100svh] py-24 sm:py-32 flex flex-col items-center justify-center overflow-hidden border-b-0 bg-background"
       aria-label="Download Robin for Windows"
     >
       {/* Restrained central ambient glow behind the final orb */}

@@ -1,14 +1,18 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
 import { Container } from "../ui/Container";
 import { RobinOrb } from "../visual/RobinOrb";
 import { ModelRouteCard, ActiveRoute } from "./local-first/ModelRouteCard";
 import { ConnectedServicesPills } from "./local-first/ConnectedServicesPills";
 import { RuntimeBoundary } from "./local-first/RuntimeBoundary";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
 
 export function LocalFirstSection() {
+  const prefersReducedMotion = useReducedMotion();
+
   const sectionRef = useRef<HTMLDivElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const orbContainerRef = useRef<HTMLDivElement>(null);
@@ -28,7 +32,9 @@ export function LocalFirstSection() {
   // Dynamic route state
   const [activeRoute, setActiveRoute] = useState<ActiveRoute>("idle");
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
+    if (prefersReducedMotion) return;
+
     const section = sectionRef.current;
     const pin = pinRef.current;
     if (!section || !pin) return;
@@ -82,7 +88,7 @@ export function LocalFirstSection() {
           });
 
           // -------------------------------------------------------------
-          // MOMENT 1 -> MOMENT 2: Local AI (0 -> 0.24)
+          // MOMENT 1 -> MOMENT 2: Local AI (Ollama) (0 -> 0.28)
           // -------------------------------------------------------------
           tl.to(
             m1HeaderRef.current,
@@ -97,79 +103,79 @@ export function LocalFirstSection() {
             .to(
               modelCardRef.current,
               { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "power2.out" },
-              0.16
+              0.18
             )
             .to(
               orbGlowRef.current,
-              { opacity: 0.65, scale: 1.1, duration: 0.14 },
-              0.16
+              { opacity: 0.6, scale: 1.1, duration: 0.14 },
+              0.18
             );
 
           // -------------------------------------------------------------
-          // MOMENT 2 -> MOMENT 3: Cloud AI (0.24 -> 0.48)
+          // MOMENT 2 -> MOMENT 3: Cloud AI (Gemini) (0.28 -> 0.54)
           // -------------------------------------------------------------
           tl.to(
             m2HeaderRef.current,
             { opacity: 0, y: -15, duration: 0.08, ease: "power2.in" },
-            0.32
+            0.36
           )
             .to(
               m3HeaderRef.current,
               { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-              0.38
+              0.42
             )
             .to(
               orbGlowRef.current,
               { opacity: 0.75, scale: 1.15, duration: 0.14 },
-              0.38
+              0.42
             );
 
           // -------------------------------------------------------------
-          // MOMENT 3 -> MOMENT 4: Same Robin (0.48 -> 0.72)
+          // MOMENT 3 -> MOMENT 4: Unification (Same Robin) (0.54 -> 0.76)
           // -------------------------------------------------------------
           tl.to(
             m3HeaderRef.current,
             { opacity: 0, y: -15, duration: 0.08, ease: "power2.in" },
-            0.54
+            0.58
           )
             .to(
               m4HeaderRef.current,
               { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-              0.6
+              0.64
             )
             .to(
               orbGlowRef.current,
               { opacity: 0.85, scale: 1.2, duration: 0.14 },
-              0.6
+              0.64
             );
 
           // -------------------------------------------------------------
-          // MOMENT 4 -> MOMENT 5: Connected Services (0.72 -> 0.92)
+          // MOMENT 4 -> MOMENT 5: Connected Online Services (0.76 -> 0.92)
           // -------------------------------------------------------------
           tl.to(
             m4HeaderRef.current,
             { opacity: 0, y: -15, duration: 0.08, ease: "power2.in" },
-            0.74
+            0.76
           )
             .to(
               modelCardRef.current,
               { opacity: 0, y: -15, scale: 0.96, duration: 0.08, ease: "power2.in" },
-              0.74
+              0.76
             )
             .to(
               m5HeaderRef.current,
               { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-              0.78
+              0.82
             )
             .to(
               servicesCardRef.current,
               { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "power2.out" },
-              0.8
+              0.84
             )
             .to(
               orbGlowRef.current,
-              { opacity: 0.5, scale: 1.05, duration: 0.14 },
-              0.8
+              { opacity: 0.6, scale: 1.1, duration: 0.14 },
+              0.84
             );
 
           // -------------------------------------------------------------
@@ -178,16 +184,16 @@ export function LocalFirstSection() {
           tl.to(
             m5HeaderRef.current,
             { opacity: 0, y: -15, duration: 0.06, ease: "power2.in" },
-            0.94
+            0.93
           )
             .to(
               servicesCardRef.current,
               { opacity: 0, y: -15, scale: 0.96, duration: 0.06, ease: "power2.in" },
-              0.94
+              0.93
             )
             .to(
               orbGlowRef.current,
-              { opacity: 0.35, scale: 1, duration: 0.06, ease: "power1.out" },
+              { opacity: 0.35, scale: 1, duration: 0.07, ease: "power1.out" },
               0.94
             );
         }
@@ -207,9 +213,8 @@ export function LocalFirstSection() {
               m4HeaderRef.current,
               m5HeaderRef.current,
             ],
-            { opacity: 0, y: 10 }
+            { opacity: 0, y: 12 }
           );
-          gsap.set([modelCardRef.current, servicesCardRef.current], { opacity: 0, y: 15 });
 
           const tlMobile = gsap.timeline({
             scrollTrigger: {
@@ -252,39 +257,76 @@ export function LocalFirstSection() {
             .to(servicesCardRef.current, { opacity: 0, y: -10, duration: 0.08 }, 0.94);
         }
       );
-
-      // =======================================================================
-      // PREFERS-REDUCED-MOTION FALLBACK
-      // =======================================================================
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        setActiveRoute("both");
-        gsap.set(m4HeaderRef.current, { opacity: 1, y: 0 });
-        gsap.set([modelCardRef.current, servicesCardRef.current], {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-        });
-      });
     }, section);
 
     return () => {
       ctx.revert();
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
+  // =========================================================================
+  // ACCESSIBLE STATIC VIEW FOR REDUCED MOTION
+  // =========================================================================
+  if (prefersReducedMotion) {
+    return (
+      <section
+        id="local-first"
+        className="relative isolate w-full py-20 sm:py-24 bg-background border-b border-white/[0.06]"
+        aria-label="Robin Local First Architecture and Model Choice"
+      >
+        <Container size="narrow" className="flex flex-col items-center text-center">
+          <span className="font-mono text-xs uppercase tracking-widest text-brand-violet">
+            06 / Architecture
+          </span>
+          <h2 className="mt-2 text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white">
+            Robin lives on your Windows PC.
+          </h2>
+          <p className="mt-2 text-sm sm:text-base text-foreground-muted max-w-lg">
+            Your assistant, memory, preferences and local workspace are managed by the desktop application. Run with local AI or connect a cloud model.
+          </p>
+
+          {/* Central Robin Orb */}
+          <div className="relative w-40 sm:w-48 aspect-square flex items-center justify-center my-6">
+            <RobinOrb className="w-full h-full" />
+          </div>
+
+          {/* Model Route & Services Cards in a clear vertical flow */}
+          <div className="w-full max-w-lg flex flex-col gap-6 mt-2">
+            <div className="flex flex-col gap-2">
+              <span className="font-mono text-xs uppercase tracking-widest text-brand-indigo text-center">
+                Local AI &bull; Cloud Models
+              </span>
+              <ModelRouteCard activeRoute="both" />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <span className="font-mono text-xs uppercase tracking-widest text-brand-magenta text-center">
+                Authorized Connections
+              </span>
+              <ConnectedServicesPills />
+            </div>
+          </div>
+        </Container>
+      </section>
+    );
+  }
+
+  // =========================================================================
+  // STANDARD CINEMATIC PINNED VIEW
+  // =========================================================================
   return (
     <section
       id="local-first"
       ref={sectionRef}
-      className="relative w-full h-[300vh] bg-background border-b border-white/[0.06]"
-      aria-label="Robin Local-First and Model Choice Architecture"
+      className="relative isolate w-full h-[300vh] bg-background border-b border-white/[0.06]"
+      aria-label="Robin Local First Architecture and Model Choice"
     >
-      {/* Pinned Viewport Scene */}
+      {/* Pinned Viewport Scene (No sticky top-0, managed cleanly by ScrollTrigger) */}
       <div
         ref={pinRef}
-        className="w-full h-screen sticky top-0 flex flex-col items-center justify-between py-10 sm:py-14 overflow-hidden"
+        className="w-full h-screen flex flex-col items-center justify-between py-10 sm:py-14 overflow-hidden"
       >
-        {/* Ambient illumination behind the orb and PC boundary */}
+        {/* Ambient illumination behind the central orb */}
         <div
           ref={orbGlowRef}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[520px] h-[340px] sm:h-[520px] rounded-full bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.14)_0%,rgba(139,92,246,0.06)_45%,transparent_70%)] blur-2xl pointer-events-none -z-10 transition-all duration-300"

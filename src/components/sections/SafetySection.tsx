@@ -1,15 +1,19 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
 import { Container } from "../ui/Container";
 import { RobinOrb } from "../visual/RobinOrb";
 import { ActionPipeline } from "./safety/ActionPipeline";
 import { ReadActionDemo } from "./safety/ReadActionDemo";
 import { SafetyReviewCard } from "./safety/SafetyReviewCard";
 import { SafeguardsPills } from "./safety/SafeguardsPills";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
 
 export function SafetySection() {
+  const prefersReducedMotion = useReducedMotion();
+
   const sectionRef = useRef<HTMLDivElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
 
@@ -36,7 +40,9 @@ export function SafetySection() {
   // Dynamic approval state tracking for react render
   const [isApproved, setIsApproved] = useState(false);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
+    if (prefersReducedMotion) return;
+
     const section = sectionRef.current;
     const pin = pinRef.current;
     if (!section || !pin) return;
@@ -100,98 +106,93 @@ export function SafetySection() {
             .to(
               readDemoRef.current,
               { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "power2.out" },
-              0.16
+              0.18
             )
             .to(
               orbGlowRef.current,
-              { opacity: 0.6, scale: 1.1, duration: 0.14 },
-              0.16
+              { opacity: 0.55, scale: 1.08, duration: 0.14 },
+              0.18
             );
 
           // -------------------------------------------------------------
-          // MOMENT 2 -> MOMENT 3: Action Requiring Approval (0.28 -> 0.52)
+          // MOMENT 2 -> MOMENT 3: Mutation Gate (0.28 -> 0.58)
           // -------------------------------------------------------------
           tl.to(
             m2HeaderRef.current,
             { opacity: 0, y: -15, duration: 0.08, ease: "power2.in" },
-            0.32
+            0.36
           )
             .to(
               readDemoRef.current,
               { opacity: 0, y: -15, scale: 0.96, duration: 0.08, ease: "power2.in" },
-              0.32
+              0.36
             )
             .to(
               m3HeaderRef.current,
               { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-              0.38
-            )
-            .to(
-              gateRef.current,
-              { opacity: 0.9, scaleY: 1, duration: 0.12, ease: "power1.out" },
-              0.36
+              0.42
             )
             .to(
               reviewCardRef.current,
               { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "power2.out" },
-              0.4
+              0.44
+            )
+            .to(
+              gateRef.current,
+              { opacity: 0.8, scaleY: 1.2, duration: 0.14 },
+              0.44
             );
 
           // -------------------------------------------------------------
-          // MOMENT 3 -> MOMENT 4: Approval State Transition (0.52 -> 0.74)
+          // MOMENT 3 -> MOMENT 4: Approval Granted (0.58 -> 0.78)
           // -------------------------------------------------------------
           tl.to(
             m3HeaderRef.current,
             { opacity: 0, y: -15, duration: 0.08, ease: "power2.in" },
-            0.54
+            0.6
           )
             .to(
               m4HeaderRef.current,
               { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-              0.6
+              0.64
             )
             .to(
               orbGlowRef.current,
-              { opacity: 0.85, scale: 1.2, duration: 0.14 },
-              0.6
-            )
-            .to(
-              gateRef.current,
-              { opacity: 1, scaleY: 1.2, duration: 0.1 },
-              0.6
+              { opacity: 0.75, scale: 1.15, duration: 0.12 },
+              0.64
             );
 
           // -------------------------------------------------------------
-          // MOMENT 4 -> MOMENT 5: Safeguards Pullback (0.74 -> 0.92)
+          // MOMENT 4 -> MOMENT 5: Architectural Safeguards (0.78 -> 0.92)
           // -------------------------------------------------------------
           tl.to(
             m4HeaderRef.current,
             { opacity: 0, y: -15, duration: 0.08, ease: "power2.in" },
-            0.74
+            0.78
           )
             .to(
               reviewCardRef.current,
               { opacity: 0, y: -15, scale: 0.96, duration: 0.08, ease: "power2.in" },
-              0.74
+              0.78
             )
             .to(
               gateRef.current,
-              { opacity: 0.2, scaleY: 0.8, duration: 0.1 },
-              0.76
+              { opacity: 0.2, scaleY: 0.7, duration: 0.1 },
+              0.78
             )
             .to(
               m5HeaderRef.current,
               { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-              0.78
+              0.82
             )
             .to(
               safeguardsRef.current,
               { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "power2.out" },
-              0.8
+              0.84
             );
 
           // -------------------------------------------------------------
-          // MOMENT 5 -> CLEAN BALANCED OUTRO (0.92 -> 1.0)
+          // MOMENT 5 -> CLEAN OUTRO (0.92 -> 1.0)
           // -------------------------------------------------------------
           tl.to(
             m5HeaderRef.current,
@@ -269,40 +270,91 @@ export function SafetySection() {
             .to(safeguardsRef.current, { opacity: 0, y: -10, duration: 0.08 }, 0.94);
         }
       );
-
-      // =======================================================================
-      // PREFERS-REDUCED-MOTION FALLBACK
-      // =======================================================================
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(
-          [
-            m1HeaderRef.current,
-            pipelineRef.current,
-            readDemoRef.current,
-            reviewCardRef.current,
-            safeguardsRef.current,
-          ],
-          { opacity: 1, y: 0, scale: 1 }
-        );
-      });
     }, section);
 
     return () => {
       ctx.revert();
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
+  // =========================================================================
+  // ACCESSIBLE STATIC VIEW FOR REDUCED MOTION
+  // =========================================================================
+  if (prefersReducedMotion) {
+    return (
+      <section
+        id="safety"
+        className="relative isolate w-full py-20 sm:py-24 bg-background border-b border-white/[0.06]"
+        aria-label="Robin Safety and User Control System"
+      >
+        <Container size="narrow" className="flex flex-col items-center text-center">
+          <span className="font-mono text-xs uppercase tracking-widest text-brand-violet">
+            03 / Control
+          </span>
+          <h2 className="mt-2 text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white">
+            Robin asks before it acts.
+          </h2>
+          <p className="mt-2 text-sm sm:text-base text-foreground-muted max-w-lg">
+            Read what you need. Review what changes something.
+          </p>
+
+          <div className="mt-8 mb-6">
+            <ActionPipeline activeStep="review" isApproved={false} />
+          </div>
+
+          {/* Central Robin Orb */}
+          <div className="relative w-40 sm:w-48 aspect-square flex items-center justify-center my-6">
+            <RobinOrb className="w-full h-full" />
+          </div>
+
+          {/* Sequential showcase cards */}
+          <div className="w-full max-w-xl flex flex-col gap-8 text-left mt-2">
+            <div className="flex flex-col gap-2">
+              <span className="font-mono text-xs uppercase tracking-widest text-brand-indigo text-center">
+                Read Action &bull; Frictionless
+              </span>
+              <div className="flex justify-center">
+                <ReadActionDemo />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <span className="font-mono text-xs uppercase tracking-widest text-brand-violet text-center">
+                Mutation &bull; Approval Boundary
+              </span>
+              <div className="flex justify-center">
+                <SafetyReviewCard isApproved={false} />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <span className="font-mono text-xs uppercase tracking-widest text-brand-magenta text-center">
+                Architecture &bull; Safeguards
+              </span>
+              <div className="flex justify-center">
+                <SafeguardsPills />
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+    );
+  }
+
+  // =========================================================================
+  // STANDARD CINEMATIC PINNED VIEW
+  // =========================================================================
   return (
     <section
       id="safety"
       ref={sectionRef}
-      className="relative w-full h-[310vh] bg-background border-b border-white/[0.06]"
+      className="relative isolate w-full h-[310vh] bg-background border-b border-white/[0.06]"
       aria-label="Robin Safety and User Control System"
     >
-      {/* Pinned Viewport Scene */}
+      {/* Pinned Viewport Scene (No sticky top-0, managed cleanly by ScrollTrigger) */}
       <div
         ref={pinRef}
-        className="w-full h-screen sticky top-0 flex flex-col items-center justify-between py-10 sm:py-14 overflow-hidden"
+        className="w-full h-screen flex flex-col items-center justify-between py-10 sm:py-14 overflow-hidden"
       >
         {/* Ambient illumination behind the central scene */}
         <div

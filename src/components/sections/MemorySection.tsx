@@ -1,14 +1,18 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
 import { Container } from "../ui/Container";
 import { RobinOrb } from "../visual/RobinOrb";
 import { MemoryFragment } from "./memory/MemoryFragment";
 import { RecallConversation } from "./memory/RecallConversation";
 import { MemoryConnector } from "./memory/MemoryConnector";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
 
 export function MemorySection() {
+  const prefersReducedMotion = useReducedMotion();
+
   const sectionRef = useRef<HTMLDivElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const orbContainerRef = useRef<HTMLDivElement>(null);
@@ -30,7 +34,9 @@ export function MemorySection() {
   const [isRecalled, setIsRecalled] = useState(false);
   const [activeMode, setActiveMode] = useState<"input" | "recall" | "summary">("input");
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
+    if (prefersReducedMotion) return;
+
     const section = sectionRef.current;
     const pin = pinRef.current;
     if (!section || !pin) return;
@@ -89,7 +95,7 @@ export function MemorySection() {
           });
 
           // -------------------------------------------------------------
-          // MOMENT 1 -> MOMENT 2: Initial Preference (0 -> 0.24)
+          // MOMENT 1 -> MOMENT 2: First Fragment (Preference) (0 -> 0.28)
           // -------------------------------------------------------------
           tl.to(
             m1HeaderRef.current,
@@ -113,50 +119,55 @@ export function MemorySection() {
             );
 
           // -------------------------------------------------------------
-          // MOMENT 2 -> MOMENT 3: More Context (0.24 -> 0.5)
+          // MOMENT 2 -> MOMENT 3: Additional Fragments (Project & Person) (0.28 -> 0.58)
           // -------------------------------------------------------------
           tl.to(
             m2HeaderRef.current,
             { opacity: 0, y: -15, duration: 0.08, ease: "power2.in" },
-            0.34
+            0.36
           )
             .to(
               m3HeaderRef.current,
               { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-              0.4
+              0.42
             )
             .to(
               [fragProjRef.current, fragPersonRef.current],
-              { opacity: 1, scale: 1, duration: 0.14, ease: "power2.out" },
-              0.42
+              { opacity: 1, scale: 1, stagger: 0.05, duration: 0.14, ease: "back.out(1.2)" },
+              0.44
             )
             .to(
               orbGlowRef.current,
-              { opacity: 0.7, scale: 1.15, duration: 0.14 },
-              0.42
+              { opacity: 0.75, scale: 1.15, duration: 0.14 },
+              0.44
             );
 
           // -------------------------------------------------------------
-          // MOMENT 3 -> MOMENT 4: Context Recall (0.5 -> 0.74)
+          // MOMENT 3 -> MOMENT 4: Recall into New Conversation (0.58 -> 0.78)
           // -------------------------------------------------------------
           tl.to(
             m3HeaderRef.current,
             { opacity: 0, y: -15, duration: 0.08, ease: "power2.in" },
-            0.58
+            0.62
           )
             .to(
               m4HeaderRef.current,
               { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-              0.64
+              0.66
+            )
+            .to(
+              fragPrefRef.current,
+              { scale: 1.08, duration: 0.12, ease: "power2.out" },
+              0.68
             )
             .to(
               orbGlowRef.current,
               { opacity: 0.9, scale: 1.25, duration: 0.14 },
-              0.64
+              0.68
             );
 
           // -------------------------------------------------------------
-          // MOMENT 4 -> MOMENT 5: Continuity Summary (0.74 -> 0.92)
+          // MOMENT 4 -> MOMENT 5: Long-term Continuity (0.78 -> 0.92)
           // -------------------------------------------------------------
           tl.to(
             m4HeaderRef.current,
@@ -166,12 +177,17 @@ export function MemorySection() {
             .to(
               m5HeaderRef.current,
               { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-              0.84
+              0.82
+            )
+            .to(
+              [fragPrefRef.current, fragProjRef.current, fragPersonRef.current],
+              { opacity: 0.6, scale: 0.95, duration: 0.1 },
+              0.82
             )
             .to(
               orbGlowRef.current,
-              { opacity: 0.45, scale: 1.05, duration: 0.14 },
-              0.84
+              { opacity: 0.55, scale: 1.05, duration: 0.14 },
+              0.82
             );
 
           // -------------------------------------------------------------
@@ -180,12 +196,18 @@ export function MemorySection() {
           tl.to(
             m5HeaderRef.current,
             { opacity: 0, y: -15, duration: 0.06, ease: "power2.in" },
-            0.94
-          ).to(
-            orbGlowRef.current,
-            { opacity: 0.35, scale: 1, duration: 0.06, ease: "power1.out" },
-            0.94
-          );
+            0.93
+          )
+            .to(
+              [fragPrefRef.current, fragProjRef.current, fragPersonRef.current],
+              { opacity: 0.7, scale: 1, duration: 0.07, ease: "power1.out" },
+              0.94
+            )
+            .to(
+              orbGlowRef.current,
+              { opacity: 0.35, scale: 1, duration: 0.07, ease: "power1.out" },
+              0.94
+            );
         }
       );
 
@@ -203,7 +225,7 @@ export function MemorySection() {
               m4HeaderRef.current,
               m5HeaderRef.current,
             ],
-            { opacity: 0, y: 10 }
+            { opacity: 0, y: 12 }
           );
 
           const tlMobile = gsap.timeline({
@@ -245,42 +267,87 @@ export function MemorySection() {
             .to(m5HeaderRef.current, { opacity: 0, y: -10, duration: 0.08 }, 0.94);
         }
       );
-
-      // =======================================================================
-      // PREFERS-REDUCED-MOTION FALLBACK
-      // =======================================================================
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        setActiveMode("summary");
-        gsap.set(m5HeaderRef.current, { opacity: 1, y: 0 });
-        gsap.set([fragPrefRef.current, fragProjRef.current, fragPersonRef.current], {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-        });
-      });
     }, section);
 
     return () => {
       ctx.revert();
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
+  // =========================================================================
+  // ACCESSIBLE STATIC VIEW FOR REDUCED MOTION
+  // =========================================================================
+  if (prefersReducedMotion) {
+    return (
+      <section
+        id="memory"
+        className="relative isolate w-full py-20 sm:py-24 bg-background border-b border-white/[0.06]"
+        aria-label="Robin Memory and Continuity System"
+      >
+        <Container size="narrow" className="flex flex-col items-center text-center">
+          <span className="font-mono text-xs uppercase tracking-widest text-brand-indigo">
+            05 / Continuity
+          </span>
+          <h2 className="mt-2 text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white">
+            Robin remembers the context that matters.
+          </h2>
+          <p className="mt-2 text-sm sm:text-base text-foreground-muted max-w-lg">
+            So you don&apos;t have to explain everything again. Preferences, people, and projects carried forward seamlessly.
+          </p>
+
+          {/* Central Robin Orb */}
+          <div className="relative w-40 sm:w-48 aspect-square flex items-center justify-center my-6">
+            <RobinOrb className="w-full h-full" />
+          </div>
+
+          {/* Memory Fragments Preview */}
+          <div className="flex flex-wrap justify-center gap-3 max-w-lg mb-8">
+            <MemoryFragment
+              type="preference"
+              label="Preference"
+              value="Concise updates"
+              isRecalled={true}
+            />
+            <MemoryFragment
+              type="project"
+              label="Project"
+              value="Robin"
+            />
+            <MemoryFragment
+              type="person"
+              label="Person"
+              value="Vicky — confirmed contact"
+            />
+          </div>
+
+          {/* Recall Conversation Card */}
+          <div className="w-full max-w-lg">
+            <RecallConversation mode="summary" />
+          </div>
+        </Container>
+      </section>
+    );
+  }
+
+  // =========================================================================
+  // STANDARD CINEMATIC PINNED VIEW
+  // =========================================================================
   return (
     <section
       id="memory"
       ref={sectionRef}
-      className="relative w-full h-[310vh] bg-background border-b border-white/[0.06]"
-      aria-label="Robin Contextual Memory and Continuity System"
+      className="relative isolate w-full h-[310vh] bg-background border-b border-white/[0.06]"
+      aria-label="Robin Memory and Continuity System"
     >
-      {/* Pinned Viewport Scene */}
+      {/* Pinned Viewport Scene (No sticky top-0, managed cleanly by ScrollTrigger) */}
       <div
         ref={pinRef}
-        className="w-full h-screen sticky top-0 flex flex-col items-center justify-between py-10 sm:py-14 overflow-hidden"
+        className="w-full h-screen flex flex-col items-center justify-between py-10 sm:py-14 overflow-hidden"
       >
-        {/* Ambient illumination behind central scene */}
+        {/* Ambient illumination behind the central orb and memory fragments */}
         <div
           ref={orbGlowRef}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[520px] h-[340px] sm:h-[520px] rounded-full bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.13)_0%,rgba(99,102,241,0.05)_45%,transparent_70%)] blur-2xl pointer-events-none -z-10 transition-all duration-300"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[540px] h-[340px] sm:h-[540px] rounded-full bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.14)_0%,rgba(139,92,246,0.05)_45%,transparent_70%)] blur-2xl pointer-events-none -z-10 transition-all duration-300"
         />
 
         {/* ============================================================= */}

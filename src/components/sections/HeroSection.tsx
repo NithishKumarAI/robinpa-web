@@ -7,7 +7,7 @@ import {
   useTransform,
   useSpring,
   useReducedMotion,
-} from "framer-motion";
+} from "motion/react";
 import { Container } from "../ui/Container";
 import { RobinOrb } from "../visual/RobinOrb";
 import { DownloadButton } from "../ui/DownloadButton";
@@ -88,7 +88,7 @@ export function HeroSection() {
       ref={sectionRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative min-h-[100svh] flex flex-col justify-between pt-20 sm:pt-24 pb-6 sm:pb-8 overflow-hidden border-b border-white/[0.06]"
+      className="relative isolate min-h-[100svh] flex flex-col justify-between pt-20 sm:pt-24 pb-6 sm:pb-8 overflow-hidden border-b border-white/[0.06]"
     >
       {/* Subtle ambient violet/indigo illumination behind orb */}
       <motion.div

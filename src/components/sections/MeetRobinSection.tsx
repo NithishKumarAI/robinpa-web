@@ -1,14 +1,18 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
 import { Container } from "../ui/Container";
 import { RobinOrb } from "../visual/RobinOrb";
 import { DemoMessage } from "./meet-robin/DemoMessage";
 import { PersonCard } from "./meet-robin/PersonCard";
 import { ApprovalCard } from "./meet-robin/ApprovalCard";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
 
 export function MeetRobinSection() {
+  const prefersReducedMotion = useReducedMotion();
+
   const sectionRef = useRef<HTMLDivElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
 
@@ -31,7 +35,9 @@ export function MeetRobinSection() {
   const m4Ref = useRef<HTMLDivElement>(null);
   const m4CardRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
+    if (prefersReducedMotion) return;
+
     const section = sectionRef.current;
     const pin = pinRef.current;
     if (!section || !pin) return;
@@ -233,43 +239,105 @@ export function MeetRobinSection() {
             .to(m4CardRef.current, { opacity: 0, y: -15, duration: 0.08 }, 0.92);
         }
       );
-
-      // =======================================================================
-      // PREFERS-REDUCED-MOTION (ACCESSIBILITY FALLBACK)
-      // Display all 4 moments cleanly in a non-scrubbed stacked layout
-      // =======================================================================
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(
-          [
-            m1Ref.current,
-            m2Ref.current,
-            m2BubbleRef.current,
-            m3Ref.current,
-            m3CardRef.current,
-            m4Ref.current,
-            m4CardRef.current,
-          ],
-          { opacity: 1, y: 0, scale: 1 }
-        );
-      });
     }, section);
 
     return () => {
       ctx.revert();
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
+  // =========================================================================
+  // ACCESSIBLE STATIC VIEW FOR REDUCED MOTION
+  // =========================================================================
+  if (prefersReducedMotion) {
+    return (
+      <section
+        id="meet-robin"
+        className="relative isolate w-full py-20 sm:py-28 bg-background border-b border-white/[0.06]"
+        aria-label="Meet Robin Interactive Showcase"
+      >
+        <Container size="narrow" className="flex flex-col items-center text-center">
+          <span className="font-mono text-xs uppercase tracking-widest text-brand-violet">
+            01 / Introduction
+          </span>
+          <h2 className="mt-2 text-3xl sm:text-5xl font-semibold tracking-tighter text-white">
+            Meet Robin.
+          </h2>
+          <p className="mt-3 text-sm sm:text-base text-foreground-muted font-normal leading-relaxed max-w-xl">
+            Your personal assistant for the things you deal with every day.
+          </p>
+
+          {/* Central Robin Orb */}
+          <div className="relative w-48 sm:w-56 aspect-square flex items-center justify-center my-8">
+            <RobinOrb className="w-full h-full" />
+          </div>
+
+          {/* Sequential Showcase Cards */}
+          <div className="w-full max-w-md flex flex-col gap-10 mt-2 text-left">
+            <div className="flex flex-col gap-3">
+              <div className="text-center">
+                <span className="font-mono text-[11px] uppercase tracking-widest text-brand-indigo">
+                  02 / Direct Input
+                </span>
+                <h3 className="mt-1 text-xl sm:text-2xl font-semibold tracking-tight text-white">
+                  Just tell Robin what you need.
+                </h3>
+              </div>
+              <div className="flex justify-center">
+                <DemoMessage />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <div className="text-center">
+                <span className="font-mono text-[11px] uppercase tracking-widest text-brand-violet">
+                  03 / People Context
+                </span>
+                <p className="mt-1 text-sm sm:text-base font-medium text-white max-w-sm mx-auto">
+                  Robin understands the people you&apos;ve confirmed &mdash; not just email addresses.
+                </p>
+              </div>
+              <div className="flex justify-center">
+                <PersonCard />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <div className="text-center">
+                <span className="font-mono text-[11px] uppercase tracking-widest text-brand-magenta">
+                  04 / Human In The Loop
+                </span>
+                <h3 className="mt-1 text-xl sm:text-2xl font-semibold tracking-tight text-white">
+                  Robin prepares it. You stay in control.
+                </h3>
+                <p className="mt-1 text-xs sm:text-sm text-foreground-muted font-normal">
+                  Actions that change something are reviewed before execution.
+                </p>
+              </div>
+              <div className="flex justify-center">
+                <ApprovalCard />
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+    );
+  }
+
+  // =========================================================================
+  // STANDARD CINEMATIC PINNED VIEW
+  // =========================================================================
   return (
     <section
       id="meet-robin"
       ref={sectionRef}
-      className="relative w-full h-[320vh] bg-background border-b border-white/[0.06]"
+      className="relative isolate w-full h-[320vh] bg-background border-b border-white/[0.06]"
       aria-label="Meet Robin Interactive Showcase"
     >
-      {/* Pinned Viewport Scene */}
+      {/* Pinned Viewport Scene (No sticky top-0, managed cleanly by ScrollTrigger) */}
       <div
         ref={pinRef}
-        className="w-full h-screen sticky top-0 flex flex-col items-center justify-center overflow-hidden"
+        className="w-full h-screen flex flex-col items-center justify-center overflow-hidden"
       >
         {/* Ambient illumination behind central scene */}
         <div
@@ -329,7 +397,7 @@ export function MeetRobinSection() {
               03 / People Context
             </span>
             <p className="mt-1.5 text-base sm:text-xl font-medium tracking-tight text-white max-w-sm mx-auto">
-              Robin understands the people you&apos;ve confirmed — not just email addresses.
+              Robin understands the people you&apos;ve confirmed &mdash; not just email addresses.
             </p>
           </div>
           <div
@@ -364,7 +432,7 @@ export function MeetRobinSection() {
           </div>
 
           {/* ============================================================= */}
-          {/* CENTRAL ANCHOR: RobinOrb Placeholder Container */}
+          {/* CENTRAL ANCHOR: RobinOrb Container */}
           {/* ============================================================= */}
           <div
             ref={orbContainerRef}

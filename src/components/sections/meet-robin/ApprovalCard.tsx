@@ -55,22 +55,22 @@ export function ApprovalCard({ className = "" }: ApprovalCardProps) {
           Waiting for your confirmation
         </span>
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            className="px-3 py-1.5 rounded text-xs text-foreground-muted hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] transition-colors inline-flex items-center gap-1 cursor-default"
-            aria-label="Cancel action (demonstration only)"
+          <span
+            className="px-3 py-1.5 rounded text-xs text-foreground-muted bg-white/[0.04] border border-white/[0.08] inline-flex items-center gap-1 cursor-default select-none pointer-events-none"
+            role="presentation"
+            aria-hidden="true"
           >
             <X size={12} />
             <span>Cancel</span>
-          </button>
-          <button
-            type="button"
-            className="px-3.5 py-1.5 rounded text-xs font-medium text-black bg-white hover:bg-neutral-200 transition-colors inline-flex items-center gap-1.5 cursor-default shadow-sm"
-            aria-label="Approve action (demonstration only)"
+          </span>
+          <span
+            className="px-3.5 py-1.5 rounded text-xs font-medium text-black bg-white inline-flex items-center gap-1.5 cursor-default shadow-sm select-none pointer-events-none"
+            role="presentation"
+            aria-hidden="true"
           >
             <Check size={12} />
             <span>Approve</span>
-          </button>
+          </span>
         </div>
       </div>
     </div>

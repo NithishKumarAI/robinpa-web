@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
 import { Container } from "../ui/Container";
 import { RobinOrb } from "../visual/RobinOrb";
 import { CapabilityNode } from "./capabilities/CapabilityNode";
@@ -21,8 +21,12 @@ import {
   Mic,
   Brain,
 } from "lucide-react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
 
 export function CapabilitiesSection() {
+  const prefersReducedMotion = useReducedMotion();
+
   const sectionRef = useRef<HTMLDivElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const orbContainerRef = useRef<HTMLDivElement>(null);
@@ -35,7 +39,7 @@ export function CapabilitiesSection() {
   const headline4Ref = useRef<HTMLDivElement>(null);
   const headline5Ref = useRef<HTMLDivElement>(null);
 
-  // Spatial Nodes
+  // Spatial Nodes (Desktop only)
   const nodeEmailRef = useRef<HTMLDivElement>(null);
   const nodeCalendarRef = useRef<HTMLDivElement>(null);
   const nodePeopleRef = useRef<HTMLDivElement>(null);
@@ -51,7 +55,9 @@ export function CapabilitiesSection() {
   const demoWorkspaceRef = useRef<HTMLDivElement>(null);
   const demoVoiceRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
+    if (prefersReducedMotion) return;
+
     const section = sectionRef.current;
     const pin = pinRef.current;
     if (!section || !pin) return;
@@ -123,12 +129,7 @@ export function CapabilitiesSection() {
               { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
               0.16
             )
-            // Highlight Email & People; dim others
-            .to(
-              [nodeEmailRef.current, nodePeopleRef.current],
-              { opacity: 1, scale: 1.08, duration: 0.12, ease: "power1.out" },
-              0.14
-            )
+            // Dim distant nodes; highlight Email & People
             .to(
               [
                 nodeCalendarRef.current,
@@ -138,43 +139,48 @@ export function CapabilitiesSection() {
                 nodeVoiceRef.current,
                 nodeMemoryRef.current,
               ],
-              { opacity: 0.2, scale: 0.95, duration: 0.12 },
-              0.14
+              { opacity: 0.2, scale: 0.95, duration: 0.1 },
+              0.16
+            )
+            .to(
+              [nodeEmailRef.current, nodePeopleRef.current],
+              { opacity: 1, scale: 1.1, duration: 0.12, ease: "power1.out" },
+              0.16
             )
             .to(
               orbGlowRef.current,
               { opacity: 0.7, scale: 1.15, duration: 0.14 },
-              0.15
+              0.18
             )
             .to(
               demoCommRef.current,
               { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "power2.out" },
-              0.18
+              0.2
             );
 
           // -------------------------------------------------------------
-          // MOMENT 2 -> MOMENT 3: Time (Calendar + Tasks + Reminders) (0.28 -> 0.52)
+          // MOMENT 2 -> MOMENT 3: Time (Calendar + Tasks + Reminders) (0.28 -> 0.56)
           // -------------------------------------------------------------
           tl.to(
             headline2Ref.current,
             { opacity: 0, y: -15, duration: 0.08, ease: "power2.in" },
-            0.32
+            0.36
           )
             .to(
               demoCommRef.current,
               { opacity: 0, y: -15, scale: 0.96, duration: 0.08, ease: "power2.in" },
-              0.32
+              0.36
             )
             .to(
               headline3Ref.current,
               { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-              0.38
+              0.42
             )
-            // Highlight Calendar, Tasks, Reminders; dim others
+            // Dim previous; highlight Calendar, Tasks, Reminders
             .to(
               [nodeEmailRef.current, nodePeopleRef.current],
               { opacity: 0.2, scale: 0.95, duration: 0.1 },
-              0.36
+              0.42
             )
             .to(
               [
@@ -182,34 +188,39 @@ export function CapabilitiesSection() {
                 nodeTasksRef.current,
                 nodeRemindersRef.current,
               ],
-              { opacity: 1, scale: 1.08, duration: 0.12, ease: "power1.out" },
-              0.36
+              { opacity: 1, scale: 1.1, duration: 0.12, ease: "power1.out" },
+              0.42
+            )
+            .to(
+              orbGlowRef.current,
+              { opacity: 0.5, scale: 1.05, duration: 0.14 },
+              0.44
             )
             .to(
               demoTimeRef.current,
               { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "power2.out" },
-              0.4
+              0.46
             );
 
           // -------------------------------------------------------------
-          // MOMENT 3 -> MOMENT 4: Workspace (Files + Memory) (0.52 -> 0.75)
+          // MOMENT 3 -> MOMENT 4: Scoped Workspace (Files + Memory) (0.56 -> 0.78)
           // -------------------------------------------------------------
           tl.to(
             headline3Ref.current,
             { opacity: 0, y: -15, duration: 0.08, ease: "power2.in" },
-            0.56
+            0.58
           )
             .to(
               demoTimeRef.current,
               { opacity: 0, y: -15, scale: 0.96, duration: 0.08, ease: "power2.in" },
-              0.56
+              0.58
             )
             .to(
               headline4Ref.current,
               { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-              0.62
+              0.64
             )
-            // Highlight Files & Memory; dim others
+            // Dim previous; highlight Files & Memory
             .to(
               [
                 nodeCalendarRef.current,
@@ -217,36 +228,41 @@ export function CapabilitiesSection() {
                 nodeRemindersRef.current,
               ],
               { opacity: 0.2, scale: 0.95, duration: 0.1 },
-              0.6
+              0.64
             )
             .to(
               [nodeFilesRef.current, nodeMemoryRef.current],
-              { opacity: 1, scale: 1.08, duration: 0.12, ease: "power1.out" },
-              0.6
+              { opacity: 1, scale: 1.1, duration: 0.12, ease: "power1.out" },
+              0.64
+            )
+            .to(
+              orbGlowRef.current,
+              { opacity: 0.65, scale: 1.1, duration: 0.14 },
+              0.66
             )
             .to(
               demoWorkspaceRef.current,
               { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "power2.out" },
-              0.64
+              0.68
             );
 
           // -------------------------------------------------------------
-          // MOMENT 4 -> MOMENT 5: Natural Interaction (Voice) (0.75 -> 0.92)
+          // MOMENT 4 -> MOMENT 5: Voice & Unified Assistant (0.78 -> 0.92)
           // -------------------------------------------------------------
           tl.to(
             headline4Ref.current,
             { opacity: 0, y: -15, duration: 0.08, ease: "power2.in" },
-            0.78
+            0.76
           )
             .to(
               demoWorkspaceRef.current,
               { opacity: 0, y: -15, scale: 0.96, duration: 0.08, ease: "power2.in" },
-              0.78
+              0.76
             )
             .to(
               headline5Ref.current,
               { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-              0.82
+              0.8
             )
             // Highlight Voice; dim others
             .to(
@@ -312,7 +328,6 @@ export function CapabilitiesSection() {
             ],
             { opacity: 0, y: 15 }
           );
-          gsap.set(allNodes, { opacity: 0.8 });
           gsap.set(
             [
               demoCommRef.current,
@@ -359,41 +374,108 @@ export function CapabilitiesSection() {
             .to(demoVoiceRef.current, { opacity: 0, y: -12, duration: 0.08 }, 0.94);
         }
       );
-
-      // =======================================================================
-      // PREFERS-REDUCED-MOTION FALLBACK
-      // =======================================================================
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(
-          [
-            headline1Ref.current,
-            ...allNodes,
-            demoCommRef.current,
-            demoTimeRef.current,
-            demoWorkspaceRef.current,
-            demoVoiceRef.current,
-          ],
-          { opacity: 1, y: 0, scale: 1 }
-        );
-      });
     }, section);
 
     return () => {
       ctx.revert();
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
+  // =========================================================================
+  // ACCESSIBLE STATIC VIEW FOR REDUCED MOTION
+  // =========================================================================
+  if (prefersReducedMotion) {
+    return (
+      <section
+        id="capabilities"
+        className="relative isolate w-full py-20 sm:py-24 bg-background border-b border-white/[0.06]"
+        aria-label="Robin Capabilities Interactive System"
+      >
+        <Container size="default" className="flex flex-col items-center">
+          <div className="text-center max-w-2xl mb-10">
+            <span className="font-mono text-xs uppercase tracking-widest text-brand-indigo">
+              02 / Spatial System
+            </span>
+            <h2 className="mt-2 text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white">
+              One assistant. Your daily life connected.
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-foreground-muted">
+              Robin brings the tools you already use into one conversation.
+            </p>
+          </div>
+
+          {/* Central Orb */}
+          <div className="relative w-40 sm:w-48 aspect-square flex items-center justify-center my-6">
+            <RobinOrb className="w-full h-full" />
+          </div>
+
+          {/* Capability Pills */}
+          <div className="flex flex-wrap justify-center gap-2 max-w-2xl mb-12">
+            {[
+              "Email",
+              "Calendar",
+              "People",
+              "Tasks",
+              "Files",
+              "Reminders",
+              "Voice",
+              "Memory",
+            ].map((name) => (
+              <span
+                key={name}
+                className="px-3.5 py-1.5 rounded-full bg-background-surface border border-white/[0.08] text-xs text-white/90 font-mono"
+              >
+                {name}
+              </span>
+            ))}
+          </div>
+
+          {/* Sequential readable cards */}
+          <div className="w-full max-w-xl flex flex-col gap-6">
+            <div className="flex flex-col gap-2">
+              <span className="font-mono text-xs uppercase tracking-widest text-brand-violet text-center">
+                Communication &bull; People
+              </span>
+              <CommunicationDemo />
+            </div>
+            <div className="flex flex-col gap-2">
+              <span className="font-mono text-xs uppercase tracking-widest text-brand-indigo text-center">
+                Time &bull; Schedule &bull; Routines
+              </span>
+              <TimeDemo />
+            </div>
+            <div className="flex flex-col gap-2">
+              <span className="font-mono text-xs uppercase tracking-widest text-brand-violet text-center">
+                Scoped Workspace &bull; Memory
+              </span>
+              <WorkspaceDemo />
+            </div>
+            <div className="flex flex-col gap-2">
+              <span className="font-mono text-xs uppercase tracking-widest text-brand-magenta text-center">
+                Natural Voice &bull; Unified Assistant
+              </span>
+              <VoiceDemo />
+            </div>
+          </div>
+        </Container>
+      </section>
+    );
+  }
+
+  // =========================================================================
+  // STANDARD CINEMATIC PINNED VIEW
+  // =========================================================================
   return (
     <section
       id="capabilities"
       ref={sectionRef}
-      className="relative w-full h-[350vh] bg-background border-b border-white/[0.06]"
+      className="relative isolate w-full h-[350vh] bg-background border-b border-white/[0.06]"
       aria-label="Robin Capabilities Interactive System"
     >
-      {/* Pinned Viewport Scene */}
+      {/* Pinned Viewport Scene (No sticky top-0, managed cleanly by ScrollTrigger) */}
       <div
         ref={pinRef}
-        className="w-full h-screen sticky top-0 flex flex-col items-center justify-between py-12 sm:py-16 overflow-hidden"
+        className="w-full h-screen flex flex-col items-center justify-between py-12 sm:py-16 overflow-hidden"
       >
         {/* Subtle ambient illumination behind the orb */}
         <div
@@ -476,7 +558,7 @@ export function CapabilitiesSection() {
         {/* ============================================================= */}
         <div className="relative w-full max-w-5xl h-[340px] sm:h-[400px] flex items-center justify-center my-auto px-4">
           
-          {/* Spatial Capability Nodes (Desktop Placement) */}
+          {/* Spatial Capability Nodes (Desktop Placement - distinct refs) */}
           <div className="hidden md:block absolute inset-0 pointer-events-none">
             {/* Top-Left: Email */}
             <div className="absolute left-[6%] top-[12%]">
@@ -549,7 +631,7 @@ export function CapabilitiesSection() {
               <CapabilityNode
                 id="voice"
                 label="Voice"
-                sublabel="Sub-300ms audio"
+                sublabel="Live conversation"
                 icon={Mic}
                 nodeRef={nodeVoiceRef}
               />
@@ -575,16 +657,16 @@ export function CapabilitiesSection() {
             <RobinOrb className="w-full h-full" />
           </div>
 
-          {/* Mobile Capability Pills (Neat 4x2 grid around orb) */}
+          {/* Mobile Capability Pills (Static visual presentation, zero ref hijacking) */}
           <div className="md:hidden absolute inset-x-2 -top-2 flex flex-wrap justify-center gap-1.5 pointer-events-none">
-            <span ref={nodeEmailRef} className="px-2.5 py-1 rounded bg-background-surface border border-white/[0.08] text-[11px] text-white/90 font-mono">Email</span>
-            <span ref={nodeCalendarRef} className="px-2.5 py-1 rounded bg-background-surface border border-white/[0.08] text-[11px] text-white/90 font-mono">Calendar</span>
-            <span ref={nodePeopleRef} className="px-2.5 py-1 rounded bg-background-surface border border-white/[0.08] text-[11px] text-white/90 font-mono">People</span>
-            <span ref={nodeTasksRef} className="px-2.5 py-1 rounded bg-background-surface border border-white/[0.08] text-[11px] text-white/90 font-mono">Tasks</span>
-            <span ref={nodeFilesRef} className="px-2.5 py-1 rounded bg-background-surface border border-white/[0.08] text-[11px] text-white/90 font-mono">Files</span>
-            <span ref={nodeRemindersRef} className="px-2.5 py-1 rounded bg-background-surface border border-white/[0.08] text-[11px] text-white/90 font-mono">Reminders</span>
-            <span ref={nodeVoiceRef} className="px-2.5 py-1 rounded bg-background-surface border border-white/[0.08] text-[11px] text-white/90 font-mono">Voice</span>
-            <span ref={nodeMemoryRef} className="px-2.5 py-1 rounded bg-background-surface border border-white/[0.08] text-[11px] text-white/90 font-mono">Memory</span>
+            <span className="px-2.5 py-1 rounded bg-background-surface/90 border border-white/[0.08] text-[11px] text-white/90 font-mono">Email</span>
+            <span className="px-2.5 py-1 rounded bg-background-surface/90 border border-white/[0.08] text-[11px] text-white/90 font-mono">Calendar</span>
+            <span className="px-2.5 py-1 rounded bg-background-surface/90 border border-white/[0.08] text-[11px] text-white/90 font-mono">People</span>
+            <span className="px-2.5 py-1 rounded bg-background-surface/90 border border-white/[0.08] text-[11px] text-white/90 font-mono">Tasks</span>
+            <span className="px-2.5 py-1 rounded bg-background-surface/90 border border-white/[0.08] text-[11px] text-white/90 font-mono">Files</span>
+            <span className="px-2.5 py-1 rounded bg-background-surface/90 border border-white/[0.08] text-[11px] text-white/90 font-mono">Reminders</span>
+            <span className="px-2.5 py-1 rounded bg-background-surface/90 border border-white/[0.08] text-[11px] text-white/90 font-mono">Voice</span>
+            <span className="px-2.5 py-1 rounded bg-background-surface/90 border border-white/[0.08] text-[11px] text-white/90 font-mono">Memory</span>
           </div>
         </div>
 

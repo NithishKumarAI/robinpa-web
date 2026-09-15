@@ -76,26 +76,26 @@ export const SafetyReviewCard = React.forwardRef<HTMLDivElement, SafetyReviewCar
           </span>
 
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              className="px-2.5 py-1 rounded text-xs text-foreground-muted bg-white/[0.04] border border-white/[0.08] cursor-default inline-flex items-center gap-1"
-              aria-label="Cancel (demonstration only)"
+            <span
+              className="px-2.5 py-1 rounded text-xs text-foreground-muted bg-white/[0.04] border border-white/[0.08] cursor-default select-none pointer-events-none inline-flex items-center gap-1"
+              role="presentation"
+              aria-hidden="true"
             >
               <X size={11} />
               <span>Cancel</span>
-            </button>
-            <button
-              type="button"
-              className={`px-3 py-1 rounded text-xs font-medium transition-all duration-200 cursor-default inline-flex items-center gap-1 ${
+            </span>
+            <span
+              className={`px-3 py-1 rounded text-xs font-medium transition-all duration-200 cursor-default select-none pointer-events-none inline-flex items-center gap-1 ${
                 isApproved
                   ? "bg-brand-violet text-white shadow-[0_0_12px_rgba(139,92,246,0.6)]"
-                  : "bg-white text-black hover:bg-neutral-200"
+                  : "bg-white text-black"
               }`}
-              aria-label="Approve (demonstration only)"
+              role="presentation"
+              aria-hidden="true"
             >
               <Check size={11} />
               <span>{isApproved ? "Approved" : "Approve"}</span>
-            </button>
+            </span>
           </div>
         </div>
       </div>
