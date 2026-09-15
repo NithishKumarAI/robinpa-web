@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, ShieldCheck, FileText, HelpCircle, ExternalLink } from "lucide-react";
+import { ArrowLeft, ShieldCheck, FileText, HelpCircle } from "lucide-react";
 import { Container } from "../ui/Container";
-import { SITE_NAME, GITHUB_REPO_URL } from "@/config/site";
+import { SITE_NAME, LAST_UPDATED } from "@/config/site";
 
 interface LegalPageProps {
   title: string;
@@ -16,7 +16,7 @@ export function LegalPage({
   title,
   subtitle,
   badge,
-  lastUpdated = "March 2026",
+  lastUpdated = LAST_UPDATED,
   children,
 }: LegalPageProps) {
   return (
@@ -125,15 +125,6 @@ export function LegalPage({
             <Link href="/support" className="hover:text-foreground-muted transition-colors">
               Support
             </Link>
-            <span>&bull;</span>
-            <a
-              href={GITHUB_REPO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-foreground-muted transition-colors inline-flex items-center gap-1"
-            >
-              GitHub <ExternalLink className="w-2.5 h-2.5 opacity-60" />
-            </a>
           </div>
         </Container>
       </footer>

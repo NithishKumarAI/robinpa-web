@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/legal/LegalPage";
-import { SUPPORT_EMAIL, GITHUB_REPO_URL } from "@/config/site";
+import { SUPPORT_EMAIL, LAST_UPDATED } from "@/config/site";
 import {
   HelpCircle,
   Cpu,
@@ -24,8 +24,8 @@ export default function SupportPage() {
     <LegalPage
       badge="Documentation &amp; Help"
       title="Robin Support"
-      subtitle="Guides, troubleshooting, and practical instructions for running Robin on your Windows PC."
-      lastUpdated="March 2026"
+      subtitle="Practical guides, setup steps, and troubleshooting for running Robin on your Windows PC."
+      lastUpdated={LAST_UPDATED}
     >
       {/* Quick Navigation Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
@@ -40,7 +40,7 @@ export default function SupportPage() {
             <h3 className="text-sm font-medium text-white group-hover:text-brand-violet transition-colors">
               Getting Started
             </h3>
-            <p className="text-xs text-foreground-muted mt-0.5">System requirements and installation</p>
+            <p className="text-xs text-foreground-muted mt-0.5">Platform notes and initial setup</p>
           </div>
         </a>
 
@@ -97,15 +97,14 @@ export default function SupportPage() {
           1. Getting Started
         </h2>
         <p>
-          Robin is a desktop personal assistant engineered specifically for Windows.
+          Robin is a desktop application designed specifically for the Windows environment.
         </p>
         <div className="space-y-2 text-xs text-foreground-muted">
-          <h3 className="text-sm font-semibold text-white">System Requirements</h3>
+          <h3 className="text-sm font-semibold text-white">Platform &amp; Prerequisites</h3>
           <ul className="list-disc pl-5 space-y-1">
-            <li><strong className="text-white/90">OS:</strong> Windows 10 (64-bit) or Windows 11</li>
-            <li><strong className="text-white/90">RAM:</strong> 8 GB minimum (16 GB recommended for local Ollama models)</li>
-            <li><strong className="text-white/90">Disk Space:</strong> ~200 MB for Robin application; additional space if caching local voice or Ollama models</li>
-            <li><strong className="text-white/90">Audio:</strong> Working microphone and speakers for voice features</li>
+            <li><strong className="text-white/90">Operating System:</strong> Windows (64-bit).</li>
+            <li><strong className="text-white/90">Audio Input:</strong> A working microphone and speaker output if you wish to use voice interaction.</li>
+            <li><strong className="text-white/90">Internet Access:</strong> Required for cloud models (Gemini) or connected Google services. Not required for offline local Ollama operation.</li>
           </ul>
         </div>
       </section>
@@ -117,25 +116,24 @@ export default function SupportPage() {
           2. Google Workspace Setup
         </h2>
         <p>
-          Robin integrates with Gmail, Google Calendar, Google Tasks, and Google Contacts to help you plan
-          and coordinate your day without jumping between browser tabs.
+          Robin connects to Gmail, Google Calendar, Google Tasks, and Google Contacts through standard OAuth authorization.
         </p>
         <ol className="list-decimal pl-5 space-y-2 text-xs text-foreground-muted">
           <li>
-            <strong className="text-white/90">Open Settings:</strong> In the Robin desktop app, click the Settings gear icon.
+            <strong className="text-white/90">Open Settings:</strong> In the Robin application, navigate to the Settings panel.
           </li>
           <li>
-            <strong className="text-white/90">Select Connect Google:</strong> Click &quot;Connect Google Account&quot;. A browser window will open displaying Google&apos;s standard OAuth sign-in screen.
+            <strong className="text-white/90">Connect Google Account:</strong> Click &quot;Connect Google Account&quot; to open the sign-in page in your default web browser.
           </li>
           <li>
-            <strong className="text-white/90">Authorize Permissions:</strong> Review the requested scopes (Gmail compose/readonly/modify, Calendar events, Tasks, and Contacts) and grant access.
+            <strong className="text-white/90">Authorize Access:</strong> Review the requested scopes (Gmail drafts and messages, Calendar events, Tasks, and Contacts) and click Allow.
           </li>
           <li>
-            <strong className="text-white/90">Confirmation:</strong> The browser will confirm authentication and redirect to Robin. Tokens are saved securely to your Windows Credential Manager.
+            <strong className="text-white/90">Secure Storage:</strong> Robin receives OAuth tokens and stores them in your Windows Credential Manager under the service name <code className="font-mono text-white/90">Robin</code>.
           </li>
         </ol>
         <div className="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] text-xs text-foreground-muted">
-          <strong className="text-white font-medium">To Disconnect:</strong> Open Robin Settings &gt; Google Status &gt; click &quot;Disconnect&quot;. This immediately removes your OAuth credentials from your device.
+          <strong className="text-white font-medium">To Disconnect:</strong> In Robin Settings under Google Status, click &quot;Disconnect&quot; to remove your stored credentials immediately.
         </div>
       </section>
 
@@ -146,12 +144,11 @@ export default function SupportPage() {
           3. Local AI (Ollama)
         </h2>
         <p>
-          If you prefer your conversations and assistant reasoning to stay entirely on your device, Robin
-          connects directly to Ollama.
+          If you want all assistant reasoning to run on your local PC, configure Robin to use Ollama:
         </p>
         <ol className="list-decimal pl-5 space-y-2 text-xs text-foreground-muted">
           <li>
-            <strong className="text-white/90">Install Ollama:</strong> Download Ollama for Windows from{" "}
+            <strong className="text-white/90">Install Ollama:</strong> Install Ollama from{" "}
             <a
               href="https://ollama.com"
               target="_blank"
@@ -162,13 +159,13 @@ export default function SupportPage() {
             </a>.
           </li>
           <li>
-            <strong className="text-white/90">Pull a Model:</strong> Open PowerShell or Windows Terminal and run:
+            <strong className="text-white/90">Download a Model:</strong> Open Windows Terminal or Command Prompt and run:
             <pre className="mt-1.5 p-2 rounded bg-black/50 border border-white/[0.08] font-mono text-[11px] text-white/90">
               ollama pull llama3:latest
             </pre>
           </li>
           <li>
-            <strong className="text-white/90">Select in Robin:</strong> In Robin Settings &gt; Model Provider, choose &quot;Local (Ollama)&quot; and ensure the host is set to <code className="font-mono text-white/90">http://localhost:11434</code>.
+            <strong className="text-white/90">Verify Endpoint:</strong> Ensure Ollama is running at <code className="font-mono text-white/90">http://localhost:11434</code>. In Robin Settings, choose &quot;Local (Ollama)&quot;.
           </li>
         </ol>
       </section>
@@ -180,26 +177,17 @@ export default function SupportPage() {
           4. Cloud AI (Google Gemini)
         </h2>
         <p>
-          For advanced reasoning, complex scheduling, or faster token generation on lighter laptops, you can
-          connect Google Gemini.
+          If you prefer cloud model reasoning, Robin supports Google Gemini:
         </p>
         <ol className="list-decimal pl-5 space-y-2 text-xs text-foreground-muted">
           <li>
-            <strong className="text-white/90">Get an API Key:</strong> Obtain a Gemini API key from{" "}
-            <a
-              href="https://aistudio.google.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-brand-violet hover:underline inline-flex items-center gap-0.5"
-            >
-              Google AI Studio <ExternalLink className="w-2.5 h-2.5 opacity-70" />
-            </a>.
+            <strong className="text-white/90">API Key:</strong> Generate an API key from Google AI Studio.
           </li>
           <li>
-            <strong className="text-white/90">Enter in Robin:</strong> Navigate to Robin Settings &gt; Model Provider &gt; choose &quot;Cloud (Gemini)&quot; and paste your API key.
+            <strong className="text-white/90">Enter Key:</strong> In Robin Settings, select &quot;Cloud (Gemini)&quot; and enter your API key.
           </li>
           <li>
-            <strong className="text-white/90">Routing:</strong> Robin uses the fast, capable <code className="font-mono text-white/90">gemini-3.1-flash-lite</code> model by default.
+            <strong className="text-white/90">Model:</strong> Robin connects directly to Gemini for assistant completions.
           </li>
         </ol>
       </section>
@@ -211,17 +199,17 @@ export default function SupportPage() {
           5. Voice &amp; Hands-Free Interaction
         </h2>
         <p>
-          Robin features an on-device streaming audio pipeline.
+          Robin features an on-device streaming voice pipeline:
         </p>
         <ul className="list-disc pl-5 space-y-1.5 text-xs text-foreground-muted">
           <li>
-            <strong className="text-white/90">Wake Word:</strong> Speak &quot;Robin&quot; clearly into your microphone to activate listening.
+            <strong className="text-white/90">Wake Word:</strong> Speak &quot;Robin&quot; clearly to activate listening.
           </li>
           <li>
-            <strong className="text-white/90">Microphone Permission:</strong> Windows may prompt you to allow Robin to access your microphone. Ensure microphone permissions are enabled in Windows Settings &gt; Privacy &amp; security &gt; Microphone.
+            <strong className="text-white/90">Microphone Access:</strong> Ensure Windows Settings &gt; Privacy &amp; security &gt; Microphone allows desktop apps access.
           </li>
           <li>
-            <strong className="text-white/90">Privacy:</strong> Audio frames are processed in-memory for speech recognition and are not uploaded to external servers or saved as audio files.
+            <strong className="text-white/90">Audio Processing:</strong> Audio frames are processed in-memory locally on your CPU for wake-word spotting and speech recognition.
           </li>
         </ul>
       </section>
@@ -233,16 +221,13 @@ export default function SupportPage() {
           6. Scoped Workspace &amp; Files
         </h2>
         <p>
-          Robin allows you to ask questions about your documents, summarize notes, or review drafts.
-          By default, file tools are sandboxed to:
+          Robin allows you to summarize and reference files in its designated workspace directory:
         </p>
         <pre className="p-2.5 rounded bg-black/50 border border-white/[0.08] font-mono text-xs text-white/90">
           C:\RobinWorkspace
         </pre>
         <p className="text-xs text-foreground-muted">
-          Place files you want Robin to reference into this directory. Robin will not read or scan files
-          outside of this folder. You can change this path in Robin Settings or by setting the{" "}
-          <code className="font-mono text-white/90">ROBIN_WORKSPACE_PATH</code> environment variable.
+          Robin does not search outside this folder. You can configure a different directory path in Robin Settings.
         </p>
       </section>
 
@@ -253,20 +238,13 @@ export default function SupportPage() {
           7. Action Approvals (Human-in-the-Loop)
         </h2>
         <p>
-          Robin distinguishes between <em>reading</em> information and <em>changing</em> something.
+          Robin requires explicit human review before performing mutating actions.
         </p>
         <div className="p-4 rounded-lg bg-white/[0.02] border border-white/[0.06] text-xs text-foreground-muted space-y-2">
-          <p className="text-white font-medium">How Approvals Work:</p>
           <ul className="list-disc pl-4 space-y-1">
-            <li>
-              <strong className="text-white/90">Read Actions:</strong> Checking today&apos;s schedule, searching email headers, or reading workspace files happen seamlessly without unnecessary prompts.
-            </li>
-            <li>
-              <strong className="text-white/90">Mutating Actions:</strong> Sending an email, scheduling a meeting, or editing tasks will pause at a visual approval card.
-            </li>
-            <li>
-              <strong className="text-white/90">Review &amp; Confirmation:</strong> You inspect the details. Robin only executes when you click &quot;Approve&quot;. If you click &quot;Cancel&quot;, the action is discarded immediately.
-            </li>
+            <li><strong className="text-white/90">Reading Data:</strong> Checking your calendar, listing tasks, or reading workspace files does not require approval gates.</li>
+            <li><strong className="text-white/90">Modifying Data:</strong> Sending an email, altering a calendar event, or updating tasks presents an approval card with action parameters.</li>
+            <li><strong className="text-white/90">Confirmation:</strong> Robin only executes when you click &quot;Approve&quot;. Clicking &quot;Cancel&quot; discards the proposed action.</li>
           </ul>
         </div>
       </section>
@@ -275,67 +253,48 @@ export default function SupportPage() {
       <section id="troubleshooting" className="space-y-3 pt-6">
         <h2 className="text-xl font-semibold text-white tracking-tight flex items-center gap-2">
           <AlertTriangle className="w-5 h-5 text-amber-400" />
-          8. Troubleshooting &amp; FAQs
+          8. Common Troubleshooting
         </h2>
         <div className="space-y-3 pt-1">
           <div className="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] space-y-1 text-xs">
-            <h3 className="font-semibold text-white">Q: Robin reports &quot;Ollama connection failed&quot;</h3>
+            <h3 className="font-semibold text-white">Q: Ollama connection error</h3>
             <p className="text-foreground-muted">
-              Make sure Ollama is running in your Windows system tray or background. You can test it by opening
-              your browser and visiting <code className="font-mono text-white/90">http://localhost:11434</code>. You
-              should see &quot;Ollama is running&quot;.
+              Verify that Ollama is running on your machine by opening a browser to <code className="font-mono text-white/90">http://localhost:11434</code>. You should see &quot;Ollama is running&quot;.
             </p>
           </div>
 
           <div className="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] space-y-1 text-xs">
-            <h3 className="font-semibold text-white">Q: Google credentials expired or needs re-authentication</h3>
+            <h3 className="font-semibold text-white">Q: Google authorization expired</h3>
             <p className="text-foreground-muted">
-              Google OAuth tokens expire or refresh automatically. If re-authentication is needed, open Settings &gt;
-              Google Status, click &quot;Disconnect&quot;, and re-connect to renew permissions cleanly.
+              If an authorization error occurs, open Robin Settings &gt; Google Status, click &quot;Disconnect&quot;, and re-connect your account to refresh tokens.
             </p>
           </div>
 
           <div className="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] space-y-1 text-xs">
-            <h3 className="font-semibold text-white">Q: Microphone not detecting voice wake word</h3>
+            <h3 className="font-semibold text-white">Q: Wake word not triggering</h3>
             <p className="text-foreground-muted">
-              Verify that your Windows Default Input Device is set to your active microphone. In Windows Settings &gt;
-              System &gt; Sound &gt; Input, test your microphone input volume.
+              Check your microphone volume in Windows Settings &gt; System &gt; Sound &gt; Input. Ensure the microphone is not muted and that Robin has microphone permission.
             </p>
           </div>
         </div>
       </section>
 
-      {/* 9. Contact & Help */}
+      {/* 9. Contact */}
       <section id="contact" className="space-y-3 pt-6 border-t border-white/[0.08]">
-        <h2 className="text-xl font-semibold text-white tracking-tight">9. Contact &amp; Community Help</h2>
-        <p>
-          Robin is actively maintained and stabilized. If you encounter bugs, unexpected behavior, or need help:
-        </p>
+        <h2 className="text-xl font-semibold text-white tracking-tight">9. Support Contact</h2>
         <div className="p-4 rounded-lg bg-white/[0.02] border border-white/[0.06] text-xs space-y-2">
           {SUPPORT_EMAIL ? (
             <p className="text-foreground-muted">
-              Reach out to our support team at:{" "}
+              For technical support, reach out to:{" "}
               <a href={`mailto:${SUPPORT_EMAIL}`} className="text-brand-violet hover:underline">
                 {SUPPORT_EMAIL}
               </a>
             </p>
           ) : (
-            <div className="space-y-1.5">
-              <p className="text-foreground-muted">
-                Issue reports, bug inquiries, and feature suggestions can be filed directly on our public GitHub repository:
-              </p>
-              <a
-                href={`${GITHUB_REPO_URL}/issues`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-brand-violet hover:underline inline-flex items-center gap-1 font-mono"
-              >
-                {GITHUB_REPO_URL}/issues <ExternalLink className="w-3 h-3" />
-              </a>
-              <p className="text-foreground-subtle text-[11px] pt-1">
-                Direct email support mailboxes will become available alongside the public Windows installer release.
-              </p>
-            </div>
+            <p className="text-foreground-muted leading-relaxed">
+              Official support mailboxes will be announced on this website prior to the public Windows release.
+              Early preview testers may submit feedback through their designated communication channels.
+            </p>
           )}
         </div>
       </section>
