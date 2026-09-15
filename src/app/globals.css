@@ -25,6 +25,12 @@ body {
   color: #FFFFFF;
 }
 
+/* Accessible focus visibility across dark background */
+:focus-visible {
+  outline: 2px solid rgba(167, 139, 250, 0.9);
+  outline-offset: 3px;
+}
+
 /* Lenis smooth scroll standard styling */
 html.lenis,
 html.lenis body {

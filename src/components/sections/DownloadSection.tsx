@@ -81,7 +81,7 @@ export function DownloadSection() {
             className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-6 py-3 text-xs sm:text-sm font-medium text-foreground-muted hover:text-white bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.08] hover:border-white/[0.16] rounded transition-all duration-150"
             aria-label="Back to top of page"
           >
-            <ArrowUp size={13} />
+            <ArrowUp size={13} aria-hidden="true" />
             <span>Back to top</span>
           </a>
         </motion.div>

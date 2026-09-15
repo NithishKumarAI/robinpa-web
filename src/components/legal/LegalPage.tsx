@@ -31,13 +31,13 @@ export function LegalPage({
               aria-label="Return to Robin homepage"
             >
               <div className="w-6 h-6 rounded-md bg-white/[0.04] border border-white/[0.08] flex items-center justify-center group-hover:border-white/20 transition-colors">
-                <ArrowLeft className="w-3.5 h-3.5 text-foreground-muted group-hover:text-white transition-colors" />
+                <ArrowLeft className="w-3.5 h-3.5 text-foreground-muted group-hover:text-white transition-colors" aria-hidden="true" />
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-brand-violet shadow-[0_0_8px_rgba(139,92,246,0.9)]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-violet shadow-[0_0_8px_rgba(139,92,246,0.9)]" aria-hidden="true" />
                 <span className="font-semibold text-white tracking-tight text-sm">{SITE_NAME}</span>
               </div>
-              <span className="text-foreground-subtle hidden sm:inline">&bull; Home</span>
+              <span className="text-foreground-subtle hidden sm:inline" aria-hidden="true">&bull; Home</span>
             </Link>
           </div>
 
@@ -47,21 +47,21 @@ export function LegalPage({
               href="/privacy"
               className="hover:text-white transition-colors flex items-center gap-1.5"
             >
-              <ShieldCheck className="w-3.5 h-3.5 opacity-70" />
+              <ShieldCheck className="w-3.5 h-3.5 opacity-70" aria-hidden="true" />
               <span className="hidden sm:inline">Privacy</span>
             </Link>
             <Link
               href="/terms"
               className="hover:text-white transition-colors flex items-center gap-1.5"
             >
-              <FileText className="w-3.5 h-3.5 opacity-70" />
+              <FileText className="w-3.5 h-3.5 opacity-70" aria-hidden="true" />
               <span className="hidden sm:inline">Terms</span>
             </Link>
             <Link
               href="/support"
               className="hover:text-white transition-colors flex items-center gap-1.5"
             >
-              <HelpCircle className="w-3.5 h-3.5 opacity-70" />
+              <HelpCircle className="w-3.5 h-3.5 opacity-70" aria-hidden="true" />
               <span>Support</span>
             </Link>
           </nav>
@@ -69,7 +69,7 @@ export function LegalPage({
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-1 py-12 sm:py-16">
+      <main id="main-content" tabIndex={-1} className="flex-1 py-12 sm:py-16 outline-none">
         <Container size="narrow" className="max-w-3xl">
           {/* Header Block */}
           <div className="mb-12 border-b border-white/[0.08] pb-8">

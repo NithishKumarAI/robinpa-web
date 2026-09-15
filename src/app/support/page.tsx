@@ -14,9 +14,12 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Support & Getting Started | Robin",
+  title: "Support & Getting Started",
   description:
     "Setup guides, troubleshooting, and support documentation for Robin V1 on Windows. Configure Ollama, Google Workspace, Gemini, and voice interaction.",
+  alternates: {
+    canonical: "/support",
+  },
 };
 
 export default function SupportPage() {
@@ -34,7 +37,7 @@ export default function SupportPage() {
           className="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] hover:border-white/20 transition-colors flex items-start gap-3 group"
         >
           <div className="p-2 rounded bg-brand-violet/10 text-brand-violet mt-0.5">
-            <HelpCircle className="w-4 h-4" />
+            <HelpCircle className="w-4 h-4" aria-hidden="true" />
           </div>
           <div>
             <h3 className="text-sm font-medium text-white group-hover:text-brand-violet transition-colors">
@@ -49,7 +52,7 @@ export default function SupportPage() {
           className="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] hover:border-white/20 transition-colors flex items-start gap-3 group"
         >
           <div className="p-2 rounded bg-brand-indigo/10 text-brand-indigo mt-0.5">
-            <Mail className="w-4 h-4" />
+            <Mail className="w-4 h-4" aria-hidden="true" />
           </div>
           <div>
             <h3 className="text-sm font-medium text-white group-hover:text-brand-indigo transition-colors">
@@ -64,7 +67,7 @@ export default function SupportPage() {
           className="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] hover:border-white/20 transition-colors flex items-start gap-3 group"
         >
           <div className="p-2 rounded bg-brand-violet/10 text-brand-violet mt-0.5">
-            <Cpu className="w-4 h-4" />
+            <Cpu className="w-4 h-4" aria-hidden="true" />
           </div>
           <div>
             <h3 className="text-sm font-medium text-white group-hover:text-brand-violet transition-colors">
@@ -79,7 +82,7 @@ export default function SupportPage() {
           className="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] hover:border-white/20 transition-colors flex items-start gap-3 group"
         >
           <div className="p-2 rounded bg-brand-magenta/10 text-brand-magenta mt-0.5">
-            <Mic className="w-4 h-4" />
+            <Mic className="w-4 h-4" aria-hidden="true" />
           </div>
           <div>
             <h3 className="text-sm font-medium text-white group-hover:text-brand-magenta transition-colors">
@@ -93,7 +96,7 @@ export default function SupportPage() {
       {/* 1. Getting Started */}
       <section id="getting-started" className="space-y-3 pt-6">
         <h2 className="text-xl font-semibold text-white tracking-tight flex items-center gap-2">
-          <HelpCircle className="w-5 h-5 text-brand-violet" />
+          <HelpCircle className="w-5 h-5 text-brand-violet" aria-hidden="true" />
           1. Getting Started
         </h2>
         <p>
@@ -112,7 +115,7 @@ export default function SupportPage() {
       {/* 2. Connecting Google Services */}
       <section id="google-services" className="space-y-3 pt-6">
         <h2 className="text-xl font-semibold text-white tracking-tight flex items-center gap-2">
-          <Mail className="w-5 h-5 text-brand-indigo" />
+          <Mail className="w-5 h-5 text-brand-indigo" aria-hidden="true" />
           2. Google Workspace Setup
         </h2>
         <p>
@@ -140,7 +143,7 @@ export default function SupportPage() {
       {/* 3. Local AI with Ollama */}
       <section id="local-ai" className="space-y-3 pt-6">
         <h2 className="text-xl font-semibold text-white tracking-tight flex items-center gap-2">
-          <Cpu className="w-5 h-5 text-brand-violet" />
+          <Cpu className="w-5 h-5 text-brand-violet" aria-hidden="true" />
           3. Local AI (Ollama)
         </h2>
         <p>
@@ -155,7 +158,7 @@ export default function SupportPage() {
               rel="noopener noreferrer"
               className="text-brand-violet hover:underline inline-flex items-center gap-0.5"
             >
-              ollama.com <ExternalLink className="w-2.5 h-2.5 opacity-70" />
+              ollama.com <ExternalLink className="w-2.5 h-2.5 opacity-70" aria-hidden="true" />
             </a>.
           </li>
           <li>
@@ -170,7 +173,7 @@ export default function SupportPage() {
       {/* 4. Cloud AI (Gemini) */}
       <section id="cloud-ai" className="space-y-3 pt-6">
         <h2 className="text-xl font-semibold text-white tracking-tight flex items-center gap-2">
-          <Cloud className="w-5 h-5 text-brand-indigo" />
+          <Cloud className="w-5 h-5 text-brand-indigo" aria-hidden="true" />
           4. Cloud AI (Google Gemini)
         </h2>
         <p>
@@ -192,7 +195,7 @@ export default function SupportPage() {
       {/* 5. Voice & Wake Word */}
       <section id="voice" className="space-y-3 pt-6">
         <h2 className="text-xl font-semibold text-white tracking-tight flex items-center gap-2">
-          <Mic className="w-5 h-5 text-brand-magenta" />
+          <Mic className="w-5 h-5 text-brand-magenta" aria-hidden="true" />
           5. Voice &amp; Hands-Free Interaction
         </h2>
         <p>
@@ -214,7 +217,7 @@ export default function SupportPage() {
       {/* 6. Scoped Workspace */}
       <section id="workspace" className="space-y-3 pt-6">
         <h2 className="text-xl font-semibold text-white tracking-tight flex items-center gap-2">
-          <Folder className="w-5 h-5 text-brand-violet" />
+          <Folder className="w-5 h-5 text-brand-violet" aria-hidden="true" />
           6. Scoped Workspace &amp; Files
         </h2>
         <p>
@@ -231,7 +234,7 @@ export default function SupportPage() {
       {/* 7. Action Approvals */}
       <section id="approvals" className="space-y-3 pt-6">
         <h2 className="text-xl font-semibold text-white tracking-tight flex items-center gap-2">
-          <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+          <CheckCircle2 className="w-5 h-5 text-emerald-400" aria-hidden="true" />
           7. Action Approvals (Human-in-the-Loop)
         </h2>
         <p>
@@ -249,7 +252,7 @@ export default function SupportPage() {
       {/* 8. Troubleshooting */}
       <section id="troubleshooting" className="space-y-3 pt-6">
         <h2 className="text-xl font-semibold text-white tracking-tight flex items-center gap-2">
-          <AlertTriangle className="w-5 h-5 text-amber-400" />
+          <AlertTriangle className="w-5 h-5 text-amber-400" aria-hidden="true" />
           8. Common Troubleshooting
         </h2>
         <div className="space-y-3 pt-1">

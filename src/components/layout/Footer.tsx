@@ -18,28 +18,28 @@ export function Footer() {
         </div>
 
         {/* Real Navigation Destinations */}
-        <div className="flex items-center gap-6 text-[11px] font-mono text-foreground-subtle">
+        <nav aria-label="Legal and support links" className="flex items-center gap-6 text-[11px] font-mono text-foreground-subtle">
           <Link
             href="/privacy"
             className="hover:text-foreground-muted transition-colors"
           >
             Privacy
           </Link>
-          <span className="text-foreground-subtle/30">&bull;</span>
+          <span className="text-foreground-subtle/30" aria-hidden="true">&bull;</span>
           <Link
             href="/terms"
             className="hover:text-foreground-muted transition-colors"
           >
             Terms
           </Link>
-          <span className="text-foreground-subtle/30">&bull;</span>
+          <span className="text-foreground-subtle/30" aria-hidden="true">&bull;</span>
           <Link
             href="/support"
             className="hover:text-foreground-muted transition-colors"
           >
             Support
           </Link>
-        </div>
+        </nav>
       </Container>
     </footer>
   );

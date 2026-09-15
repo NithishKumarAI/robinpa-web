@@ -32,5 +32,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# qa screenshots
+# qa screenshots and profiles
 /qa-screenshots/
+/.chrome-qa-profile*/

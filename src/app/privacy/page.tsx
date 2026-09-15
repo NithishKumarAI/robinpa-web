@@ -3,9 +3,12 @@ import { LegalPage } from "@/components/legal/LegalPage";
 import { SUPPORT_EMAIL, LEGAL_EMAIL, LAST_UPDATED } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Robin",
+  title: "Privacy Policy",
   description:
     "Privacy policy for Robin V1, the Windows desktop personal AI assistant. Factual details on local storage, model providers, Google user data, and permissions.",
+  alternates: {
+    canonical: "/privacy",
+  },
 };
 
 export default function PrivacyPage() {

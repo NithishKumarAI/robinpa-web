@@ -3,6 +3,13 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 
+import {
+  SITE_NAME,
+  SITE_TAGLINE,
+  SITE_DESCRIPTION,
+  SITE_URL,
+} from "@/config/site";
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -10,9 +17,40 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Robin — Everyone's PA for Windows",
-  description:
-    "Robin — Everyone's PA. The Windows personal AI assistant. Your email. Your calendar. Your tasks. Your people. Your files. One conversation.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} — ${SITE_TAGLINE} for Windows`,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: `${SITE_NAME} — ${SITE_TAGLINE}. ${SITE_DESCRIPTION}`,
+  applicationName: SITE_NAME,
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — ${SITE_TAGLINE} for Windows`,
+    description: `${SITE_NAME} — ${SITE_TAGLINE}. ${SITE_DESCRIPTION}`,
+  },
+  twitter: {
+    card: "summary",
+    title: `${SITE_NAME} — ${SITE_TAGLINE} for Windows`,
+    description: `${SITE_NAME} — ${SITE_TAGLINE}. ${SITE_DESCRIPTION}`,
+  },
 };
 
 export default function RootLayout({
@@ -23,6 +61,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="bg-background text-foreground antialiased font-sans">
+        {/* Accessible Skip Navigation */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-background-surface focus:text-white focus:border focus:border-brand-violet/50 focus:rounded focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-violet font-mono text-xs"
+        >
+          Skip to content
+        </a>
         <SmoothScrollProvider>{children}</SmoothScrollProvider>
       </body>
     </html>

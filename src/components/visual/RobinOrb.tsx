@@ -62,6 +62,7 @@ export function RobinOrb({
   return (
     <div
       ref={containerRef}
+      aria-hidden="true"
       className={
         className ??
         "w-full h-72 sm:h-80 md:h-96 relative flex items-center justify-center pointer-events-none select-none"

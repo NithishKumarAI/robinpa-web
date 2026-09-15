@@ -3,9 +3,12 @@ import { LegalPage } from "@/components/legal/LegalPage";
 import { SUPPORT_EMAIL, LEGAL_EMAIL, LAST_UPDATED } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | Robin",
+  title: "Terms of Service",
   description:
     "Terms of service governing the use of Robin V1, the Windows desktop personal AI assistant, and related website services.",
+  alternates: {
+    canonical: "/terms",
+  },
 };
 
 export default function TermsPage() {

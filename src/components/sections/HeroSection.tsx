@@ -92,6 +92,7 @@ export function HeroSection() {
     >
       {/* Subtle ambient violet/indigo illumination behind orb */}
       <motion.div
+        aria-hidden="true"
         style={{
           x: prefersReduced ? 0 : glowParallaxX,
           y: prefersReduced ? 0 : glowParallaxY,
@@ -193,7 +194,7 @@ export function HeroSection() {
           aria-label="Scroll to Meet Robin"
         >
           <span>Scroll</span>
-          <div className="w-[1px] h-5 bg-white/[0.1] relative overflow-hidden">
+          <div className="w-[1px] h-5 bg-white/[0.1] relative overflow-hidden" aria-hidden="true">
             <motion.div
               animate={{
                 y: prefersReduced ? 0 : [0, 20, 0],

@@ -11,17 +11,19 @@ import { DownloadSection } from "@/components/sections/DownloadSection";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground selection:bg-brand-violet/25">
+    <div className="min-h-screen bg-background text-foreground selection:bg-brand-violet/25">
       <Navbar />
-      <HeroSection />
-      <MeetRobinSection />
-      <CapabilitiesSection />
-      <SafetySection />
-      <VoiceSection />
-      <MemorySection />
-      <LocalFirstSection />
-      <DownloadSection />
+      <main id="main-content" tabIndex={-1} className="outline-none">
+        <HeroSection />
+        <MeetRobinSection />
+        <CapabilitiesSection />
+        <SafetySection />
+        <VoiceSection />
+        <MemorySection />
+        <LocalFirstSection />
+        <DownloadSection />
+      </main>
       <Footer />
-    </main>
+    </div>
   );
 }

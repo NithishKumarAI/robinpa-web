@@ -33,7 +33,7 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-7 text-xs text-foreground-muted">
+        <nav aria-label="Primary navigation" className="hidden md:flex items-center gap-7 text-xs text-foreground-muted">
           {NAV_LINKS.map((link) => (
             <a
               key={link.label}
@@ -56,14 +56,20 @@ export function Navbar() {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="md:hidden p-1.5 text-foreground-muted hover:text-white"
           aria-label="Toggle Navigation"
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-nav-menu"
         >
-          {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+          {mobileMenuOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
         </button>
       </Container>
 
       {/* Mobile menu drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-background-surface/95 backdrop-blur-xl border-b border-white/[0.08] px-6 py-4 space-y-3">
+        <nav
+          id="mobile-nav-menu"
+          aria-label="Mobile navigation"
+          className="md:hidden bg-background-surface/95 backdrop-blur-xl border-b border-white/[0.08] px-6 py-4 space-y-3"
+        >
           {NAV_LINKS.map((link) => (
             <a
               key={link.label}
@@ -77,7 +83,7 @@ export function Navbar() {
           <div className="pt-3 border-t border-white/[0.06]">
             <DownloadButton variant="header" className="w-full justify-center" />
           </div>
-        </div>
+        </nav>
       )}
     </header>
   );
