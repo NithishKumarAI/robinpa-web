@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import { Container } from "../ui/Container";
-import { RobinOrb } from "../visual/RobinOrb";
 import { MemoryFragment } from "./memory/MemoryFragment";
 import { RecallConversation } from "./memory/RecallConversation";
 import { MemoryConnector } from "./memory/MemoryConnector";
@@ -281,7 +280,7 @@ export function MemorySection() {
     return (
       <section
         id="memory"
-        className="relative isolate w-full py-20 sm:py-24 bg-background border-b border-white/[0.06]"
+        className="relative isolate w-full py-20 sm:py-24 bg-transparent border-b border-white/[0.06]"
         aria-label="Robin Memory and Continuity System"
       >
         <Container size="narrow" className="flex flex-col items-center text-center">
@@ -295,10 +294,8 @@ export function MemorySection() {
             So you don&apos;t have to explain everything again. Preferences, people, and projects carried forward seamlessly.
           </p>
 
-          {/* Central Robin Orb */}
-          <div className="relative w-40 sm:w-48 aspect-square flex items-center justify-center my-6">
-            <RobinOrb className="w-full h-full" />
-          </div>
+          {/* Central Robin Orb Spacer */}
+          <div className="relative w-40 sm:w-48 aspect-square flex items-center justify-center my-6 pointer-events-none" aria-hidden="true" />
 
           {/* Memory Fragments Preview */}
           <div className="flex flex-wrap justify-center gap-3 max-w-lg mb-8">
@@ -336,7 +333,7 @@ export function MemorySection() {
     <section
       id="memory"
       ref={sectionRef}
-      className="relative isolate w-full h-[230vh] bg-background border-b border-white/[0.06]"
+      className="relative isolate w-full h-[230vh] bg-transparent border-b border-white/[0.06]"
       aria-label="Robin Memory and Continuity System"
     >
       {/* Pinned Viewport Scene (No sticky top-0, managed cleanly by ScrollTrigger) */}
@@ -461,13 +458,12 @@ export function MemorySection() {
             />
           </div>
 
-          {/* Central Orb Container */}
+          {/* Central Orb Layout Spacer */}
           <div
             ref={orbContainerRef}
             className="relative w-44 sm:w-56 md:w-64 aspect-square flex items-center justify-center z-10 pointer-events-none select-none"
-          >
-            <RobinOrb className="w-full h-full" />
-          </div>
+            aria-hidden="true"
+          />
         </div>
 
         {/* ============================================================= */}

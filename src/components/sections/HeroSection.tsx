@@ -9,7 +9,6 @@ import {
   useReducedMotion,
 } from "motion/react";
 import { Container } from "../ui/Container";
-import { RobinOrb } from "../visual/RobinOrb";
 import { DownloadButton } from "../ui/DownloadButton";
 import { trackMeetRobinClick } from "@/lib/analytics";
 
@@ -86,10 +85,11 @@ export function HeroSection() {
 
   return (
     <section
+      id="hero"
       ref={sectionRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative isolate min-h-[100svh] flex flex-col justify-between pt-20 sm:pt-24 pb-6 sm:pb-8 overflow-hidden border-b border-white/[0.06]"
+      className="relative isolate min-h-[100svh] flex flex-col justify-between pt-20 sm:pt-24 pb-6 sm:pb-8 overflow-hidden border-b border-white/[0.06] bg-transparent"
     >
       {/* Subtle ambient violet/indigo illumination behind orb */}
       <motion.div
@@ -126,7 +126,7 @@ export function HeroSection() {
               </span>
             </motion.div>
 
-            {/* Core Headline: Everyone's PA. */}
+            {/* Core Headline: ROBIN — Everyone's PA. */}
             <motion.div
               variants={itemVariants}
               style={{
@@ -134,7 +134,7 @@ export function HeroSection() {
                 y: prefersReduced ? 0 : textParallaxY,
               }}
             >
-              <h1 className="text-4xl sm:text-6xl md:text-7xl font-semibold tracking-tighter text-white leading-[1.05]">
+              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[clamp(2.75rem,6vw,5.25rem)] font-semibold tracking-tighter text-white leading-[1.04]">
                 Everyone&apos;s PA.
               </h1>
             </motion.div>
@@ -149,17 +149,16 @@ export function HeroSection() {
               <p className="text-white/90 font-medium">One conversation.</p>
             </motion.div>
 
-            {/* Focal Point: Robin Orb Placeholder */}
+            {/* Focal Point: Robin Orb Spacer Area */}
             <motion.div
               variants={itemVariants}
               style={{
                 x: prefersReduced ? 0 : orbParallaxX,
                 y: prefersReduced ? 0 : orbParallaxY,
               }}
-              className="my-2 sm:my-3 w-full max-w-[280px] sm:max-w-[340px] md:max-w-[380px] mx-auto"
-            >
-              <RobinOrb />
-            </motion.div>
+              className="my-2 sm:my-3 w-full h-44 sm:h-56 md:h-64 max-w-[280px] sm:max-w-[340px] md:max-w-[380px] mx-auto pointer-events-none"
+              aria-hidden="true"
+            />
 
             {/* Primary & Secondary CTAs */}
             <motion.div

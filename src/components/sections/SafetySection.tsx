@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import { Container } from "../ui/Container";
-import { RobinOrb } from "../visual/RobinOrb";
 import { ActionPipeline } from "./safety/ActionPipeline";
 import { ReadActionDemo } from "./safety/ReadActionDemo";
 import { SafetyReviewCard } from "./safety/SafetyReviewCard";
@@ -284,7 +283,7 @@ export function SafetySection() {
     return (
       <section
         id="safety"
-        className="relative isolate w-full py-20 sm:py-24 bg-background border-b border-white/[0.06]"
+        className="relative isolate w-full py-20 sm:py-24 bg-transparent border-b border-white/[0.06]"
         aria-label="Robin Safety and User Control System"
       >
         <Container size="narrow" className="flex flex-col items-center text-center">
@@ -302,10 +301,8 @@ export function SafetySection() {
             <ActionPipeline activeStep="review" isApproved={false} />
           </div>
 
-          {/* Central Robin Orb */}
-          <div className="relative w-40 sm:w-48 aspect-square flex items-center justify-center my-6">
-            <RobinOrb className="w-full h-full" />
-          </div>
+          {/* Central Robin Orb Spacer */}
+          <div className="relative w-40 sm:w-48 aspect-square flex items-center justify-center my-6 pointer-events-none" aria-hidden="true" />
 
           {/* Sequential showcase cards */}
           <div className="w-full max-w-xl flex flex-col gap-8 text-left mt-2">
@@ -348,7 +345,7 @@ export function SafetySection() {
     <section
       id="safety"
       ref={sectionRef}
-      className="relative isolate w-full h-[240vh] bg-background border-b border-white/[0.06]"
+      className="relative isolate w-full h-[240vh] bg-transparent border-b border-white/[0.06]"
       aria-label="Robin Safety and User Control System"
     >
       {/* Pinned Viewport Scene (No sticky top-0, managed cleanly by ScrollTrigger) */}
@@ -463,13 +460,12 @@ export function SafetySection() {
             } transition-all duration-300 pointer-events-none -z-0`}
           />
 
-          {/* Central Orb Container */}
+          {/* Central Orb Layout Spacer */}
           <div
             ref={orbContainerRef}
             className="relative w-44 sm:w-56 md:w-64 aspect-square flex items-center justify-center z-10 pointer-events-none select-none"
-          >
-            <RobinOrb className="w-full h-full" />
-          </div>
+            aria-hidden="true"
+          />
         </div>
 
         {/* ============================================================= */}

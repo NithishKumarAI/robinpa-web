@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import { Container } from "../ui/Container";
-import { RobinOrb } from "../visual/RobinOrb";
 import { ModelRouteCard, ActiveRoute } from "./local-first/ModelRouteCard";
 import { ConnectedServicesPills } from "./local-first/ConnectedServicesPills";
 import { RuntimeBoundary } from "./local-first/RuntimeBoundary";
@@ -271,7 +270,7 @@ export function LocalFirstSection() {
     return (
       <section
         id="local-first"
-        className="relative isolate w-full py-20 sm:py-24 bg-background border-b border-white/[0.06]"
+        className="relative isolate w-full py-20 sm:py-24 bg-transparent border-b border-white/[0.06]"
         aria-label="Robin Local First Architecture and Model Choice"
       >
         <Container size="narrow" className="flex flex-col items-center text-center">
@@ -285,10 +284,8 @@ export function LocalFirstSection() {
             Your assistant, memory, preferences and local workspace are managed by the desktop application. Run with local AI or connect a cloud model.
           </p>
 
-          {/* Central Robin Orb */}
-          <div className="relative w-40 sm:w-48 aspect-square flex items-center justify-center my-6">
-            <RobinOrb className="w-full h-full" />
-          </div>
+          {/* Central Robin Orb Spacer */}
+          <div className="relative w-40 sm:w-48 aspect-square flex items-center justify-center my-6 pointer-events-none" aria-hidden="true" />
 
           {/* Model Route & Services Cards in a clear vertical flow */}
           <div className="w-full max-w-lg flex flex-col gap-6 mt-2">
@@ -318,7 +315,7 @@ export function LocalFirstSection() {
     <section
       id="local-first"
       ref={sectionRef}
-      className="relative isolate w-full h-[220vh] bg-background border-b border-white/[0.06]"
+      className="relative isolate w-full h-[220vh] bg-transparent border-b border-white/[0.06]"
       aria-label="Robin Local First Architecture and Model Choice"
     >
       {/* Pinned Viewport Scene (No sticky top-0, managed cleanly by ScrollTrigger) */}
@@ -412,13 +409,12 @@ export function LocalFirstSection() {
           {/* Subtle runtime boundary vector */}
           <RuntimeBoundary activeRoute={activeRoute} />
 
-          {/* Central Orb Container */}
+          {/* Central Orb Layout Spacer */}
           <div
             ref={orbContainerRef}
             className="relative w-44 sm:w-56 md:w-64 aspect-square flex items-center justify-center z-10 pointer-events-none select-none"
-          >
-            <RobinOrb className="w-full h-full" />
-          </div>
+            aria-hidden="true"
+          />
         </div>
 
         {/* ============================================================= */}

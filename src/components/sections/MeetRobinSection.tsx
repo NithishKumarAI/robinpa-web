@@ -3,7 +3,6 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { Container } from "../ui/Container";
-import { RobinOrb } from "../visual/RobinOrb";
 import { DemoMessage } from "./meet-robin/DemoMessage";
 import { PersonCard } from "./meet-robin/PersonCard";
 import { ApprovalCard } from "./meet-robin/ApprovalCard";
@@ -253,7 +252,7 @@ export function MeetRobinSection() {
     return (
       <section
         id="meet-robin"
-        className="relative isolate w-full py-20 sm:py-28 bg-background border-b border-white/[0.06]"
+        className="relative isolate w-full py-20 sm:py-28 bg-transparent border-b border-white/[0.06]"
         aria-label="Meet Robin Interactive Showcase"
       >
         <Container size="narrow" className="flex flex-col items-center text-center">
@@ -267,10 +266,8 @@ export function MeetRobinSection() {
             Your personal assistant for the things you deal with every day.
           </p>
 
-          {/* Central Robin Orb */}
-          <div className="relative w-48 sm:w-56 aspect-square flex items-center justify-center my-8">
-            <RobinOrb className="w-full h-full" />
-          </div>
+          {/* Central Robin Orb Spacer */}
+          <div className="relative w-48 sm:w-56 aspect-square flex items-center justify-center my-8 pointer-events-none" aria-hidden="true" />
 
           {/* Sequential Showcase Cards */}
           <div className="w-full max-w-md flex flex-col gap-10 mt-2 text-left">
@@ -331,7 +328,7 @@ export function MeetRobinSection() {
     <section
       id="meet-robin"
       ref={sectionRef}
-      className="relative isolate w-full h-[250vh] bg-background border-b border-white/[0.06]"
+      className="relative isolate w-full h-[250vh] bg-transparent border-b border-white/[0.06]"
       aria-label="Meet Robin Interactive Showcase"
     >
       {/* Pinned Viewport Scene (No sticky top-0, managed cleanly by ScrollTrigger) */}
@@ -342,17 +339,17 @@ export function MeetRobinSection() {
         {/* Ambient illumination behind central scene */}
         <div
           ref={orbGlowRef}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[500px] h-[340px] sm:h-[500px] rounded-full bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.14)_0%,rgba(99,102,241,0.05)_45%,transparent_70%)] blur-2xl pointer-events-none -z-10"
+          className="absolute top-1/2 right-[20%] -translate-y-1/2 w-[340px] sm:w-[500px] h-[340px] sm:h-[500px] rounded-full bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.14)_0%,rgba(99,102,241,0.05)_45%,transparent_70%)] blur-2xl pointer-events-none -z-10"
         />
 
-        <Container size="narrow" className="relative w-full h-full flex flex-col items-center justify-center px-4 sm:px-6">
+        <Container size="default" className="relative w-full h-full flex flex-col items-center justify-center px-4 sm:px-6">
           
           {/* ============================================================= */}
           {/* MOMENT 1: Meet Robin (Intro) */}
           {/* ============================================================= */}
           <div
             ref={m1Ref}
-            className="absolute top-[12%] sm:top-[15%] text-center max-w-xl px-4 z-20 pointer-events-none"
+            className="absolute top-[12%] sm:top-[15%] text-center md:text-left md:left-8 lg:left-16 max-w-xl px-4 z-20 pointer-events-none"
           >
             <span className="font-mono text-xs uppercase tracking-widest text-brand-violet">
               01 / Introduction
@@ -370,7 +367,7 @@ export function MeetRobinSection() {
           {/* ============================================================= */}
           <div
             ref={m2Ref}
-            className="absolute top-[10%] sm:top-[12%] text-center max-w-md px-4 z-20 pointer-events-none opacity-0"
+            className="absolute top-[10%] sm:top-[12%] text-center md:text-left md:left-8 lg:left-16 max-w-md px-4 z-20 pointer-events-none opacity-0"
           >
             <span className="font-mono text-[11px] uppercase tracking-widest text-brand-indigo">
               02 / Direct Input
@@ -381,7 +378,7 @@ export function MeetRobinSection() {
           </div>
           <div
             ref={m2BubbleRef}
-            className="absolute bottom-[8%] sm:bottom-[10%] md:bottom-[12%] w-full flex justify-center px-4 z-20 opacity-0"
+            className="absolute bottom-[8%] sm:bottom-[10%] md:bottom-[12%] w-full flex justify-center md:justify-start md:left-8 lg:left-16 px-4 z-20 opacity-0"
           >
             <DemoMessage />
           </div>
@@ -391,18 +388,18 @@ export function MeetRobinSection() {
           {/* ============================================================= */}
           <div
             ref={m3Ref}
-            className="absolute top-[10%] sm:top-[12%] text-center max-w-md px-4 z-20 pointer-events-none opacity-0"
+            className="absolute top-[10%] sm:top-[12%] text-center md:text-left md:left-8 lg:left-16 max-w-md px-4 z-20 pointer-events-none opacity-0"
           >
             <span className="font-mono text-[11px] uppercase tracking-widest text-brand-violet">
               03 / People Context
             </span>
-            <p className="mt-1.5 text-base sm:text-xl font-medium tracking-tight text-white max-w-sm mx-auto">
+            <p className="mt-1.5 text-base sm:text-xl font-medium tracking-tight text-white max-w-sm mx-auto md:mx-0">
               Robin understands the people you&apos;ve confirmed &mdash; not just email addresses.
             </p>
           </div>
           <div
             ref={m3CardRef}
-            className="absolute bottom-[8%] sm:bottom-[10%] md:bottom-[12%] w-full flex justify-center px-4 z-20 opacity-0"
+            className="absolute bottom-[8%] sm:bottom-[10%] md:bottom-[12%] w-full flex justify-center md:justify-start md:left-8 lg:left-16 px-4 z-20 opacity-0"
           >
             <PersonCard />
           </div>
@@ -412,7 +409,7 @@ export function MeetRobinSection() {
           {/* ============================================================= */}
           <div
             ref={m4Ref}
-            className="absolute top-[9%] sm:top-[11%] text-center max-w-lg px-4 z-20 pointer-events-none opacity-0"
+            className="absolute top-[9%] sm:top-[11%] text-center md:text-left md:left-8 lg:left-16 max-w-lg px-4 z-20 pointer-events-none opacity-0"
           >
             <span className="font-mono text-[11px] uppercase tracking-widest text-brand-magenta">
               04 / Human In The Loop
@@ -426,21 +423,19 @@ export function MeetRobinSection() {
           </div>
           <div
             ref={m4CardRef}
-            className="absolute bottom-[7%] sm:bottom-[8%] md:bottom-[10%] w-full flex justify-center px-4 z-20 opacity-0"
+            className="absolute bottom-[7%] sm:bottom-[8%] md:bottom-[10%] w-full flex justify-center md:justify-start md:left-8 lg:left-16 px-4 z-20 opacity-0"
           >
             <ApprovalCard />
           </div>
 
           {/* ============================================================= */}
-          {/* CENTRAL ANCHOR: RobinOrb Container */}
+          {/* SCENE ANCHOR: RobinOrb Layout Reference */}
           {/* ============================================================= */}
           <div
             ref={orbContainerRef}
-            className="relative w-full max-w-[210px] sm:max-w-[250px] md:max-w-[280px] aspect-square flex items-center justify-center my-auto z-10 pointer-events-none select-none"
-          >
-            <RobinOrb className="w-full h-full" />
-          </div>
-
+            className="absolute right-[10%] lg:right-[15%] top-1/2 -translate-y-1/2 w-64 h-64 pointer-events-none select-none hidden md:block"
+            aria-hidden="true"
+          />
         </Container>
       </div>
     </section>

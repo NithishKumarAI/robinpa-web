@@ -3,12 +3,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import { Container } from "../ui/Container";
-import { RobinOrb, RobinOrbState } from "../visual/RobinOrb";
 import { VoiceVisualizer, VoiceState } from "./voice/VoiceVisualizer";
 import { VoiceStateBadge } from "./voice/VoiceStateBadge";
 import { TranscriptCard } from "./voice/TranscriptCard";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
+import { setRobinStateOverride } from "../visual/persistent-stage/stage-state";
 
 export function VoiceSection() {
   const prefersReducedMotion = useReducedMotion();
@@ -27,14 +27,6 @@ export function VoiceSection() {
 
   // Dynamic voice state for visualizer & transcript
   const [voiceState, setVoiceState] = useState<VoiceState>("idle");
-
-  const orbVoiceStateMap: Record<VoiceState, RobinOrbState> = {
-    idle: "idle",
-    listening: "listening",
-    thinking: "thinking",
-    speaking: "speaking",
-    conversation: "idle",
-  };
 
   useIsomorphicLayoutEffect(() => {
     if (prefersReducedMotion) return;
@@ -75,14 +67,19 @@ export function VoiceSection() {
                 const p = self.progress;
                 if (p < 0.22) {
                   setVoiceState("idle");
+                  setRobinStateOverride("idle");
                 } else if (p >= 0.22 && p < 0.48) {
                   setVoiceState("listening");
+                  setRobinStateOverride("listening");
                 } else if (p >= 0.48 && p < 0.72) {
                   setVoiceState("thinking");
+                  setRobinStateOverride("thinking");
                 } else if (p >= 0.72 && p < 0.88) {
                   setVoiceState("speaking");
+                  setRobinStateOverride("speaking");
                 } else {
                   setVoiceState("conversation");
+                  setRobinStateOverride("speaking");
                 }
               },
             },
@@ -209,14 +206,19 @@ export function VoiceSection() {
                 const p = self.progress;
                 if (p < 0.22) {
                   setVoiceState("idle");
+                  setRobinStateOverride("idle");
                 } else if (p >= 0.22 && p < 0.48) {
                   setVoiceState("listening");
+                  setRobinStateOverride("listening");
                 } else if (p >= 0.48 && p < 0.72) {
                   setVoiceState("thinking");
+                  setRobinStateOverride("thinking");
                 } else if (p >= 0.72 && p < 0.88) {
                   setVoiceState("speaking");
+                  setRobinStateOverride("speaking");
                 } else {
                   setVoiceState("conversation");
+                  setRobinStateOverride("speaking");
                 }
               },
             },
@@ -238,6 +240,7 @@ export function VoiceSection() {
 
     return () => {
       ctx.revert();
+      setRobinStateOverride(null);
     };
   }, [prefersReducedMotion]);
 
@@ -248,7 +251,7 @@ export function VoiceSection() {
     return (
       <section
         id="voice"
-        className="relative isolate w-full py-20 sm:py-24 bg-background border-b border-white/[0.06]"
+        className="relative isolate w-full py-20 sm:py-24 bg-transparent border-b border-white/[0.06]"
         aria-label="Robin Natural Voice Interaction System"
       >
         <Container size="narrow" className="flex flex-col items-center text-center">
@@ -269,9 +272,7 @@ export function VoiceSection() {
           {/* Central Robin Orb with visualizer */}
           <div className="relative w-44 sm:w-56 md:w-64 aspect-square flex items-center justify-center my-8">
             <VoiceVisualizer state="conversation" />
-            <div className="relative w-36 sm:w-44 aspect-square flex items-center justify-center z-10">
-              <RobinOrb className="w-full h-full" state={orbVoiceStateMap[voiceState]} />
-            </div>
+            <div className="relative w-36 sm:w-44 aspect-square flex items-center justify-center z-10 pointer-events-none" aria-hidden="true" />
           </div>
 
           {/* Conversation Transcript Card */}
@@ -290,7 +291,7 @@ export function VoiceSection() {
     <section
       id="voice"
       ref={sectionRef}
-      className="relative isolate w-full h-[230vh] bg-background border-b border-white/[0.06]"
+      className="relative isolate w-full h-[230vh] bg-transparent border-b border-white/[0.06]"
       aria-label="Robin Natural Voice Interaction System"
     >
       {/* Pinned Viewport Scene (No sticky top-0, managed cleanly by ScrollTrigger) */}
@@ -391,13 +392,12 @@ export function VoiceSection() {
           {/* Dynamic SVG Circular Waveform Visualizer around orb */}
           <VoiceVisualizer state={voiceState} />
 
-          {/* Central Orb Container */}
+          {/* Central Orb Layout Spacer */}
           <div
             ref={orbContainerRef}
             className="relative w-44 sm:w-56 md:w-64 aspect-square flex items-center justify-center z-10 pointer-events-none select-none"
-          >
-            <RobinOrb className="w-full h-full" state={orbVoiceStateMap[voiceState]} />
-          </div>
+            aria-hidden="true"
+          />
         </div>
 
         {/* ============================================================= */}

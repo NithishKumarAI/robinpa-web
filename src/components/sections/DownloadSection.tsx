@@ -3,7 +3,6 @@
 import React, { useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Container } from "../ui/Container";
-import { RobinOrb } from "../visual/RobinOrb";
 import { DownloadButton } from "../ui/DownloadButton";
 import { ArrowUp } from "lucide-react";
 import { ROBIN_VERSION, ROBIN_PLATFORM } from "@/config/download";
@@ -21,7 +20,7 @@ export function DownloadSection() {
     <section
       id="download"
       ref={sectionRef}
-      className="relative isolate min-h-[100svh] py-24 sm:py-32 flex flex-col items-center justify-center overflow-hidden border-b-0 bg-background"
+      className="relative isolate min-h-[100svh] py-24 sm:py-32 flex flex-col items-center justify-center overflow-hidden border-b-0 bg-transparent"
       aria-label="Download Robin for Windows"
     >
       {/* Restrained central ambient glow behind the final orb */}
@@ -47,21 +46,20 @@ export function DownloadSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-4xl sm:text-6xl md:text-7xl font-semibold tracking-tighter text-white leading-[1.06] max-w-2xl"
+          className="text-5xl sm:text-7xl md:text-8xl font-semibold tracking-tighter text-white leading-[1.04] max-w-2xl"
         >
           Meet Robin.
         </motion.h2>
 
-        {/* Final Robin Orb Anchor */}
+        {/* Final Robin Orb Spacer Area */}
         <motion.div
           initial={{ opacity: 0, scale: prefersReduced ? 1 : 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="my-8 sm:my-10 w-full max-w-[260px] sm:max-w-[320px] aspect-square flex items-center justify-center mx-auto"
-        >
-          <RobinOrb className="w-full h-full" />
-        </motion.div>
+          className="my-8 sm:my-10 w-full max-w-[260px] sm:max-w-[320px] aspect-square flex items-center justify-center mx-auto pointer-events-none"
+          aria-hidden="true"
+        />
 
         {/* Actions: Primary Download + Secondary Back to Top */}
         <motion.div

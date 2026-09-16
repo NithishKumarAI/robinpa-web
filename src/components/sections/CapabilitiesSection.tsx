@@ -3,7 +3,6 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { Container } from "../ui/Container";
-import { RobinOrb } from "../visual/RobinOrb";
 import { CapabilityNode } from "./capabilities/CapabilityNode";
 import {
   CommunicationDemo,
@@ -388,7 +387,7 @@ export function CapabilitiesSection() {
     return (
       <section
         id="capabilities"
-        className="relative isolate w-full py-20 sm:py-24 bg-background border-b border-white/[0.06]"
+        className="relative isolate w-full py-20 sm:py-24 bg-transparent border-b border-white/[0.06]"
         aria-label="Robin Capabilities Interactive System"
       >
         <Container size="default" className="flex flex-col items-center">
@@ -404,10 +403,8 @@ export function CapabilitiesSection() {
             </p>
           </div>
 
-          {/* Central Orb */}
-          <div className="relative w-40 sm:w-48 aspect-square flex items-center justify-center my-6">
-            <RobinOrb className="w-full h-full" />
-          </div>
+          {/* Central Orb Spacer */}
+          <div className="relative w-40 sm:w-48 aspect-square flex items-center justify-center my-6 pointer-events-none" aria-hidden="true" />
 
           {/* Capability Pills */}
           <div className="flex flex-wrap justify-center gap-2 max-w-2xl mb-12">
@@ -469,7 +466,7 @@ export function CapabilitiesSection() {
     <section
       id="capabilities"
       ref={sectionRef}
-      className="relative isolate w-full h-[260vh] bg-background border-b border-white/[0.06]"
+      className="relative isolate w-full h-[260vh] bg-transparent border-b border-white/[0.06]"
       aria-label="Robin Capabilities Interactive System"
     >
       {/* Pinned Viewport Scene (No sticky top-0, managed cleanly by ScrollTrigger) */}
@@ -649,13 +646,12 @@ export function CapabilitiesSection() {
             </div>
           </div>
 
-          {/* Central Orb Container */}
+          {/* Central Orb Layout Spacer */}
           <div
             ref={orbContainerRef}
             className="relative w-48 sm:w-60 md:w-64 aspect-square flex items-center justify-center z-10 pointer-events-none select-none"
-          >
-            <RobinOrb className="w-full h-full" />
-          </div>
+            aria-hidden="true"
+          />
 
           {/* Mobile Capability Pills (Static visual presentation, zero ref hijacking) */}
           <div className="md:hidden absolute inset-x-2 -top-2 flex flex-wrap justify-center gap-1.5 pointer-events-none">
