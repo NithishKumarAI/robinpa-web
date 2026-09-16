@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import {
   ROBIN_SCENES,
@@ -17,6 +17,7 @@ import {
   getRobinStateOverride,
 } from "./stage-state";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import type { OrbState } from "../robin-orb/orb-state";
 
 export function PersistentRobinStage() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -39,12 +40,16 @@ export function PersistentRobinStage() {
     );
   }
 
-  // Dynamic state override (e.g. VoiceSection listening/speaking)
-  const [activeOverrideState, setActiveOverrideState] = useState(getRobinStateOverride());
+  // Mutable ref for dynamic state override (VoiceSection driving listening/thinking/speaking)
+  // This completely decouples state changes from the main ScrollTrigger/canvas lifecycle
+  const overrideStateRef = useRef<OrbState | null>(getRobinStateOverride());
+  const redrawStaticRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     return subscribeRobinStateOverride((nextState) => {
-      setActiveOverrideState(nextState);
+      overrideStateRef.current = nextState;
+      // In reduced motion, trigger an on-demand redraw when override changes
+      redrawStaticRef.current?.();
     });
   }, []);
 
@@ -75,80 +80,18 @@ export function PersistentRobinStage() {
       canvas.height = vh * dpr;
       ctx.setTransform(1, 0, 0, 1, 0, 0); // reset transform
       ctx.scale(dpr, dpr);
+
+      // Trigger immediate redraw on resize
+      renderFrame(0, prefersReduced);
     };
 
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
-
-    // Current transition interpolation proxy
     const transitionState = {
       fromIndex: 0,
       toIndex: 0,
       progress: 0,
     };
 
-    // Initialize ScrollTriggers for each transition between consecutive scenes
-    let triggers: ScrollTrigger[] = [];
-
-    const setupTriggers = () => {
-      // Kill existing triggers if any
-      triggers.forEach((t) => t.kill());
-      triggers = [];
-
-      for (let i = 0; i < ROBIN_SCENES.length - 1; i += 1) {
-        const fromScene = ROBIN_SCENES[i];
-        const toScene = ROBIN_SCENES[i + 1];
-
-        const fromEl = document.getElementById(fromScene.sectionId);
-        const toEl = document.getElementById(toScene.sectionId);
-
-        if (!fromEl || !toEl) continue;
-
-        // Transition starts as fromEl ends / toEl enters, completing as toEl settles
-        const st = ScrollTrigger.create({
-          trigger: fromEl,
-          start: "bottom-=28% bottom",
-          endTrigger: toEl,
-          end: "top+=28% top",
-          scrub: 0.6,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            // When this transition is active (progress between 0 and 1)
-            const p = self.progress;
-            if (p > 0 && p < 1) {
-              transitionState.fromIndex = i;
-              transitionState.toIndex = i + 1;
-              transitionState.progress = p;
-            } else if (p >= 1 && transitionState.fromIndex === i) {
-              // Settled in toScene
-              transitionState.fromIndex = i + 1;
-              transitionState.toIndex = i + 1;
-              transitionState.progress = 0;
-            } else if (p <= 0 && transitionState.toIndex === i + 1) {
-              // Settled in fromScene
-              transitionState.fromIndex = i;
-              transitionState.toIndex = i;
-              transitionState.progress = 0;
-            }
-          },
-        });
-
-        triggers.push(st);
-      }
-    };
-
-    // Small delay to ensure all section DOM and pinned ScrollTriggers have initialized
-    const initTimer = setTimeout(() => {
-      setupTriggers();
-      ScrollTrigger.refresh();
-    }, 150);
-
-    // Continuous render loop
-    const frame = (now: number) => {
-      rafId = 0;
-      const dt = lastTime === null ? 0 : Math.min((now - lastTime) / 1000, 0.1);
-      lastTime = now;
-
+    const renderFrame = (dt: number, isStatic: boolean) => {
       const fromScene: SceneConfig = ROBIN_SCENES[transitionState.fromIndex] || ROBIN_SCENES[0];
       const toScene: SceneConfig = ROBIN_SCENES[transitionState.toIndex] || fromScene;
 
@@ -159,7 +102,7 @@ export function PersistentRobinStage() {
 
       // Active state: user override takes precedence (e.g. voice interaction), else interpolated scene state
       const targetState =
-        activeOverrideState ||
+        overrideStateRef.current ||
         (transitionState.progress >= 0.5 ? toScene.state : fromScene.state);
 
       ctx.clearRect(0, 0, vw, vh);
@@ -178,24 +121,125 @@ export function PersistentRobinStage() {
         transitionProgress: transitionState.progress,
         currentState: targetState,
         dt,
-        isStatic: prefersReduced,
+        isStatic,
       });
+    };
 
-      if (running) {
+    redrawStaticRef.current = () => {
+      renderFrame(0, true);
+    };
+
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    // Initialize ScrollTriggers for each transition between consecutive scenes
+    let triggers: ScrollTrigger[] = [];
+
+    const setupTriggers = () => {
+      triggers.forEach((t) => t.kill());
+      triggers = [];
+
+      for (let i = 0; i < ROBIN_SCENES.length - 1; i += 1) {
+        const fromScene = ROBIN_SCENES[i];
+        const toScene = ROBIN_SCENES[i + 1];
+
+        const fromEl = document.getElementById(fromScene.sectionId);
+        const toEl = document.getElementById(toScene.sectionId);
+
+        if (!fromEl || !toEl) continue;
+
+        const st = ScrollTrigger.create({
+          trigger: fromEl,
+          start: "bottom-=28% bottom",
+          endTrigger: toEl,
+          end: "top+=28% top",
+          scrub: 0.6,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const p = self.progress;
+            if (p > 0 && p < 1) {
+              transitionState.fromIndex = i;
+              transitionState.toIndex = i + 1;
+              transitionState.progress = p;
+            } else if (p >= 1 && transitionState.fromIndex === i) {
+              transitionState.fromIndex = i + 1;
+              transitionState.toIndex = i + 1;
+              transitionState.progress = 0;
+            } else if (p <= 0 && transitionState.toIndex === i + 1) {
+              transitionState.fromIndex = i;
+              transitionState.toIndex = i;
+              transitionState.progress = 0;
+            }
+
+            // In reduced motion, redraw on-demand on scroll position update
+            if (prefersReduced) {
+              renderFrame(0, true);
+            }
+          },
+        });
+
+        triggers.push(st);
+      }
+    };
+
+    const initTimer = setTimeout(() => {
+      setupTriggers();
+      ScrollTrigger.refresh();
+      if (prefersReduced) {
+        renderFrame(0, true);
+      }
+    }, 150);
+
+    // Continuous animation loop (only for standard motion)
+    const frame = (now: number) => {
+      rafId = 0;
+      const dt = lastTime === null ? 0 : Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+
+      renderFrame(dt, false);
+
+      if (running && !prefersReduced && !document.hidden) {
         rafId = requestAnimationFrame(frame);
       }
     };
 
-    rafId = requestAnimationFrame(frame);
+    // Start RAF only if prefersReduced is false and document is visible
+    if (!prefersReduced && !document.hidden) {
+      rafId = requestAnimationFrame(frame);
+    } else if (prefersReduced) {
+      renderFrame(0, true);
+    }
+
+    // Visibility change handling: pause RAF when tab hidden, resume when visible
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = 0;
+        }
+        lastTime = null;
+      } else {
+        if (!prefersReduced && running && !rafId) {
+          lastTime = null;
+          rafId = requestAnimationFrame(frame);
+        } else if (prefersReduced) {
+          renderFrame(0, true);
+        }
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       running = false;
+      redrawStaticRef.current = null;
       clearTimeout(initTimer);
       if (rafId) cancelAnimationFrame(rafId);
       window.removeEventListener("resize", resizeCanvas);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       triggers.forEach((t) => t.kill());
     };
-  }, [prefersReduced, activeOverrideState]);
+  }, [prefersReduced]); // Main effect only depends on prefersReduced, never on activeOverrideState!
 
   return (
     <div

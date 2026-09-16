@@ -301,8 +301,9 @@ export class PersistentParticleEngine {
         const base = (i / this.particles.length) * TWO_PI;
         const jitter = 0.05 * Math.sin(this.t * 1.3 + pt.seed);
         const ringAngle = base + this.connectingPhase + jitter;
+        const currentOrbRadius = activeDiameter / 2;
         const ringR =
-          centerCurrentX * (0.58 + 0.13 * pt.ringFrac) * (1 + 0.05 * Math.sin(this.t + pt.seed * 1.7));
+          currentOrbRadius * (0.58 + 0.13 * pt.ringFrac) * (1 + 0.05 * Math.sin(this.t + pt.seed * 1.7));
         const circleX = centerCurrentX + Math.cos(ringAngle) * ringR;
         const circleY = centerCurrentY + Math.sin(ringAngle) * ringR;
         const ringAlpha = 0.35 + pt.tone * 0.5;

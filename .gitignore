@@ -32,6 +32,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# firebase cache
+/.firebase/
+
 # qa screenshots and profiles
 /qa-screenshots/
 /.chrome-qa-profile*/

@@ -61,8 +61,20 @@ export function VoiceSection() {
               pin: pin,
               start: "top top",
               end: "bottom bottom",
-              scrub: 0.8,
-              invalidateOnRefresh: true,
+              onEnter: () => {
+                setVoiceState("idle");
+                setRobinStateOverride("idle");
+              },
+              onLeave: () => {
+                setRobinStateOverride(null);
+              },
+              onEnterBack: () => {
+                setVoiceState("conversation");
+                setRobinStateOverride("speaking");
+              },
+              onLeaveBack: () => {
+                setRobinStateOverride(null);
+              },
               onUpdate: (self) => {
                 const p = self.progress;
                 if (p < 0.22) {
@@ -202,6 +214,20 @@ export function VoiceSection() {
               end: "bottom bottom",
               scrub: 0.6,
               invalidateOnRefresh: true,
+              onEnter: () => {
+                setVoiceState("idle");
+                setRobinStateOverride("idle");
+              },
+              onLeave: () => {
+                setRobinStateOverride(null);
+              },
+              onEnterBack: () => {
+                setVoiceState("conversation");
+                setRobinStateOverride("speaking");
+              },
+              onLeaveBack: () => {
+                setRobinStateOverride(null);
+              },
               onUpdate: (self) => {
                 const p = self.progress;
                 if (p < 0.22) {

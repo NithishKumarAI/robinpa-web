@@ -7,8 +7,10 @@ let overrideState: OrbState | null = null;
 /**
  * Sets a dynamic state override (e.g. VoiceSection driving listening/thinking/speaking).
  * Pass null to return control to the active scene's default state.
+ * Deduplicates calls: if requested state equals existing state, no notification is fired.
  */
 export const setRobinStateOverride = (state: OrbState | null) => {
+  if (overrideState === state) return;
   overrideState = state;
   listeners.forEach((fn) => fn(overrideState));
 };

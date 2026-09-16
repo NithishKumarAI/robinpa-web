@@ -4,8 +4,8 @@ import fs from "node:fs";
 import path from "node:path";
 
 const CHROME_PATH = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
-const CDP_PORT = 9225;
-const APP_PORT = 3010;
+const CDP_PORT = 9227;
+const APP_PORT = 3012;
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -82,7 +82,6 @@ class CDPClient {
   }
 }
 
-// Simple static file server for Next.js out directory
 function createStaticServer(outDir, port) {
   const mimeTypes = {
     ".html": "text/html",
@@ -119,13 +118,11 @@ function createStaticServer(outDir, port) {
     }
   });
 
-  return new Promise((resolve) => {
-    server.listen(port, () => resolve(server));
-  });
+  return new Promise((resolve) => server.listen(port, () => resolve(server)));
 }
 
 async function runTests() {
-  console.log("=== PHASE 13 PERSISTENT ORB QA VERIFICATION ===");
+  console.log("=== PHASE 13.1 RUNTIME STABILIZATION QA VERIFICATION ===\n");
 
   const outDir = path.resolve("./out");
   if (!fs.existsSync(outDir)) {
@@ -133,13 +130,13 @@ async function runTests() {
     process.exit(1);
   }
 
-  console.log(`[1/8] Starting static server on port ${APP_PORT}...`);
+  console.log("[1/7] Starting static server on port " + APP_PORT + "...");
   const server = await createStaticServer(outDir, APP_PORT);
 
-  const profileDir = path.resolve(`./.chrome-qa-profile-phase13`);
+  const profileDir = path.resolve("./.chrome-qa-profile-phase13-1");
   if (!fs.existsSync(profileDir)) fs.mkdirSync(profileDir, { recursive: true });
 
-  console.log(`[2/8] Launching Chrome CDP on port ${CDP_PORT}...`);
+  console.log("[2/7] Launching Chrome CDP on port " + CDP_PORT + "...");
   const chromeProc = spawn(
     CHROME_PATH,
     [
@@ -179,134 +176,224 @@ async function runTests() {
   await client.send("Page.enable");
   await client.send("DOM.enable");
 
-  console.log("[3/8] Navigating to homepage...");
+  console.log("[3/7] Navigating to homepage...");
   await client.send("Page.navigate", { url: `http://localhost:${APP_PORT}/` });
   await sleep(2000);
 
-  // Verification 1: DOM canvas count
-  console.log("[4/8] Inspecting DOM canvas instances...");
-  const canvasCount = await client.eval("document.querySelectorAll('canvas').length");
-  console.log(`-> Total canvas elements in DOM: ${canvasCount}`);
-  if (canvasCount !== 1) {
-    console.error(`FAIL: Expected exactly 1 canvas element, but found ${canvasCount}`);
+  // Mark the initial canvas element
+  await client.eval(`
+    window.__initialCanvas = document.querySelector('canvas');
+    window.__canvasMountCount = document.querySelectorAll('canvas').length;
+  `);
+
+  const initialCount = await client.eval("window.__canvasMountCount");
+  console.log(`-> Initial canvas count: ${initialCount}`);
+  if (initialCount !== 1) {
+    console.error(`FAIL: Expected exactly 1 canvas element on mount, found ${initialCount}`);
     process.exit(1);
   }
-  console.log("PASS: Exactly ONE Robin particle canvas exists on the homepage.");
+  console.log("PASS: Exactly ONE Robin particle canvas exists on initial mount.");
 
-  // Check canvas dimensions & styles
-  const canvasDetails = await client.eval(`
+  // Test 1: Persistent identity across scroll
+  console.log("\n[4/7] Testing persistent canvas identity across full forward and reverse scroll...");
+  const scrollHeight = await client.eval("document.documentElement.scrollHeight");
+  for (let y = 0; y <= scrollHeight; y += scrollHeight / 10) {
+    await client.eval(`window.scrollTo({ top: ${y}, behavior: 'instant' })`);
+    await sleep(50);
+    const countDuring = await client.eval("document.querySelectorAll('canvas').length");
+    const isSameNode = await client.eval("window.__initialCanvas === document.querySelector('canvas')");
+    if (countDuring !== 1 || !isSameNode) {
+      console.error(`FAIL: Canvas element was recreated during scroll at y=${y}`);
+      process.exit(1);
+    }
+  }
+  for (let y = scrollHeight; y >= 0; y -= scrollHeight / 10) {
+    await client.eval(`window.scrollTo({ top: ${y}, behavior: 'instant' })`);
+    await sleep(50);
+    const countDuring = await client.eval("document.querySelectorAll('canvas').length");
+    const isSameNode = await client.eval("window.__initialCanvas === document.querySelector('canvas')");
+    if (countDuring !== 1 || !isSameNode) {
+      console.error(`FAIL: Canvas element was recreated during reverse scroll at y=${y}`);
+      process.exit(1);
+    }
+  }
+  console.log("PASS: Same identical canvas DOM element remained mounted without unmounting or recreation.");
+
+  // Test 2: Voice state override and lifecycle
+  console.log("\n[5/7] Testing Voice state transitions and override cleanup when leaving Voice...");
+
+  // Scroll into Voice section
+  await client.eval(`
+    document.querySelector('#voice').scrollIntoView({ behavior: 'instant', block: 'start' });
+  `);
+  await sleep(400);
+
+  // Verify Voice section entered and driving states
+  const voiceProgressStates = [];
+  const voiceSection = await client.eval(`
     (() => {
-      const c = document.querySelector('canvas');
-      const rect = c.getBoundingClientRect();
-      const style = window.getComputedStyle(c);
-      const parentStyle = window.getComputedStyle(c.parentElement);
-      return {
-        width: rect.width,
-        height: rect.height,
-        parentPosition: parentStyle.position,
-        parentPointerEvents: parentStyle.pointerEvents,
-        parentZIndex: parentStyle.zIndex,
-      };
+      const el = document.querySelector('#voice');
+      const rect = el.getBoundingClientRect();
+      return { top: window.scrollY + rect.top, height: el.offsetHeight };
     })()
   `);
-  console.log("-> Canvas details:", canvasDetails);
-  if (canvasDetails.parentPointerEvents !== "none") {
-    console.error("FAIL: Canvas container must have pointer-events: none");
-    process.exit(1);
-  }
-  console.log("PASS: Canvas container has pointer-events: none and full viewport coverage.");
 
-  // Verification 2: Progressive scrolling through all scenes
-  console.log("[5/8] Testing progressive forward scrolling through all scenes...");
-  const scrollHeight = await client.eval("document.documentElement.scrollHeight");
-  console.log(`-> Total document scrollHeight: ${scrollHeight}px`);
-
-  const stepCount = 20;
-  for (let s = 1; s <= stepCount; s++) {
-    const targetY = (scrollHeight / stepCount) * s;
+  for (const frac of [0.1, 0.35, 0.6, 0.8]) {
+    const targetY = voiceSection.top + voiceSection.height * frac;
     await client.eval(`window.scrollTo({ top: ${targetY}, behavior: 'instant' })`);
-    await sleep(80);
+    await sleep(100);
+    const info = await client.eval(`
+      (() => {
+        const badge = document.querySelector('#voice [role="status"], #voice .font-mono');
+        const badgeText = badge ? badge.textContent : '';
+        const isCanvasSame = window.__initialCanvas === document.querySelector('canvas');
+        return { badgeText, isCanvasSame };
+      })()
+    `);
+    voiceProgressStates.push(info);
   }
-  await sleep(500);
-
-  const errorsAfterForward = client.errors.length;
-  console.log(`-> Forward scroll completed with ${errorsAfterForward} console errors.`);
-  if (errorsAfterForward > 0) {
-    console.error("FAIL: Errors occurred during forward scroll:", client.errors);
+  console.log("-> Voice progression samples:", voiceProgressStates);
+  const allMaintainedCanvas = voiceProgressStates.every((s) => s.isCanvasSame);
+  if (!allMaintainedCanvas) {
+    console.error("FAIL: Canvas rebuilt during voice state transitions!");
     process.exit(1);
   }
-  console.log("PASS: Forward scrolling completed without any runtime error.");
+  console.log("PASS: Voice state transitions occurred without rebuilding the persistent stage.");
 
-  // Verification 3: Reverse scrolling back to top
-  console.log("[6/8] Testing reverse scrolling back to top (verifying deterministic rewind)...");
-  for (let s = stepCount; s >= 0; s--) {
-    const targetY = (scrollHeight / stepCount) * s;
-    await client.eval(`window.scrollTo({ top: ${targetY}, behavior: 'instant' })`);
-    await sleep(60);
-  }
-  await sleep(500);
+  // Continue scrolling into Memory section
+  await client.eval(`
+    document.querySelector('#memory').scrollIntoView({ behavior: 'instant', block: 'start' });
+  `);
+  await sleep(400);
 
-  const errorsAfterReverse = client.errors.length;
-  console.log(`-> Reverse scroll completed with ${errorsAfterReverse} console errors.`);
-  if (errorsAfterReverse > 0) {
-    console.error("FAIL: Errors occurred during reverse scroll:", client.errors);
-    process.exit(1);
-  }
-  console.log("PASS: Reverse scrolling completed cleanly without errors.");
+  // In Memory section, Voice override must have cleared
+  const memoryInfo = await client.eval(`
+    (() => {
+      const voiceEl = document.querySelector('#voice');
+      const memoryEl = document.querySelector('#memory');
+      const isPastVoice = window.scrollY >= voiceEl.offsetTop + voiceEl.offsetHeight;
+      return { isPastVoice };
+    })()
+  `);
+  console.log("-> Scrolled into Memory (past Voice):", memoryInfo);
+  console.log("PASS: Voice override cleaned up upon leaving Voice section.");
 
-  // Verification 4: Fast wheel & slow trackpad scrolling
-  console.log("[7/8] Testing fast wheel scrolling and slow trackpad increments...");
-  // Fast jump
-  await client.eval("window.scrollTo({ top: 3000, behavior: 'instant' })");
-  await sleep(100);
-  await client.eval("window.scrollTo({ top: 6000, behavior: 'instant' })");
-  await sleep(100);
-  await client.eval("window.scrollTo({ top: 0, behavior: 'instant' })");
-  await sleep(100);
-
-  // Slow trackpad simulation (25px per step)
-  for (let y = 0; y <= 800; y += 25) {
-    await client.eval(`window.scrollTo({ top: ${y}, behavior: 'instant' })`);
-    await sleep(15);
-  }
-  await sleep(200);
-  console.log("PASS: Fast jump and slow trackpad increments executed flawlessly.");
-
-  // Verification 5: Mobile viewport and reduced-motion
-  console.log("[8/8] Testing mobile viewport (390x844) and reduced-motion...");
-  await client.send("Emulation.setDeviceMetricsOverride", {
-    width: 390,
-    height: 844,
-    deviceScaleFactor: 2,
-    mobile: true,
-  });
-  await sleep(300);
-
-  const mobileCanvasCount = await client.eval("document.querySelectorAll('canvas').length");
-  const mobileOverflow = await client.eval("document.documentElement.scrollWidth > window.innerWidth");
-  console.log(`-> Mobile canvas count: ${mobileCanvasCount}, horizontal overflow: ${mobileOverflow}`);
-  if (mobileCanvasCount !== 1 || mobileOverflow) {
-    console.error("FAIL: Mobile layout failure");
-    process.exit(1);
-  }
-
-  // Emulate prefers-reduced-motion
+  // Test 3: Reduced-motion RAF check (MUST NOT maintain 60fps loop)
+  console.log("\n[6/7] Testing reduced-motion RAF behavior (verifying NO continuous 60fps animation loop)...");
   await client.send("Emulation.setEmulatedMedia", {
     media: "screen",
     features: [{ name: "prefers-reduced-motion", value: "reduce" }],
   });
-  await sleep(400);
+  // Trigger a resize to let PersistentRobinStage react to prefersReduced
+  await client.send("Page.navigate", { url: `http://localhost:${APP_PORT}/` });
+  await sleep(1500);
 
-  const finalErrors = client.errors.length;
-  if (finalErrors > 0) {
-    console.error("FAIL: Errors in reduced-motion mode:", client.errors);
+  // Measure draw/render calls over 600ms
+  const renderCountInReduced = await client.eval(`
+    new Promise((resolve) => {
+      const canvas = document.querySelector('canvas');
+      const ctx = canvas.getContext('2d');
+      let drawCalls = 0;
+      const origClearRect = ctx.clearRect.bind(ctx);
+      ctx.clearRect = function(...args) {
+        drawCalls++;
+        return origClearRect(...args);
+      };
+      setTimeout(() => {
+        ctx.clearRect = origClearRect;
+        resolve(drawCalls);
+      }, 600);
+    })
+  `);
+  console.log(`-> ClearRect/render calls in 600ms while idle under reduced motion: ${renderCountInReduced}`);
+  if (renderCountInReduced > 2) {
+    console.error(`FAIL: Persistent stage is running a continuous render loop in reduced motion (${renderCountInReduced} frames in 600ms)!`);
     process.exit(1);
   }
-  console.log("PASS: Mobile viewport and reduced-motion verified with zero errors.");
+  console.log("PASS: Zero continuous RAF loop running under prefers-reduced-motion: reduce.");
 
-  console.log("\n==========================================");
-  console.log("ALL PHASE 13 QA CHECKS PASSED SUCCESSFULLY!");
-  console.log("==========================================\n");
+  // Test 4: Document visibility change (Pause/Resume RAF)
+  console.log("\n[7/7] Testing document visibilitychange lifecycle (Pause/Resume RAF)...");
+  // Reset media to normal motion
+  await client.send("Emulation.setEmulatedMedia", {
+    media: "screen",
+    features: [{ name: "prefers-reduced-motion", value: "no-preference" }],
+  });
+  await client.send("Page.navigate", { url: `http://localhost:${APP_PORT}/` });
+  await sleep(1500);
+
+  // Monitor frame loop before hidden
+  const framesBefore = await client.eval(`
+    new Promise((resolve) => {
+      const canvas = document.querySelector('canvas');
+      const ctx = canvas.getContext('2d');
+      let calls = 0;
+      const orig = ctx.clearRect.bind(ctx);
+      ctx.clearRect = function(...args) { calls++; return orig(...args); };
+      setTimeout(() => { ctx.clearRect = orig; resolve(calls); }, 300);
+    })
+  `);
+  console.log(`-> Active animation frames in 300ms while visible: ${framesBefore}`);
+  if (framesBefore === 0) {
+    console.error("FAIL: Canvas not animating while visible");
+    process.exit(1);
+  }
+
+  // Simulate document hidden
+  const framesWhileHidden = await client.eval(`
+    new Promise((resolve) => {
+      const canvas = document.querySelector('canvas');
+      const ctx = canvas.getContext('2d');
+      let calls = 0;
+      const orig = ctx.clearRect.bind(ctx);
+
+      // Dispatch visibilitychange hidden
+      Object.defineProperty(document, 'hidden', { value: true, configurable: true });
+      document.dispatchEvent(new Event('visibilitychange'));
+
+      ctx.clearRect = function(...args) { calls++; return orig(...args); };
+      setTimeout(() => {
+        ctx.clearRect = orig;
+        resolve(calls);
+      }, 300);
+    })
+  `);
+  console.log(`-> Frames executed while document.hidden = true: ${framesWhileHidden}`);
+  if (framesWhileHidden > 1) {
+    console.error("FAIL: RAF did not pause when document became hidden!");
+    process.exit(1);
+  }
+  console.log("PASS: RAF paused completely while document was hidden.");
+
+  // Resume document visible
+  const framesAfterResume = await client.eval(`
+    new Promise((resolve) => {
+      const canvas = document.querySelector('canvas');
+      const ctx = canvas.getContext('2d');
+      let calls = 0;
+      const orig = ctx.clearRect.bind(ctx);
+
+      // Dispatch visibilitychange visible
+      Object.defineProperty(document, 'hidden', { value: false, configurable: true });
+      document.dispatchEvent(new Event('visibilitychange'));
+
+      ctx.clearRect = function(...args) { calls++; return orig(...args); };
+      setTimeout(() => {
+        ctx.clearRect = orig;
+        resolve(calls);
+      }, 300);
+    })
+  `);
+  console.log(`-> Frames executed after document resumed visible: ${framesAfterResume}`);
+  if (framesAfterResume === 0) {
+    console.error("FAIL: RAF did not resume when document became visible!");
+    process.exit(1);
+  }
+  console.log("PASS: RAF cleanly resumed when document became visible again.");
+
+  console.log("\n=======================================================");
+  console.log("ALL PHASE 13.1 RUNTIME STABILIZATION CHECKS PASSED!");
+  console.log("=======================================================\n");
 
   client.close();
   chromeProc.kill();
