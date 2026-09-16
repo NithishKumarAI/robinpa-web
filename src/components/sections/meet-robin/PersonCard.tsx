@@ -22,19 +22,19 @@ export function PersonCard({ className = "" }: PersonCardProps) {
 
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-lg bg-background-elevated border border-white/[0.1] flex items-center justify-center text-xs font-semibold text-white">
-          VK
+          CT
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <h4 className="text-sm font-semibold text-white tracking-tight">
-              Vicky
+              Contact
             </h4>
             <span className="text-[10px] px-1.5 py-0.2 rounded bg-white/[0.06] text-foreground-subtle font-mono">
               Saved Contact
             </span>
           </div>
           <p className="text-xs text-foreground-muted font-mono truncate mt-0.5">
-            vicky@example.com
+            contact@example.com
           </p>
         </div>
         <UserCheck size={16} className="text-brand-violet shrink-0" />

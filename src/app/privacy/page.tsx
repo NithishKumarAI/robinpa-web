@@ -60,7 +60,7 @@ export default function PrivacyPage() {
           </li>
           <li>
             <strong className="text-white/90">Microphone Audio:</strong> Live audio captured in memory by your
-            microphone during voice interaction and wake-word listening.
+            microphone during active voice interaction.
           </li>
         </ul>
       </section>
@@ -124,50 +124,94 @@ export default function PrivacyPage() {
       </section>
 
       {/* 5. Google User Data */}
-      <section className="space-y-3">
+      <section className="space-y-4">
         <h2 className="text-xl font-semibold text-white tracking-tight">5. Google User Data</h2>
         <p>
           Robin offers optional integrations with Google Workspace. Robin accesses Google user data only after
           you explicitly initiate connection and authorize permissions through Google&apos;s standard OAuth sign-in flow.
         </p>
 
-        <h3 className="text-sm font-semibold text-white pt-2">A. Scopes &amp; Access</h3>
+        {/* Affirmative Limited Use Statement */}
+        <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.1] text-xs text-foreground-muted space-y-2">
+          <p className="text-white font-medium text-sm">Google API Services User Data Policy Compliance</p>
+          <p className="leading-relaxed">
+            Robin&apos;s use and transfer to any other app of information received from Google APIs will adhere to the{" "}
+            <a
+              href="https://developers.google.com/terms/api-services-user-data-policy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-brand-violet hover:underline font-medium"
+            >
+              Google API Services User Data Policy
+            </a>
+            , including the Limited Use requirements.
+          </p>
+        </div>
+
+        <h3 className="text-sm font-semibold text-white pt-2">A. Exact Scopes &amp; Purpose</h3>
         <p className="text-xs text-foreground-muted">
-          Robin requests permissions limited to the assistant features you choose to use:
+          Robin requests only the specific permissions necessary to deliver assistant functionality that you command:
         </p>
-        <ul className="list-disc pl-5 space-y-1.5 text-xs text-foreground-muted">
+        <ul className="list-disc pl-5 space-y-2 text-xs text-foreground-muted">
           <li>
-            <strong className="text-white/90">Gmail:</strong> Used to inspect message headers and recent emails when you ask
-            about your inbox, retrieve specific email context you request, and prepare email drafts.
+            <code className="font-mono text-white/90 text-[11px]">https://www.googleapis.com/auth/gmail.readonly</code>:{" "}
+            Used to inspect message headers and read emails when you explicitly ask Robin about your inbox or request details from a specific email thread.
           </li>
           <li>
-            <strong className="text-white/90">Calendar:</strong> Used to check your schedule, identify conflicts, and draft
-            calendar events based on your instructions.
+            <code className="font-mono text-white/90 text-[11px]">https://www.googleapis.com/auth/gmail.compose</code>:{" "}
+            Used to prepare and draft email messages for your explicit visual review and confirmation before sending.
           </li>
           <li>
-            <strong className="text-white/90">Tasks:</strong> Used to view and manage your Google Tasks lists.
+            <code className="font-mono text-white/90 text-[11px]">https://www.googleapis.com/auth/gmail.modify</code>:{" "}
+            Used to update labels, mark messages as read, or modify messages strictly when directed by you.
           </li>
           <li>
-            <strong className="text-white/90">Contacts:</strong> Used to read saved contact names and email addresses so Robin
-            can resolve who you mean when asking to contact a person.
+            <code className="font-mono text-white/90 text-[11px]">https://www.googleapis.com/auth/calendar.events</code>:{" "}
+            Used to read your schedule, check for scheduling conflicts, and draft new events or updates on your Google Calendar.
+          </li>
+          <li>
+            <code className="font-mono text-white/90 text-[11px]">https://www.googleapis.com/auth/tasks</code>:{" "}
+            Used to view, organize, create, and update tasks in your Google Tasks lists.
+          </li>
+          <li>
+            <code className="font-mono text-white/90 text-[11px]">https://www.googleapis.com/auth/contacts.readonly</code>:{" "}
+            Used to read contact names and email addresses to resolve who you mean when asking Robin to contact or reference a person.
           </li>
         </ul>
 
         <h3 className="text-sm font-semibold text-white pt-2">B. How Google Data Is Handled</h3>
-        <div className="p-4 rounded-lg bg-white/[0.02] border border-white/[0.06] text-xs text-foreground-muted space-y-2">
+        <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] text-xs text-foreground-muted space-y-2">
           <ul className="list-disc pl-4 space-y-1.5">
-            <li>Robin uses authorized Google data solely to deliver the specific assistant functionality you request.</li>
+            <li>Robin uses authorized Google data solely to deliver user-facing assistant features requested by the user.</li>
+            <li><strong className="text-white">No generalized AI model training:</strong> Robin does NOT use Google Workspace user data to train, retrain, or fine-tune generalized machine learning or artificial intelligence models.</li>
             <li>Robin does not use Google user data to display, target, or serve advertisements.</li>
-            <li>Robin does not sell, rent, or transfer Google user data to data brokers, advertising networks, or commercial third parties.</li>
-            <li>Robin does not use Google user data to train or fine-tune generalized machine learning or artificial intelligence models.</li>
-            <li>Mutating actions—such as sending an email or changing a calendar event—require your explicit approval in Robin before anything is changed.</li>
+            <li>Robin does not sell, rent, or transfer Google user data to data brokers, advertising platforms, or commercial third parties.</li>
+            <li>Actions that modify external state—such as sending an email or saving a calendar event—require your explicit human review and approval in Robin before execution.</li>
           </ul>
         </div>
 
-        <h3 className="text-sm font-semibold text-white pt-2">C. Disconnecting Access</h3>
+        <h3 className="text-sm font-semibold text-white pt-2">C. AI Model Processing with Google Data</h3>
         <p className="text-xs text-foreground-muted">
-          You can disconnect Google at any time in Robin Settings. Disconnecting removes your stored credentials
-          from your local Windows Credential Manager. You can also revoke access at any time through your{" "}
+          How Google data interacts with AI reasoning depends on your chosen model provider:
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <div className="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] space-y-1">
+            <h4 className="text-xs font-semibold text-white">Local AI (Ollama)</h4>
+            <p className="text-[11px] text-foreground-muted leading-relaxed">
+              When using local Ollama models, all reasoning takes place 100% on your local PC. No Google Workspace data or prompts are transmitted to any external cloud AI provider.
+            </p>
+          </div>
+          <div className="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] space-y-1">
+            <h4 className="text-xs font-semibold text-white">Cloud AI (Google Gemini)</h4>
+            <p className="text-[11px] text-foreground-muted leading-relaxed">
+              When using Gemini, relevant excerpts from your request (e.g. an email snippet needed to draft a reply) are transmitted directly to the Google Gemini API using your personal API key over encrypted HTTPS.
+            </p>
+          </div>
+        </div>
+
+        <h3 className="text-sm font-semibold text-white pt-2">D. Disconnecting Access &amp; Credential Storage</h3>
+        <p className="text-xs text-foreground-muted leading-relaxed">
+          Google OAuth tokens are stored exclusively in your local <strong className="text-white/90">Windows Credential Manager</strong> under the service name <code className="font-mono text-xs">Robin</code>. You can disconnect your Google account at any time in Robin Settings, which deletes the tokens from Windows Credential Manager. You can also revoke access at any time through your{" "}
           <a
             href="https://myaccount.google.com/permissions"
             target="_blank"
@@ -199,20 +243,21 @@ export default function PrivacyPage() {
         <p>
           Robin includes voice capabilities using on-device speech processing:
         </p>
-        <ul className="list-disc pl-5 space-y-1.5 text-xs text-foreground-muted">
+        <ul className="list-disc pl-5 space-y-2 text-xs text-foreground-muted">
           <li>
-            <strong className="text-white/90">Wake Word &amp; Speech-to-Text:</strong> Microphone audio is processed
-            locally on your computer&apos;s CPU using on-device speech models (Sherpa-ONNX for wake-word detection and
-            Moonshine for speech transcription).
+            <strong className="text-white/90">On-Device Transcription (Moonshine):</strong> Microphone audio is processed
+            locally on your computer&apos;s CPU using the on-device Moonshine speech-to-text model. Spoken audio is converted to text locally before any assistant action occurs.
           </li>
           <li>
-            <strong className="text-white/90">Audio Buffers:</strong> Audio frames are processed in-memory during active voice
-            interaction. Robin does not write permanent audio recording files to disk and does not stream raw audio to external audio servers.
+            <strong className="text-white/90">Volatile In-Memory Processing:</strong> Audio frames reside strictly in volatile memory
+            buffers during active speech processing. Robin does not write permanent audio recording files to disk and does not stream raw microphone audio to remote servers.
           </li>
           <li>
-            <strong className="text-white/90">Cloud AI Distinction:</strong> When you speak to Robin while using a cloud AI model
-            (such as Gemini), your spoken audio is converted to text locally on your PC, and the resulting request text
-            is sent to the cloud model to generate the response.
+            <strong className="text-white/90">User-Initiated Voice:</strong> In Robin V1, voice interactions are active and strictly initiated by the user. Robin processes speech only when deliberately activated and does not monitor background audio.
+          </li>
+          <li>
+            <strong className="text-white/90">Cloud AI Distinction:</strong> When you speak to Robin while configured with a cloud AI provider
+            (such as Gemini), your voice is transcribed to text locally on your PC, and only the resulting text prompt is transmitted to the cloud model.
           </li>
         </ul>
       </section>
@@ -358,7 +403,7 @@ export default function PrivacyPage() {
             <code className="px-1 py-0.5 rounded bg-white/[0.06] font-mono text-xs">~/.robin</code> removes Robin-managed files,
             including your local SQLite databases (<code className="font-mono text-xs">robin.db</code> and{" "}
             <code className="font-mono text-xs">adk-sessions.db</code>), the local Qdrant vector index, local AI settings, and
-            Robin-cached voice models (such as Moonshine and wake-word models).
+            Robin-cached voice models (such as Moonshine).
           </li>
           <li>
             <strong className="text-white/90">Credentials and API Keys:</strong> Stored credentials—including Google OAuth tokens and

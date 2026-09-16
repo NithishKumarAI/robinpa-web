@@ -19,6 +19,13 @@ import {
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import type { OrbState } from "../robin-orb/orb-state";
 
+const getActiveParticleCount = (vw: number): number => {
+  if (vw >= 1280) return 1900;
+  if (vw >= 1024) return 1600;
+  if (vw >= 768) return 1250;
+  return 850;
+};
+
 export function PersistentRobinStage() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -105,6 +112,8 @@ export function PersistentRobinStage() {
         overrideStateRef.current ||
         (transitionState.progress >= 0.5 ? toScene.state : fromScene.state);
 
+      const activeCount = getActiveParticleCount(vw);
+
       ctx.clearRect(0, 0, vw, vh);
 
       engineRef.current?.render({
@@ -122,6 +131,7 @@ export function PersistentRobinStage() {
         currentState: targetState,
         dt,
         isStatic,
+        activeCount,
       });
     };
 
@@ -150,10 +160,10 @@ export function PersistentRobinStage() {
 
         const st = ScrollTrigger.create({
           trigger: fromEl,
-          start: "bottom-=28% bottom",
+          start: "bottom-=18% bottom",
           endTrigger: toEl,
-          end: "top+=28% top",
-          scrub: 0.6,
+          end: "top+=18% top",
+          scrub: 0.25,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const p = self.progress;

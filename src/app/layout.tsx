@@ -39,6 +39,17 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/branding/icon-32.png", type: "image/png", sizes: "32x32" },
+      { url: "/branding/icon-192.png", type: "image/png", sizes: "192x192" },
+      { url: "/branding/icon-512.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [
+      { url: "/branding/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -46,11 +57,20 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: `${SITE_NAME} — ${SITE_TAGLINE} for Windows`,
     description: `${SITE_NAME} — ${SITE_TAGLINE}. ${SITE_DESCRIPTION}`,
+    images: [
+      {
+        url: "/branding/icon-512.png",
+        width: 512,
+        height: 512,
+        alt: `${SITE_NAME} — ${SITE_TAGLINE}`,
+      },
+    ],
   },
   twitter: {
     card: "summary",
     title: `${SITE_NAME} — ${SITE_TAGLINE} for Windows`,
     description: `${SITE_NAME} — ${SITE_TAGLINE}. ${SITE_DESCRIPTION}`,
+    images: ["/branding/icon-512.png"],
   },
 };
 

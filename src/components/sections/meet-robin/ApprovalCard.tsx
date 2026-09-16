@@ -30,22 +30,19 @@ export function ApprovalCard({ className = "" }: ApprovalCardProps) {
           <span className="text-foreground-subtle font-mono w-14 shrink-0">
             To:
           </span>
-          <span className="text-white font-medium">Vicky</span>
-          <span className="text-foreground-subtle font-mono text-[11px]">
-            &lt;vicky@example.com&gt;
-          </span>
+          <span className="text-white font-medium">Recipient</span>
         </div>
 
         <div className="flex items-baseline gap-2 py-1 border-t border-white/[0.04]">
           <span className="text-foreground-subtle font-mono w-14 shrink-0">
             Subject:
           </span>
-          <span className="text-white">Frontend status</span>
+          <span className="text-white">Status update</span>
         </div>
 
         {/* Message body preview */}
         <div className="mt-3 p-3 rounded-lg bg-background-elevated/70 border border-white/[0.05] text-white/90 leading-relaxed font-sans text-xs sm:text-sm">
-          Hi Vicky, is the frontend ready for review?
+          The update is prepared and waiting for your review.
         </div>
       </div>
 

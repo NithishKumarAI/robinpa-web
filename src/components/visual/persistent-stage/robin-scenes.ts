@@ -19,10 +19,10 @@ export const ROBIN_SCENES: SceneConfig[] = [
     id: "hero",
     sectionId: "hero",
     desktopX: 0.50,
-    desktopY: 0.52,
+    desktopY: 0.50,
     mobileX: 0.50,
-    mobileY: 0.48,
-    scale: 1.0,
+    mobileY: 0.44,
+    scale: 1.05,
     state: "idle",
   },
   {
@@ -31,39 +31,49 @@ export const ROBIN_SCENES: SceneConfig[] = [
     desktopX: 0.72,
     desktopY: 0.50,
     mobileX: 0.50,
-    mobileY: 0.42,
+    mobileY: 0.36,
     scale: 0.95,
     state: "speaking",
   },
   {
-    id: "capabilities",
-    sectionId: "capabilities",
+    id: "your-day",
+    sectionId: "your-day",
     desktopX: 0.28,
     desktopY: 0.50,
     mobileX: 0.50,
-    mobileY: 0.42,
+    mobileY: 0.36,
     scale: 0.95,
     state: "thinking",
   },
   {
-    id: "safety",
-    sectionId: "safety",
+    id: "people-email",
+    sectionId: "people-email",
     desktopX: 0.72,
     desktopY: 0.50,
     mobileX: 0.50,
-    mobileY: 0.42,
-    scale: 0.92,
+    mobileY: 0.36,
+    scale: 0.95,
+    state: "idle",
+  },
+  {
+    id: "control",
+    sectionId: "control",
+    desktopX: 0.28,
+    desktopY: 0.50,
+    mobileX: 0.50,
+    mobileY: 0.36,
+    scale: 0.95,
     state: "idle",
   },
   {
     id: "voice",
     sectionId: "voice",
     desktopX: 0.50,
-    desktopY: 0.48,
+    desktopY: 0.52,
     mobileX: 0.50,
-    mobileY: 0.45,
-    scale: 1.05,
-    state: "idle", // dynamically updated via voice events
+    mobileY: 0.46,
+    scale: 1.02,
+    state: "idle", // dynamically driven by voice interactions
   },
   {
     id: "memory",
@@ -71,17 +81,17 @@ export const ROBIN_SCENES: SceneConfig[] = [
     desktopX: 0.28,
     desktopY: 0.50,
     mobileX: 0.50,
-    mobileY: 0.42,
+    mobileY: 0.36,
     scale: 0.95,
     state: "thinking",
   },
   {
-    id: "local-first",
-    sectionId: "local-first",
+    id: "ai-choice",
+    sectionId: "ai-choice",
     desktopX: 0.72,
     desktopY: 0.50,
     mobileX: 0.50,
-    mobileY: 0.42,
+    mobileY: 0.36,
     scale: 0.92,
     state: "idle",
   },
@@ -89,30 +99,35 @@ export const ROBIN_SCENES: SceneConfig[] = [
     id: "download",
     sectionId: "download",
     desktopX: 0.50,
-    desktopY: 0.45,
+    desktopY: 0.44,
     mobileX: 0.50,
-    mobileY: 0.42,
-    scale: 1.15,
+    mobileY: 0.40,
+    scale: 1.12,
     state: "idle",
   },
 ];
 
 /**
- * Returns responsive base orb diameter in pixels.
- * Desktop: 560px (~500–650px)
- * Laptop: 480px (~420–550px)
- * Tablet: 380px (~320–430px)
- * Mobile: 280px (~240–320px)
+ * Returns responsive base orb diameter in pixels, adapting to BOTH viewport width and height.
+ * Prevents vertical crowding/clipping on short laptops (1280x720, 1366x768) and compact phones (320x568).
  */
 export function getBaseOrbSize(viewportWidth: number, viewportHeight: number): number {
+  // Height-aware ceiling: never exceed 48% of height on desktop/tablet, or 34% on mobile
+  const heightCeiling = viewportWidth < 768 ? viewportHeight * 0.34 : viewportHeight * 0.48;
+
   if (viewportWidth >= 1280) {
-    return Math.min(620, Math.max(500, Math.min(viewportWidth * 0.38, viewportHeight * 0.65)));
+    const widthTarget = Math.min(600, Math.max(420, viewportWidth * 0.36));
+    return Math.min(widthTarget, heightCeiling);
   }
   if (viewportWidth >= 1024) {
-    return Math.min(520, Math.max(420, Math.min(viewportWidth * 0.42, viewportHeight * 0.6)));
+    const widthTarget = Math.min(480, Math.max(360, viewportWidth * 0.40));
+    return Math.min(widthTarget, heightCeiling);
   }
   if (viewportWidth >= 768) {
-    return Math.min(420, Math.max(320, Math.min(viewportWidth * 0.48, viewportHeight * 0.5)));
+    const widthTarget = Math.min(400, Math.max(300, viewportWidth * 0.44));
+    return Math.min(widthTarget, heightCeiling);
   }
-  return Math.min(320, Math.max(240, Math.min(viewportWidth * 0.75, viewportHeight * 0.38)));
+  // Mobile (< 768px)
+  const widthTarget = Math.min(290, Math.max(190, viewportWidth * 0.68));
+  return Math.min(widthTarget, heightCeiling);
 }

@@ -89,7 +89,7 @@ export function HeroSection() {
       ref={sectionRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative isolate min-h-[100svh] flex flex-col justify-between pt-20 sm:pt-24 pb-6 sm:pb-8 overflow-hidden border-b border-white/[0.06] bg-transparent"
+      className="relative isolate min-h-[100svh] flex flex-col justify-between pt-16 sm:pt-20 lg:pt-24 pb-4 sm:pb-6 overflow-hidden border-b border-white/[0.06] bg-transparent"
     >
       {/* Subtle ambient violet/indigo illumination behind orb */}
       <motion.div
@@ -120,13 +120,13 @@ export function HeroSection() {
             className="flex flex-col items-center w-full"
           >
             {/* Minimal Brand Identifier */}
-            <motion.div variants={itemVariants} className="mb-2.5 sm:mb-3">
-              <span className="font-mono text-xs sm:text-sm uppercase tracking-widest text-white/50">
-                Robin
+            <motion.div variants={itemVariants} className="mb-2 sm:mb-3">
+              <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-brand-violet font-medium">
+                ROBIN
               </span>
             </motion.div>
 
-            {/* Core Headline: ROBIN — Everyone's PA. */}
+            {/* Core Headline: Everyone's PA. (72–112px desktop, height-aware) */}
             <motion.div
               variants={itemVariants}
               style={{
@@ -134,45 +134,42 @@ export function HeroSection() {
                 y: prefersReduced ? 0 : textParallaxY,
               }}
             >
-              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[clamp(2.75rem,6vw,5.25rem)] font-semibold tracking-tighter text-white leading-[1.04]">
+              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[clamp(3.5rem,min(7.5vw,9vh),6.5rem)] font-semibold tracking-tighter text-white leading-[1.02]">
                 Everyone&apos;s PA.
               </h1>
             </motion.div>
 
-            {/* Supporting Copy */}
-            <motion.div
-              variants={itemVariants}
-              className="mt-4 sm:mt-5 text-sm sm:text-base text-foreground-muted font-normal leading-relaxed max-w-lg space-y-0.5"
-            >
-              <p>Your email. Your calendar. Your tasks.</p>
-              <p>Your people. Your files.</p>
-              <p className="text-white/90 font-medium">One conversation.</p>
-            </motion.div>
-
-            {/* Focal Point: Robin Orb Spacer Area */}
+            {/* Robin Persistent Canvas Center Spacer */}
             <motion.div
               variants={itemVariants}
               style={{
                 x: prefersReduced ? 0 : orbParallaxX,
                 y: prefersReduced ? 0 : orbParallaxY,
               }}
-              className="my-2 sm:my-3 w-full h-44 sm:h-56 md:h-64 max-w-[280px] sm:max-w-[340px] md:max-w-[380px] mx-auto pointer-events-none"
+              className="my-4 sm:my-6 md:my-8 w-full h-36 sm:h-48 md:h-60 max-h-[30vh] max-w-[280px] sm:max-w-[380px] mx-auto pointer-events-none"
               aria-hidden="true"
             />
+
+            {/* Supporting Statement (height-aware) */}
+            <motion.div
+              variants={itemVariants}
+              className="mb-6 sm:mb-8 text-[clamp(1.125rem,min(2.2vw,2.8vh),1.875rem)] text-white/90 font-normal leading-snug max-w-xl"
+            >
+              <p>Your personal assistant.</p>
+              <p className="text-white/60">For everyday life.</p>
+            </motion.div>
 
             {/* Primary & Secondary CTAs */}
             <motion.div
               variants={itemVariants}
               className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none"
             >
-              {/* Primary CTA */}
               <DownloadButton size="default" className="w-full sm:w-auto" placement="hero" />
 
-              {/* Secondary CTA */}
               <a
                 href="#meet-robin"
                 onClick={() => trackMeetRobinClick("hero")}
-                className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 text-xs sm:text-sm font-medium text-white/80 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] hover:border-white/[0.18] transition-all duration-150 rounded"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 text-sm sm:text-base font-medium text-white/80 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.12] hover:border-white/[0.22] transition-all duration-150 rounded"
               >
                 Meet Robin
               </a>

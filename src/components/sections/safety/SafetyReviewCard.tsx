@@ -44,10 +44,7 @@ export const SafetyReviewCard = React.forwardRef<HTMLDivElement, SafetyReviewCar
             <span className="text-foreground-subtle font-mono w-14 shrink-0">
               To:
             </span>
-            <span className="text-white font-medium">Vicky</span>
-            <span className="text-foreground-subtle font-mono text-[11px]">
-              &lt;vicky@example.com&gt;
-            </span>
+            <span className="text-white font-medium">Recipient</span>
           </div>
 
           <div className="flex items-baseline gap-2 py-0.5 border-t border-white/[0.04]">
@@ -59,7 +56,7 @@ export const SafetyReviewCard = React.forwardRef<HTMLDivElement, SafetyReviewCar
 
           {/* Body */}
           <div className="mt-2.5 p-2.5 rounded-lg bg-background-elevated/70 border border-white/[0.05] text-white/90 text-xs sm:text-sm font-sans leading-relaxed">
-            Hi Vicky, the review is ready.
+            The review is ready for your confirmation.
           </div>
         </div>
 

@@ -88,7 +88,7 @@ export default function SupportPage() {
             <h3 className="text-sm font-medium text-white group-hover:text-brand-magenta transition-colors">
               Voice &amp; Audio
             </h3>
-            <p className="text-xs text-foreground-muted mt-0.5">Microphone setup and wake word</p>
+            <p className="text-xs text-foreground-muted mt-0.5">Microphone setup and voice</p>
           </div>
         </a>
       </div>
@@ -192,24 +192,24 @@ export default function SupportPage() {
         </ol>
       </section>
 
-      {/* 5. Voice & Wake Word */}
+      {/* 5. Voice Interaction */}
       <section id="voice" className="space-y-3 pt-6">
         <h2 className="text-xl font-semibold text-white tracking-tight flex items-center gap-2">
           <Mic className="w-5 h-5 text-brand-magenta" aria-hidden="true" />
-          5. Voice &amp; Hands-Free Interaction
+          5. Voice Interaction
         </h2>
         <p>
-          Robin features an on-device streaming voice pipeline:
+          Robin features an on-device speech-to-text pipeline:
         </p>
         <ul className="list-disc pl-5 space-y-1.5 text-xs text-foreground-muted">
           <li>
-            <strong className="text-white/90">Wake Word:</strong> Speak &quot;Robin&quot; clearly to activate listening.
+            <strong className="text-white/90">User-Initiated Speech:</strong> Click the microphone or use the talk shortcut to begin speaking. Voice interaction is active and strictly initiated by the user.
           </li>
           <li>
             <strong className="text-white/90">Microphone Access:</strong> Ensure Windows Settings &gt; Privacy &amp; security &gt; Microphone allows desktop apps access.
           </li>
           <li>
-            <strong className="text-white/90">Audio Processing:</strong> Audio frames are processed in-memory locally on your CPU for wake-word spotting and speech recognition.
+            <strong className="text-white/90">On-Device Processing:</strong> Spoken audio frames are transcribed locally in volatile memory on your CPU using Moonshine. Robin does not save permanent audio files.
           </li>
         </ul>
       </section>
@@ -271,9 +271,9 @@ export default function SupportPage() {
           </div>
 
           <div className="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] space-y-1 text-xs">
-            <h3 className="font-semibold text-white">Q: Wake word not triggering</h3>
+            <h3 className="font-semibold text-white">Q: Microphone not capturing voice</h3>
             <p className="text-foreground-muted">
-              Check your microphone volume in Windows Settings &gt; System &gt; Sound &gt; Input. Ensure the microphone is not muted and that Robin has microphone permission.
+              Check your microphone volume in Windows Settings &gt; System &gt; Sound &gt; Input. Ensure the microphone is not muted and that desktop apps have microphone permission in Windows Privacy settings.
             </p>
           </div>
         </div>

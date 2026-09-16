@@ -8,11 +8,10 @@ import { DownloadButton } from "../ui/DownloadButton";
 
 const NAV_LINKS = [
   { label: "Meet Robin", href: "#meet-robin" },
-  { label: "Capabilities", href: "#capabilities" },
-  { label: "Safety", href: "#safety" },
+  { label: "What Robin Does", href: "#your-day" },
+  { label: "Safety", href: "#control" },
   { label: "Voice", href: "#voice" },
-  { label: "Memory", href: "#memory" },
-  { label: "Local First", href: "#local-first" },
+  { label: "Download", href: "#download" },
 ];
 
 export function Navbar() {

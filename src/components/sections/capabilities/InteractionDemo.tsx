@@ -19,11 +19,11 @@ export const CommunicationDemo = React.forwardRef<HTMLDivElement, { className?: 
       </div>
       <div className="space-y-2">
         <div className="p-2.5 rounded-lg bg-background-elevated/70 border border-white/[0.06] flex items-center justify-between">
-          <span className="text-xs text-white/95 font-medium">&ldquo;Email Vicky.&rdquo;</span>
+          <span className="text-xs text-white/95 font-medium">&ldquo;Draft a reply to my latest email.&rdquo;</span>
           <span className="text-[10px] font-mono text-foreground-subtle">Voice / Text</span>
         </div>
         <div className="flex items-center justify-between text-xs px-1">
-          <span className="text-foreground-muted">Vicky &rarr; confirmed person</span>
+          <span className="text-foreground-muted">Recipient &rarr; confirmed contact</span>
           <span className="inline-flex items-center gap-1 text-[11px] font-mono text-brand-violet">
             <Check size={11} />
             Draft ready for review

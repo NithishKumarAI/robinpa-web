@@ -3,7 +3,8 @@ import { Footer } from "@/components/layout/Footer";
 import { PersistentRobinStage } from "@/components/visual/persistent-stage/PersistentRobinStage";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { MeetRobinSection } from "@/components/sections/MeetRobinSection";
-import { CapabilitiesSection } from "@/components/sections/CapabilitiesSection";
+import { YourDaySection } from "@/components/sections/YourDaySection";
+import { PeopleEmailSection } from "@/components/sections/PeopleEmailSection";
 import { SafetySection } from "@/components/sections/SafetySection";
 import { VoiceSection } from "@/components/sections/VoiceSection";
 import { MemorySection } from "@/components/sections/MemorySection";
@@ -18,7 +19,8 @@ export default function Home() {
       <main id="main-content" tabIndex={-1} className="outline-none relative z-20">
         <HeroSection />
         <MeetRobinSection />
-        <CapabilitiesSection />
+        <YourDaySection />
+        <PeopleEmailSection />
         <SafetySection />
         <VoiceSection />
         <MemorySection />
