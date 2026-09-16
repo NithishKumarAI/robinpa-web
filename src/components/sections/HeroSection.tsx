@@ -11,6 +11,7 @@ import {
 import { Container } from "../ui/Container";
 import { RobinOrb } from "../visual/RobinOrb";
 import { DownloadButton } from "../ui/DownloadButton";
+import { trackMeetRobinClick } from "@/lib/analytics";
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -166,11 +167,12 @@ export function HeroSection() {
               className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none"
             >
               {/* Primary CTA */}
-              <DownloadButton size="default" className="w-full sm:w-auto" />
+              <DownloadButton size="default" className="w-full sm:w-auto" placement="hero" />
 
               {/* Secondary CTA */}
               <a
                 href="#meet-robin"
+                onClick={() => trackMeetRobinClick("hero")}
                 className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 text-xs sm:text-sm font-medium text-white/80 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] hover:border-white/[0.18] transition-all duration-150 rounded"
               >
                 Meet Robin

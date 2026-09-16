@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 
 import {
   SITE_NAME,
@@ -61,6 +62,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="bg-background text-foreground antialiased font-sans">
+        {/* Google Analytics 4 Script & Route Observer */}
+        <GoogleAnalytics />
         {/* Accessible Skip Navigation */}
         <a
           href="#main-content"

@@ -47,7 +47,7 @@ export function Navbar() {
 
         {/* Action button - Centralized Download */}
         <div className="hidden sm:flex items-center gap-4">
-          <DownloadButton variant="header" />
+          <DownloadButton variant="header" placement="header" />
         </div>
 
         {/* Mobile menu toggle */}
@@ -81,7 +81,7 @@ export function Navbar() {
             </a>
           ))}
           <div className="pt-3 border-t border-white/[0.06]">
-            <DownloadButton variant="header" className="w-full justify-center" />
+            <DownloadButton variant="header" className="w-full justify-center" placement="header" />
           </div>
         </nav>
       )}

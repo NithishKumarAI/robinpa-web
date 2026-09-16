@@ -268,15 +268,69 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      {/* 11. Telemetry and Analytics */}
+      {/* 11. Website Analytics & Desktop Telemetry */}
       <section className="space-y-3">
-        <h2 className="text-xl font-semibold text-white tracking-tight">11. Telemetry and Analytics</h2>
+        <h2 className="text-xl font-semibold text-white tracking-tight">
+          11. Website Analytics &amp; Desktop Telemetry
+        </h2>
+
+        <h3 className="text-sm font-semibold text-white pt-1">A. Public Website Analytics (robinpa.in)</h3>
         <p>
-          Robin does not currently include third-party product analytics or advertising tracking SDKs in the desktop application
-          or on this website (<code className="font-mono text-xs">robinpa.in</code>).
+          We use Google Analytics 4 on our public website (<code className="font-mono text-xs">robinpa.in</code>) to understand
+          general visitor traffic, measure engagement with website content, and improve user experience.
         </p>
         <p className="text-xs text-foreground-muted">
-          Robin does not monitor your general background computer activity, browser history, or keystrokes outside the assistant interface.
+          Google Analytics collects high-level site interaction information, such as:
+        </p>
+        <ul className="list-disc pl-5 space-y-1 text-xs text-foreground-muted">
+          <li>Page visits, route navigations, and timestamps</li>
+          <li>Referral sources (e.g. search engines or direct links)</li>
+          <li>Browser type, device model, operating system, and screen resolution</li>
+          <li>Approximate geographic region (country and city level inferred by Google)</li>
+          <li>Website interaction events (such as clicking the Robin download link or feature discovery CTAs)</li>
+        </ul>
+        <p className="text-xs text-foreground-muted">
+          Google processes this information under{" "}
+          <a
+            href="https://policies.google.com/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/90 underline hover:text-white"
+          >
+            Google&apos;s Privacy Policy
+          </a>
+          . You can prevent Google Analytics tracking across the web by installing the official{" "}
+          <a
+            href="https://tools.google.com/dlpage/gaoptout"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/90 underline hover:text-white"
+          >
+            Google Analytics Opt-out Browser Add-on
+          </a>
+          .
+        </p>
+
+        <h3 className="text-sm font-semibold text-white pt-2">B. No Personal Assistant or User Data Sent to Analytics</h3>
+        <p className="text-xs text-foreground-muted">
+          Robin does not intentionally send user assistant data to Google Analytics. Specifically, Google Analytics never receives:
+        </p>
+        <ul className="list-disc pl-5 space-y-1 text-xs text-foreground-muted">
+          <li>Your Robin conversations, prompts, or messages</li>
+          <li>Gmail messages, drafts, or inbox data</li>
+          <li>Google Calendar events, schedules, or meetings</li>
+          <li>Google Tasks or lists</li>
+          <li>Google Contacts or people records</li>
+          <li>Workspace file names, contents, or directory paths</li>
+          <li>Microphone audio recordings or voice transcripts</li>
+          <li>Local semantic memories stored on your device</li>
+        </ul>
+
+        <h3 className="text-sm font-semibold text-white pt-2">C. Desktop Application Telemetry</h3>
+        <p className="text-xs text-foreground-muted">
+          Google Analytics is deployed solely on the public <code className="font-mono text-xs">robinpa.in</code> website.
+          The Robin Windows desktop application does not include Google Analytics, advertising SDKs, or background
+          telemetry trackers. Robin does not monitor background computer activity, keystrokes, or browser history outside the assistant interface.
         </p>
       </section>
 

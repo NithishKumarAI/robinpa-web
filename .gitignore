@@ -35,5 +35,6 @@ next-env.d.ts
 # qa screenshots and profiles
 /qa-screenshots/
 /.chrome-qa-profile*/
+/.chrome-qa-analytics*/
 
 .firebaserc

@@ -8,17 +8,20 @@ import {
   ROBIN_VERSION,
   ROBIN_PLATFORM,
 } from "@/config/download";
+import { trackDownloadClick } from "@/lib/analytics";
 
 interface DownloadButtonProps {
   className?: string;
   size?: "sm" | "default" | "lg";
   variant?: "primary" | "secondary" | "header";
+  placement?: "header" | "hero" | "download-section" | string;
 }
 
 export function DownloadButton({
   className = "",
   size = "default",
   variant = "primary",
+  placement = "unknown",
 }: DownloadButtonProps) {
   if (isDownloadAvailable) {
     const sizeClasses = {
@@ -40,6 +43,7 @@ export function DownloadButton({
       <a
         href={ROBIN_DOWNLOAD_URL}
         download
+        onClick={() => trackDownloadClick(placement)}
         className={`inline-flex items-center justify-center gap-2 font-medium rounded transition-all duration-150 ${sizeClasses[size]} ${variantClasses[variant]} ${className}`}
         aria-label={`Download Robin ${ROBIN_VERSION} for ${ROBIN_PLATFORM}`}
       >

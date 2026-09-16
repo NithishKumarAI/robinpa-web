@@ -72,7 +72,7 @@ export function DownloadSection() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-xs sm:max-w-none"
         >
           {/* Primary CTA via centralized configuration */}
-          <DownloadButton size="lg" className="w-full sm:w-auto" />
+          <DownloadButton size="lg" className="w-full sm:w-auto" placement="download-section" />
 
           {/* Secondary CTA: Back to Top */}
           <a
