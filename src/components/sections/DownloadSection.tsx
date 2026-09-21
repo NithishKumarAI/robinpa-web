@@ -82,7 +82,7 @@ export function DownloadSection() {
             {/* Beta Disclosure & Platform */}
             <div className="mt-2 max-w-md space-y-1.5 text-center">
               <p className="text-xs sm:text-sm text-white/70 font-normal leading-relaxed">
-                Early beta release. Robin is still under active development, so bugs and UI changes are expected.
+                Early beta release. Robin is still under active development, so bugs and UI changes are expected. Public beta installer builds may lag the latest development improvements.
               </p>
               <p className="font-mono text-xs text-white/40 tracking-wider">
                 {ROBIN_PLATFORM}

@@ -115,9 +115,10 @@ export default function PrivacyPage() {
           <div className="p-4 rounded-lg bg-white/[0.02] border border-white/[0.06] space-y-1.5">
             <h3 className="text-sm font-semibold text-white">B. Cloud AI (Google Gemini)</h3>
             <p className="text-xs text-foreground-muted">
-              When configured to use a cloud model such as Google Gemini, relevant user instructions,
-              conversation context, and tool inputs are transmitted directly from your desktop to Google&apos;s Gemini API
-              using your configured API key. That data is handled under Google&apos;s applicable terms and policies.
+              When configured to use a cloud model such as Google Gemini, relevant user instructions and
+              conversation context for general, non-Workspace queries are transmitted directly from your desktop to Google&apos;s Gemini API
+              using your personal API key. That data is handled under Google&apos;s applicable terms and policies. In Robin V1, Google Workspace-derived
+              data (Gmail messages, Calendar events, Tasks, Contacts, and Workspace memory) is strictly blocked from Gemini model context as a fail-closed boundary.
             </p>
           </div>
         </div>
@@ -196,15 +197,15 @@ export default function PrivacyPage() {
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
           <div className="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] space-y-1">
-            <h4 className="text-xs font-semibold text-white">Local AI (Ollama)</h4>
+            <h4 className="text-xs font-semibold text-white">Local AI (Ollama) — Required for Workspace Data</h4>
             <p className="text-[11px] text-foreground-muted leading-relaxed">
-              When using local Ollama models, all reasoning takes place 100% on your local PC. No Google Workspace data or prompts are transmitted to any external cloud AI provider.
+              When using local Ollama models, all AI reasoning takes place 100% on your local computer hardware. Google Workspace data (Gmail, Calendar, Tasks, Contacts) and local memory are processed entirely on-device and are never transmitted to external AI servers.
             </p>
           </div>
           <div className="p-3.5 rounded-lg bg-white/[0.02] border border-white/[0.06] space-y-1">
-            <h4 className="text-xs font-semibold text-white">Cloud AI (Google Gemini)</h4>
+            <h4 className="text-xs font-semibold text-white">Cloud AI (Google Gemini) — Fail-Closed Privacy Boundary</h4>
             <p className="text-[11px] text-foreground-muted leading-relaxed">
-              When using Gemini, relevant excerpts from your request (e.g. an email snippet needed to draft a reply) are transmitted directly to the Google Gemini API using your personal API key over encrypted HTTPS.
+              In Robin V1, Google Workspace-derived data is strictly blocked from Google Gemini context. Robin does not send emails, calendar events, tasks, contacts, or workspace-derived memory to Gemini. To perform AI-assisted tasks involving your Google Workspace data, Robin requires switching to Local AI. When Gemini is active, it is used exclusively for general, non-Workspace conversation using your personal API key.
             </p>
           </div>
         </div>

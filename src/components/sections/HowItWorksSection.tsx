@@ -20,7 +20,7 @@ export function HowItWorksSection() {
       num: "02",
       icon: Cpu,
       title: "Choose Local AI or Gemini",
-      description: "Select on-device Ollama for local privacy, or configure Gemini with your API key.",
+      description: "Robin detects your PC hardware and recommends a local model, or you can configure Gemini for cloud reasoning.",
     },
     {
       num: "03",

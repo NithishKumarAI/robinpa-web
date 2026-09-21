@@ -105,9 +105,9 @@ export default function SupportPage() {
         <div className="space-y-2 text-xs text-foreground-muted">
           <h3 className="text-sm font-semibold text-white">Platform &amp; Prerequisites</h3>
           <ul className="list-disc pl-5 space-y-1">
-            <li><strong className="text-white/90">Operating System:</strong> Windows.</li>
+            <li><strong className="text-white/90">Operating System:</strong> Windows 11 (64-bit) is actively verified during development; Windows 10 (64-bit) is architecturally targeted.</li>
             <li><strong className="text-white/90">Audio Input:</strong> A working microphone and speaker output if you wish to use voice interaction.</li>
-            <li><strong className="text-white/90">Internet Access:</strong> Local Ollama model inference itself can run without internet access. Features that use Google services, cloud models, or other online services still require a network connection.</li>
+            <li><strong className="text-white/90">Internet Access:</strong> Local Ollama model inference, workspace files, and local memory run offline once set up. Google services, Gemini cloud conversation, initial model downloads, and OAuth sign-in require a network connection.</li>
           </ul>
         </div>
       </section>
@@ -147,11 +147,17 @@ export default function SupportPage() {
           3. Local AI (Ollama)
         </h2>
         <p>
-          If you want all assistant reasoning to run on your local PC, configure Robin to use Ollama:
+          Robin includes automated in-app AI onboarding to make running on-device models easy:
         </p>
         <ol className="list-decimal pl-5 space-y-2 text-xs text-foreground-muted">
           <li>
-            <strong className="text-white/90">Install Ollama:</strong> Install Ollama from{" "}
+            <strong className="text-white/90">Automated Hardware Detection:</strong> When you open Robin or navigate to Settings &gt; AI Engine, Robin automatically evaluates your system hardware—including system RAM, CPU cores/threads, NVIDIA GPU availability, VRAM, and free disk space.
+          </li>
+          <li>
+            <strong className="text-white/90">Recommended Model Selection:</strong> Robin recommends a compatible model tier suited to your specifications (e.g., Qwen3 1.7B or Llama 3.2 1B for entry-level/8 GB systems; 3B–4B for balanced PCs; 8B for higher-performance systems with 16+ GB RAM or dedicated GPUs).
+          </li>
+          <li>
+            <strong className="text-white/90">In-App Download &amp; Validation:</strong> If Ollama is not installed, Robin guides you to the official installer at{" "}
             <a
               href="https://ollama.com"
               target="_blank"
@@ -159,13 +165,10 @@ export default function SupportPage() {
               className="text-brand-violet hover:underline inline-flex items-center gap-0.5"
             >
               ollama.com <ExternalLink className="w-2.5 h-2.5 opacity-70" aria-hidden="true" />
-            </a>.
+            </a>. Once Ollama is running at <code className="font-mono text-white/90">http://localhost:11434</code>, Robin pulls and validates the recommended model directly within the app—no manual terminal commands required.
           </li>
           <li>
-            <strong className="text-white/90">Install a Supported Model:</strong> Download a supported model via Windows Terminal (for example: <code className="font-mono text-white/90">ollama pull llama3:latest</code>).
-          </li>
-          <li>
-            <strong className="text-white/90">Configure in Robin:</strong> Ensure Ollama is running at <code className="font-mono text-white/90">http://localhost:11434</code>. In Robin Settings under &quot;AI Engine&quot;, select &quot;Ollama&quot;, discover available models, and choose your downloaded model from the list.
+            <strong className="text-white/90">Required for Workspace Data:</strong> AI-assisted Google Workspace tasks (reading emails, drafting responses, organizing calendar events) require Local AI so personal data remains strictly on your machine.
           </li>
         </ol>
       </section>
@@ -177,17 +180,17 @@ export default function SupportPage() {
           4. Cloud AI (Google Gemini)
         </h2>
         <p>
-          If you prefer cloud model reasoning, Robin supports Google Gemini:
+          If your PC cannot comfortably run a local model, Robin supports Google Gemini for cloud reasoning:
         </p>
         <ol className="list-decimal pl-5 space-y-2 text-xs text-foreground-muted">
           <li>
-            <strong className="text-white/90">API Key:</strong> Generate an API key from Google AI Studio.
+            <strong className="text-white/90">API Key:</strong> Obtain a personal API key from Google AI Studio.
           </li>
           <li>
-            <strong className="text-white/90">Enter Key:</strong> In Robin Settings, select &quot;Cloud (Gemini)&quot; and enter your API key.
+            <strong className="text-white/90">Configure in Robin:</strong> In Robin Settings under &quot;AI Engine&quot;, select &quot;Cloud (Gemini)&quot;, enter your API key, and test the connection. The key is encrypted and stored in your Windows Credential Manager.
           </li>
           <li>
-            <strong className="text-white/90">Model:</strong> Robin connects directly to Gemini for assistant completions.
+            <strong className="text-white/90">Fail-Closed Privacy Boundary:</strong> Gemini is used exclusively for general, non-Workspace conversations. Google Workspace-derived data (Gmail, Calendar, Tasks, Contacts, and Workspace memory) is strictly blocked from Gemini context. Workspace-assisted tasks require switching to Local AI.
           </li>
         </ol>
       </section>

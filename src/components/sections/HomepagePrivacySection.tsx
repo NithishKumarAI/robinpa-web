@@ -21,7 +21,7 @@ export function HomepagePrivacySection() {
       icon: Lock,
       title: "Transparent AI Processing",
       description:
-        "Choose Local AI for local model processing where prompts remain on your PC, or connect Gemini if you prefer cloud AI. Cloud models only receive requests when you explicitly choose them.",
+        "Choose Local AI for on-device processing where prompts stay on your PC—required for Google Workspace tasks. When Gemini is connected, Workspace data is blocked from model context as a fail-closed boundary.",
     },
     {
       icon: UserCheck,

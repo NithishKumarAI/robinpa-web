@@ -33,22 +33,22 @@ export function FaqSection() {
     {
       question: "Does Robin work without the internet?",
       answer:
-        "Local AI model inference and local workspace file reading can function completely offline when configured with Ollama. However, connected services—such as Gmail, Google Calendar, Google Tasks, and Google Gemini—require an active internet connection to communicate with those respective cloud APIs.",
+        "Local AI model inference, local workspace file reading, and local vector memory function completely offline once installed. However, connected services—such as Gmail, Google Calendar, Google Tasks, Google Contacts, Google Gemini cloud reasoning, model downloads, and initial OAuth authorization—require an active internet connection.",
     },
     {
       question: "What is Local AI?",
       answer:
-        "Local AI means the machine learning model runs directly on your computer's processor using Ollama (at http://localhost:11434). Your conversational prompts, personal context, and assistant thoughts never leave your PC or travel across third-party AI servers.",
+        "Local AI means the machine learning model runs directly on your computer hardware (utilizing your CPU and GPU acceleration where available) through Ollama. Your conversational prompts, personal context, and assistant thoughts never leave your PC or travel across third-party AI servers.",
     },
     {
       question: "Do I need a powerful PC?",
       answer:
-        "To comfortably run Local AI models on-device, a modern PC with a multi-core processor and at least 16GB of RAM (or dedicated GPU) is recommended. If your PC has more modest specifications, you can use Google Gemini instead, which performs reasoning in the cloud and runs smoothly on virtually any modern Windows computer.",
+        "Smaller local models (such as 1B–2B parameter models) can run on modest PCs, including some systems with 8 GB of RAM. For standard or larger local models, 12–16+ GB of RAM and a dedicated GPU provide a significantly faster, more responsive experience. Robin automatically inspects your hardware (RAM, CPU threads, GPU VRAM, and storage) and suggests a compatible model tier during onboarding. If your system cannot comfortably run local models, Google Gemini provides a fast cloud alternative.",
     },
     {
       question: "What happens if my PC cannot run a local model?",
       answer:
-        "You don't need to upgrade your computer. You can simply switch Robin's AI engine to Cloud (Gemini) in Robin Settings. Cloud models handle reasoning remotely, leaving your PC's CPU and RAM completely free.",
+        "You don't need a high-end gaming PC. You can configure Google Gemini with your personal API key for general cloud conversation, offloading heavy model inference from your machine. Note that Google Workspace assistant workflows (such as email and calendar management) require Local AI to protect your personal data under Robin's fail-closed boundary.",
     },
     {
       question: "Why does Gemini need an API key?",
@@ -58,7 +58,7 @@ export function FaqSection() {
     {
       question: "Does Robin read my Gmail?",
       answer:
-        "Only when you explicitly ask Robin about your inbox or request details regarding a specific conversation. Robin uses read-only access (gmail.readonly) strictly to fulfill your requested assistant tasks. Robin never monitors your inbox in the background, never sells data, and never uses your email to train generalized AI models.",
+        "Only when you explicitly ask Robin about your inbox or request details regarding a specific conversation. Robin uses read-only access (gmail.readonly) strictly to fulfill your requested assistant tasks. AI-assisted Gmail workflows require Local AI because Workspace data is strictly blocked from Gemini cloud context. Robin never monitors your inbox in the background, never sells data, and never uses your email to train generalized AI models.",
     },
     {
       question: "Where is my Robin memory stored?",
@@ -73,7 +73,7 @@ export function FaqSection() {
     {
       question: "Which version of Windows does Robin support?",
       answer:
-        "Robin is built and verified for modern 64-bit Windows systems (Windows 11 and Windows 10 64-bit).",
+        "Robin is built and actively verified on modern 64-bit Windows 11 systems. Windows 10 (64-bit) is architecturally targeted.",
     },
     {
       question: "Do I need Ollama?",

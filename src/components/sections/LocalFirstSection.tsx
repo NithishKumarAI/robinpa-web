@@ -73,17 +73,17 @@ export function LocalFirstSection() {
                     Local AI (Ollama)
                   </h3>
                   <p className="text-xs text-white/70 leading-relaxed mt-1">
-                    Runs models entirely on your hardware through Robin&apos;s local AI stack.
+                    Detects hardware, recommends compatible models, and downloads in-app.
                   </p>
                   <ul className="mt-3 space-y-1.5 text-[11px] text-white/60 border-t border-white/[0.06] pt-3">
-                    <li>&bull; Designed for maximum privacy</li>
-                    <li>&bull; Performance depends on your PC</li>
-                    <li>&bull; Hardware-based model suggestions</li>
-                    <li>&bull; Prompts never leave your computer</li>
+                    <li>&bull; Maximum privacy: prompts stay on your PC</li>
+                    <li>&bull; In-app hardware detection &amp; model setup</li>
+                    <li>&bull; Required for Workspace-assisted AI tasks</li>
+                    <li>&bull; AI reasoning &amp; memory run offline</li>
                   </ul>
                 </div>
                 <div className="pt-2">
-                  <span className="text-[10px] font-mono text-white/40">Requires: Ollama installed</span>
+                  <span className="text-[10px] font-mono text-white/40">Powered by Ollama runtime</span>
                 </div>
               </div>
 
@@ -102,24 +102,24 @@ export function LocalFirstSection() {
                     Google Gemini
                   </h3>
                   <p className="text-xs text-white/70 leading-relaxed mt-1">
-                    Connect Gemini if your PC cannot comfortably run a local model.
+                    Connect Gemini for general conversation using your personal API key.
                   </p>
                   <ul className="mt-3 space-y-1.5 text-[11px] text-white/60 border-t border-white/[0.06] pt-3">
-                    <li>&bull; Fast, capable reasoning on any PC</li>
-                    <li>&bull; You supply your own Gemini API key</li>
-                    <li>&bull; Robin includes easy setup guidance</li>
-                    <li>&bull; Key saved in Windows Credential Manager</li>
+                    <li>&bull; Fast cloud reasoning on lower-spec PCs</li>
+                    <li>&bull; Workspace data blocked (fail-closed)</li>
+                    <li>&bull; Personal key in Windows Credential Manager</li>
+                    <li>&bull; Terms &amp; quotas set by Google</li>
                   </ul>
                 </div>
                 <div className="pt-2">
-                  <span className="text-[10px] font-mono text-white/40">API pricing depends on Google tier</span>
+                  <span className="text-[10px] font-mono text-white/40">Requires Google Gemini API key</span>
                 </div>
               </div>
             </div>
 
             {/* Factual Clarification Note */}
             <p className="mt-4 text-xs text-white/45 leading-relaxed max-w-xl">
-              Note: Connected accounts (Gmail, Calendar, Tasks, Contacts) communicate directly with Google&apos;s encrypted APIs under your direct authorization. Robin never uses your Google Workspace data to train generalized AI models.
+              Note: Connected Google accounts (Gmail, Calendar, Tasks, Contacts) communicate directly with Google&apos;s encrypted APIs under your direct authorization. Workspace-derived data is never sent to Gemini. Robin never uses your Google Workspace data to train generalized AI models.
             </p>
           </motion.div>
 
