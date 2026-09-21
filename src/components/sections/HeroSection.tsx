@@ -11,6 +11,7 @@ import {
 import { Container } from "../ui/Container";
 import { DownloadButton } from "../ui/DownloadButton";
 import { trackMeetRobinClick } from "@/lib/analytics";
+import { ROBIN_VERSION } from "@/config/download";
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -119,14 +120,7 @@ export function HeroSection() {
             animate="visible"
             className="flex flex-col items-center w-full"
           >
-            {/* Minimal Brand Identifier */}
-            <motion.div variants={itemVariants} className="mb-2 sm:mb-3">
-              <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-brand-violet font-medium">
-                ROBIN
-              </span>
-            </motion.div>
-
-            {/* Core Headline: Everyone's PA. (72–112px desktop, height-aware) */}
+            {/* Primary Headline: Robin — Everyone's PA */}
             <motion.div
               variants={itemVariants}
               style={{
@@ -134,8 +128,11 @@ export function HeroSection() {
                 y: prefersReduced ? 0 : textParallaxY,
               }}
             >
-              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[clamp(3.5rem,min(7.5vw,9vh),6.5rem)] font-semibold tracking-tighter text-white leading-[1.02]">
-                Everyone&apos;s PA.
+              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[clamp(3.5rem,min(7vw,8.5vh),6rem)] font-semibold tracking-tighter text-white leading-[1.02]">
+                Robin
+                <span className="block text-brand-violet/90 font-medium text-3xl sm:text-5xl md:text-6xl lg:text-[clamp(2.5rem,min(5vw,6vh),4.25rem)] mt-1 sm:mt-2">
+                  Everyone&apos;s PA
+                </span>
               </h1>
             </motion.div>
 
@@ -146,33 +143,55 @@ export function HeroSection() {
                 x: prefersReduced ? 0 : orbParallaxX,
                 y: prefersReduced ? 0 : orbParallaxY,
               }}
-              className="my-4 sm:my-6 md:my-8 w-full h-36 sm:h-48 md:h-60 max-h-[30vh] max-w-[280px] sm:max-w-[380px] mx-auto pointer-events-none"
+              className="my-3 sm:my-5 md:my-6 w-full h-32 sm:h-44 md:h-52 max-h-[26vh] max-w-[280px] sm:max-w-[360px] mx-auto pointer-events-none"
               aria-hidden="true"
             />
 
-            {/* Supporting Statement (height-aware) */}
+            {/* Supporting Statement */}
             <motion.div
               variants={itemVariants}
-              className="mb-6 sm:mb-8 text-[clamp(1.125rem,min(2.2vw,2.8vh),1.875rem)] text-white/90 font-normal leading-snug max-w-xl"
+              className="mb-5 sm:mb-7 text-[clamp(1rem,min(1.8vw,2.2vh),1.35rem)] text-white/90 font-normal leading-relaxed max-w-xl space-y-1.5"
             >
-              <p>Your personal assistant.</p>
-              <p className="text-white/60">For everyday life.</p>
+              <p>
+                A personal AI assistant for Windows that helps you manage email,
+                schedules, tasks, reminders, people and everyday work.
+              </p>
+              <p className="text-white/60 text-xs sm:text-sm sm:leading-relaxed">
+                Use Robin with a local AI model, or connect Gemini.
+              </p>
             </motion.div>
 
             {/* Primary & Secondary CTAs */}
             <motion.div
               variants={itemVariants}
-              className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none"
+              className="flex flex-col items-center gap-3 w-full"
             >
-              <DownloadButton size="default" className="w-full sm:w-auto" placement="hero" />
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none">
+                <DownloadButton
+                  size="default"
+                  className="w-full sm:w-auto"
+                  placement="hero"
+                  label="Download Robin"
+                />
 
-              <a
-                href="#meet-robin"
-                onClick={() => trackMeetRobinClick("hero")}
-                className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 text-sm sm:text-base font-medium text-white/80 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.12] hover:border-white/[0.22] transition-all duration-150 rounded"
-              >
-                Meet Robin
-              </a>
+                <a
+                  href="#why-robin"
+                  onClick={() => trackMeetRobinClick("hero")}
+                  className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-2.5 text-xs sm:text-sm font-medium text-white/80 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.12] hover:border-white/[0.22] transition-all duration-150 rounded"
+                >
+                  See how Robin works
+                </a>
+              </div>
+
+              {/* Beta indication & micro-disclosure */}
+              <div className="flex items-center gap-2 pt-0.5">
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-medium uppercase tracking-wider bg-brand-violet/15 text-brand-violet border border-brand-violet/30">
+                  {`Beta • v${ROBIN_VERSION}`}
+                </span>
+                <span className="text-[11px] text-white/40 font-normal">
+                  Windows &bull; Early testing build
+                </span>
+              </div>
             </motion.div>
           </motion.div>
         </Container>
@@ -187,9 +206,9 @@ export function HeroSection() {
         className="w-full flex flex-col items-center justify-center pt-2"
       >
         <a
-          href="#meet-robin"
+          href="#why-robin"
           className="group inline-flex flex-col items-center gap-1.5 text-[10px] font-mono tracking-widest text-foreground-subtle hover:text-foreground-muted transition-colors uppercase"
-          aria-label="Scroll to Meet Robin"
+          aria-label="Scroll to Why Robin"
         >
           <span>Scroll</span>
           <div className="w-[1px] h-5 bg-white/[0.1] relative overflow-hidden" aria-hidden="true">

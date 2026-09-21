@@ -61,6 +61,14 @@ export function DownloadSection() {
           transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col items-center"
         >
+          {/* BETA Badge */}
+          <div className="mb-3 sm:mb-4">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium uppercase tracking-widest bg-brand-violet/15 text-brand-violet border border-brand-violet/30 shadow-[0_0_16px_rgba(139,92,246,0.15)]">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-violet animate-pulse" />
+              {`BETA • v${ROBIN_VERSION}`}
+            </span>
+          </div>
+
           <h3 className="text-4xl sm:text-6xl md:text-7xl lg:text-[clamp(3rem,min(6.5vw,8vh),5.5rem)] font-semibold tracking-tighter text-white leading-[1.02]">
             Meet Robin.
           </h3>
@@ -68,11 +76,18 @@ export function DownloadSection() {
             Your personal assistant for everyday life.
           </p>
 
-          <div className="mt-6 sm:mt-8 flex flex-col items-center gap-2.5">
-            <DownloadButton size="lg" placement="closing" />
-            <span className="font-mono text-xs text-white/40 tracking-wider">
-              {ROBIN_PLATFORM} &bull; v{ROBIN_VERSION}
-            </span>
+          <div className="mt-6 sm:mt-8 flex flex-col items-center gap-3">
+            <DownloadButton size="lg" placement="closing" label="Download Robin" />
+
+            {/* Beta Disclosure & Platform */}
+            <div className="mt-2 max-w-md space-y-1.5 text-center">
+              <p className="text-xs sm:text-sm text-white/70 font-normal leading-relaxed">
+                Early beta release. Robin is still under active development, so bugs and UI changes are expected.
+              </p>
+              <p className="font-mono text-xs text-white/40 tracking-wider">
+                {ROBIN_PLATFORM}
+              </p>
+            </div>
           </div>
         </motion.div>
 

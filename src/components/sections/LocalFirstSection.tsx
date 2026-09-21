@@ -56,38 +56,70 @@ export function LocalFirstSection() {
               Run locally on your machine or connect cloud AI. You configure what powers your assistant.
             </p>
 
-            {/* Side-by-side or Stacked Local vs Cloud Cards */}
-            <div className="mt-6 sm:mt-10 w-full max-w-xl grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Local Card */}
-              <div className="rounded-2xl border border-white/[0.1] bg-neutral-950/80 lg:bg-white/[0.03] backdrop-blur-md p-5 sm:p-6 space-y-3">
-                <div className="w-10 h-10 rounded-lg bg-brand-violet/15 border border-brand-violet/25 flex items-center justify-center text-brand-violet">
-                  <Cpu className="w-5 h-5" />
+            {/* Side-by-side Local vs Cloud Comparison Cards */}
+            <div className="mt-6 sm:mt-8 w-full max-w-xl grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Local AI Card */}
+              <div className="rounded-2xl border border-white/[0.1] bg-neutral-950/85 lg:bg-white/[0.03] backdrop-blur-md p-5 space-y-3 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <div className="w-9 h-9 rounded-lg bg-brand-violet/15 border border-brand-violet/25 flex items-center justify-center text-brand-violet">
+                      <Cpu className="w-4 h-4" />
+                    </div>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-brand-violet/30 bg-brand-violet/10 text-brand-violet uppercase tracking-wider">
+                      On-Device
+                    </span>
+                  </div>
+                  <h3 className="font-mono text-sm uppercase tracking-wider text-white font-medium mt-3">
+                    Local AI (Ollama)
+                  </h3>
+                  <p className="text-xs text-white/70 leading-relaxed mt-1">
+                    Runs models entirely on your hardware through Robin&apos;s local AI stack.
+                  </p>
+                  <ul className="mt-3 space-y-1.5 text-[11px] text-white/60 border-t border-white/[0.06] pt-3">
+                    <li>&bull; Designed for maximum privacy</li>
+                    <li>&bull; Performance depends on your PC</li>
+                    <li>&bull; Hardware-based model suggestions</li>
+                    <li>&bull; Prompts never leave your computer</li>
+                  </ul>
                 </div>
-                <h3 className="font-mono text-sm uppercase tracking-wider text-white font-medium">
-                  LOCAL
-                </h3>
-                <p className="text-sm text-white/70 leading-relaxed">
-                  Run Robin with a supported model on your PC via Ollama.
-                </p>
+                <div className="pt-2">
+                  <span className="text-[10px] font-mono text-white/40">Requires: Ollama installed</span>
+                </div>
               </div>
 
-              {/* Cloud Card */}
-              <div className="rounded-2xl border border-white/[0.1] bg-neutral-950/80 lg:bg-white/[0.03] backdrop-blur-md p-5 sm:p-6 space-y-3">
-                <div className="w-10 h-10 rounded-lg bg-indigo-500/15 border border-indigo-500/25 flex items-center justify-center text-indigo-400">
-                  <Cloud className="w-5 h-5" />
+              {/* Cloud AI Card */}
+              <div className="rounded-2xl border border-white/[0.1] bg-neutral-950/85 lg:bg-white/[0.03] backdrop-blur-md p-5 space-y-3 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <div className="w-9 h-9 rounded-lg bg-indigo-500/15 border border-indigo-500/25 flex items-center justify-center text-indigo-400">
+                      <Cloud className="w-4 h-4" />
+                    </div>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 uppercase tracking-wider">
+                      Cloud Option
+                    </span>
+                  </div>
+                  <h3 className="font-mono text-sm uppercase tracking-wider text-white font-medium mt-3">
+                    Google Gemini
+                  </h3>
+                  <p className="text-xs text-white/70 leading-relaxed mt-1">
+                    Connect Gemini if your PC cannot comfortably run a local model.
+                  </p>
+                  <ul className="mt-3 space-y-1.5 text-[11px] text-white/60 border-t border-white/[0.06] pt-3">
+                    <li>&bull; Fast, capable reasoning on any PC</li>
+                    <li>&bull; You supply your own Gemini API key</li>
+                    <li>&bull; Robin includes easy setup guidance</li>
+                    <li>&bull; Key saved in Windows Credential Manager</li>
+                  </ul>
                 </div>
-                <h3 className="font-mono text-sm uppercase tracking-wider text-white font-medium">
-                  CLOUD
-                </h3>
-                <p className="text-sm text-white/70 leading-relaxed">
-                  Connect Gemini using your own API key.
-                </p>
+                <div className="pt-2">
+                  <span className="text-[10px] font-mono text-white/40">API pricing depends on Google tier</span>
+                </div>
               </div>
             </div>
 
             {/* Factual Clarification Note */}
-            <p className="mt-5 text-xs sm:text-sm text-white/45 leading-relaxed max-w-xl">
-              Note: Google integrations (Gmail, Calendar, Tasks, Contacts) connect to their respective online services under your direct authorization. Robin never uses your Google Workspace data to train generalized AI models.
+            <p className="mt-4 text-xs text-white/45 leading-relaxed max-w-xl">
+              Note: Connected accounts (Gmail, Calendar, Tasks, Contacts) communicate directly with Google&apos;s encrypted APIs under your direct authorization. Robin never uses your Google Workspace data to train generalized AI models.
             </p>
           </motion.div>
 

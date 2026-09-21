@@ -7,11 +7,10 @@ import { Menu, X } from "lucide-react";
 import { DownloadButton } from "../ui/DownloadButton";
 
 const NAV_LINKS = [
-  { label: "Meet Robin", href: "#meet-robin" },
-  { label: "What Robin Does", href: "#your-day" },
-  { label: "Safety", href: "#control" },
-  { label: "Voice", href: "#voice" },
-  { label: "Download", href: "#download" },
+  { label: "Product", href: "#product" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "FAQ", href: "#faq" },
+  { label: "Support", href: "/support" },
 ];
 
 export function Navbar() {
@@ -46,7 +45,7 @@ export function Navbar() {
 
         {/* Action button - Centralized Download */}
         <div className="hidden sm:flex items-center gap-4">
-          <DownloadButton variant="header" placement="header" />
+          <DownloadButton variant="header" placement="header" label="Download Robin" />
         </div>
 
         {/* Mobile menu toggle */}
@@ -80,7 +79,7 @@ export function Navbar() {
             </a>
           ))}
           <div className="pt-3 border-t border-white/[0.06]">
-            <DownloadButton variant="header" className="w-full justify-center" placement="header" />
+            <DownloadButton variant="header" className="w-full justify-center" placement="header" label="Download Robin" />
           </div>
         </nav>
       )}

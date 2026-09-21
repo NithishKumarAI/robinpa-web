@@ -7,6 +7,7 @@ import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import {
   SITE_NAME,
   SITE_TAGLINE,
+  SITE_TITLE,
   SITE_DESCRIPTION,
   SITE_URL,
 } from "@/config/site";
@@ -20,10 +21,10 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — ${SITE_TAGLINE} for Windows`,
+    default: SITE_TITLE,
     template: `%s | ${SITE_NAME}`,
   },
-  description: `${SITE_NAME} — ${SITE_TAGLINE}. ${SITE_DESCRIPTION}`,
+  description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
   alternates: {
     canonical: "/",
@@ -55,8 +56,8 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: `${SITE_NAME} — ${SITE_TAGLINE} for Windows`,
-    description: `${SITE_NAME} — ${SITE_TAGLINE}. ${SITE_DESCRIPTION}`,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     images: [
       {
         url: "/branding/icon-512.png",
@@ -68,8 +69,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    title: `${SITE_NAME} — ${SITE_TAGLINE} for Windows`,
-    description: `${SITE_NAME} — ${SITE_TAGLINE}. ${SITE_DESCRIPTION}`,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     images: ["/branding/icon-512.png"],
   },
 };

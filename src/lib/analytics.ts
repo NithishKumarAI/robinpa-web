@@ -1,4 +1,4 @@
-import { ROBIN_PLATFORM, ROBIN_VERSION } from "@/config/download";
+import { ROBIN_PLATFORM, ROBIN_VERSION, ROBIN_CHANNEL } from "@/config/download";
 
 declare global {
   interface Window {
@@ -86,6 +86,7 @@ export function trackDownloadClick(placement: string = "unknown"): void {
   trackEvent("robin_download_click", {
     platform: ROBIN_PLATFORM,
     version: ROBIN_VERSION,
+    channel: ROBIN_CHANNEL.toLowerCase(),
     placement,
   });
 }

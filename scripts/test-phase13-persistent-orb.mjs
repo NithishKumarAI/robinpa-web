@@ -847,8 +847,45 @@ async function runTests() {
   }
   console.log("PASS: Favicon links and robin-oauth-120.png (120x120) confirmed functional.");
 
+  // Test 15: Phase 15 Robin Beta Download Verification
+  console.log("\n[15/15] Testing Phase 15 Robin Beta Download Integration...");
+  await client.send("Page.navigate", { url: `http://localhost:${APP_PORT}/` });
+  await sleep(800);
+
+  const downloadCheck = await client.eval(`
+    (() => {
+      const text = document.body.innerText;
+      const downloadLinks = Array.from(document.querySelectorAll('a[href*="storage.googleapis.com"]'));
+      const expectedUrl = "https://storage.googleapis.com/robin-v1-beta-testing/Robin%20Setup%200.1.0.exe";
+
+      const allUrlsMatch = downloadLinks.length > 0 && downloadLinks.every(a => a.href === expectedUrl);
+      const allHaveBetaAria = downloadLinks.every(a => a.getAttribute("aria-label") === "Download Robin Beta version 0.1.0 for Windows");
+      const allHaveBetaText = downloadLinks.every(a => a.innerText.includes("Download Robin Beta"));
+
+      return {
+        downloadButtonCount: downloadLinks.length,
+        allUrlsMatch,
+        allHaveBetaAria,
+        allHaveBetaText,
+        noComingSoon: !text.includes("Download coming soon"),
+        hasBetaBadge: text.includes("Beta • v0.1.0") || text.includes("BETA • v0.1.0") || /beta.*?0\.1\.0/i.test(text),
+        hasBetaDisclosure: text.includes("Early beta release") && text.includes("bugs and UI changes are expected"),
+        hasWindowsPlatform: text.includes("Windows"),
+      };
+    })()
+  `);
+
+  console.log("-> Download verification check:", downloadCheck);
+  for (const [key, val] of Object.entries(downloadCheck)) {
+    if (val === false || val === 0) {
+      console.error(`FAIL: Download verification failed for assertion: ${key}`);
+      process.exit(1);
+    }
+  }
+  console.log("PASS: Real Robin Beta installer URL, beta badges, disclosure, and accessibility verified.");
+
   console.log("\n=======================================================");
-  console.log("ALL PHASE 14.5 LOGO INTEGRATION & VERIFICATION PASSED!");
+  console.log("ALL PHASE 15 ROBIN BETA DOWNLOAD CHECKS PASSED!");
   console.log("=======================================================\n");
 
   client.close();

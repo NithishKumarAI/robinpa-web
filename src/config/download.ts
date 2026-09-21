@@ -1,18 +1,15 @@
 /**
  * Centralized Windows Installer Download Configuration
  * -------------------------------------------------------------
- * When the official installer is uploaded to Google Cloud Storage (GCS),
- * set ROBIN_DOWNLOAD_URL to the direct artifact URL.
+ * Official Robin Beta Testing Build (v0.1.0)
  *
- * Example: "https://storage.googleapis.com/robin-releases/Robin-Setup-1.0.exe"
- *
- * While empty (""), all download CTAs throughout the website gracefully
- * display a temporary "Download coming soon" state without navigating to
- * broken or fake URLs.
+ * Hosted on Google Cloud Storage (GCS) for direct client downloads.
  */
-export const ROBIN_DOWNLOAD_URL: string = "";
+export const ROBIN_DOWNLOAD_URL: string =
+  "https://storage.googleapis.com/robin-v1-beta-testing/Robin%20Setup%200.1.0.exe";
 
-export const ROBIN_VERSION: string = "1.0";
+export const ROBIN_VERSION: string = "0.1.0";
+export const ROBIN_CHANNEL: string = "Beta";
 export const ROBIN_PLATFORM: string = "Windows";
 
 export const isDownloadAvailable: boolean = Boolean(
